@@ -1,7 +1,7 @@
 # CONTENTS-PROJECT on SOCKET-MANAGER Framework
 マインクラフト専用のコンテンツに特化したプロジェクト環境です。
 
-<img src="https://socket-manager.github.io/document/img/extra-minecraft-contents/ground.gif" />
+<img src="https://socket-manager.github.io/document/img/extra-minecraft-contents/ground_min.gif" />
 
 ## 運用ポリシー
 この環境はWebsocketサーバーを使った運用を前提としています。<br />
