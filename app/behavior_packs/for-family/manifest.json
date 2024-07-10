@@ -1,0 +1,24 @@
+{
+    "format_version": 2,
+    "header": {
+        "description": "ファミリーカスタマイズ",
+        "name": "family-customize",
+        "uuid": "eda292b3-9566-46d4-affc-e6368f9382b9",
+        "version": [ 0, 0, 1 ],
+        "min_engine_version": [ 1, 21, 0 ]
+    },
+    "modules": [
+        {
+            "description": "ファミリーカスタマイズ",
+            "type": "data",
+            "uuid": "e831cf51-5594-40b3-aa5a-72b9492b73a6",
+            "version": [0, 0, 1]
+        }
+    ],
+    "dependencies": [
+        {
+            "uuid": "d9a541cd-292f-4bb2-b8ea-660034e879c5",
+            "version": [0, 0, 1]
+        }
+    ]
+}
