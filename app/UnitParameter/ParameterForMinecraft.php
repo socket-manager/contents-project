@@ -285,9 +285,33 @@ class ParameterForMinecraft extends ParameterForWebsocket
      */
     public function getCommandDataForThunderBow(float $p_x, float $p_y, float $p_z): array
     {
-        // $cmd = "setblock 1 75 35 redstone_block";
         $cmd = "summon lightning_bolt ~{$p_x} ~{$p_y} ~{$p_z}";
-        // $cmd = 'execute as hokahokaimo [hasitem={item=bow}] run '."summon lightning_bolt ~{$p_x} ~{$p_y} ~{$p_z}";
+        $w_ret = $this->getCommandData($cmd, 'item_used');
+        return $w_ret;
+    }
+
+    /**
+     * マインクラフトへ送信する矢へ付与するタグデータを取得
+     * 
+     * @param string $p_name プレイヤー名
+     * @return array 送信データ
+     */
+    public function getCommandDataForArrowTag(string $p_name): array
+    {
+        $cmd = "function tag_cheat";
+        $w_ret = $this->getCommandData($cmd, 'item_used');
+        return $w_ret;
+    }
+
+    /**
+     * マインクラフトへ送信する（いなずまの）矢の着弾コマンドデータを取得
+     * 
+     * @param string $p_name プレイヤー名
+     * @return array 送信データ
+     */
+    public function getCommandDataForThunderArrow(string $p_name): array
+    {
+        $cmd = 'function arrow_thunder';
         $w_ret = $this->getCommandData($cmd, 'item_used');
         return $w_ret;
     }

@@ -152,6 +152,10 @@ class CommandForMinecraft extends CommandForWebsocket
                 'status' => CommandStatusEnumForMinecraft::START->value,
                 'unit' => $this->getItemUsedStart()
             ];
+            $ret[] = [
+                'status' => CommandStatusEnumForMinecraft::ARROW->value,
+                'unit' => $this->getItemUsedArrow()
+            ];
         }
 
         return $ret;
@@ -550,6 +554,23 @@ class CommandForMinecraft extends CommandForWebsocket
 
             // 受信データの取得
             $rcv = $p_param->getRecvData();
+
+            // ディスパッチャー強制
+            $p_param->setForcedDispatcher(true);
+
+            // コマンド送信
+            $cmd_data = $p_param->getCommandDataForArrowTag($rcv['data']['body']['player']['name']);
+            $data =
+            [
+                'data' => $cmd_data
+            ];
+            $p_param->setSendStack($data);
+
+            if($rcv['data']['body']['item']['aux'] !== 401)
+            {
+                return CommandStatusEnumForMinecraft::ARROW->value;
+            }
+
             $x = (float)$rcv['data']['body']['player']['position']['x'];
             $y = (float)$rcv['data']['body']['player']['position']['y'];
             $x = (float)$rcv['data']['body']['player']['position']['z'];
@@ -573,6 +594,46 @@ class CommandForMinecraft extends CommandForWebsocket
                 'data' => $cmd_data
             ];
             $p_param->setSendStack($data);
+
+            return CommandStatusEnumForMinecraft::ARROW->value;
+        };
+    }
+
+    /**
+     * ステータス名： ARROW
+     * 
+     * 処理名：マインクラフトからの矢の使用イベント発生時処理
+     * 
+     * @param ParameterForMinecraft $p_param UNITパラメータ
+     * @return ?string 遷移先のステータス名
+     */
+    protected function getItemUsedArrow()
+    {
+        return function(ParameterForMinecraft $p_param): ?string
+        {
+            $p_param->logWriter('debug', ['MINECRAFT ITEM_USED:ARROW' => 'START']);
+
+            $sta = $p_param->getStatusName();
+
+            // 受信データの取得
+            $rcv = $p_param->getRecvData();
+            if($rcv === null)
+            {
+                // ディスパッチャー強制
+                $p_param->setForcedDispatcher(true);
+                return $sta;
+            }
+
+            if($rcv['data']['body']['item']['aux'] === 411)
+            {
+                // コマンド送信（いなずまの矢）
+                $cmd_data = $p_param->getCommandDataForThunderArrow($rcv['data']['body']['player']['name']);
+                $data =
+                [
+                    'data' => $cmd_data
+                ];
+                $p_param->setSendStack($data);
+            }
 
             return null;
         };
