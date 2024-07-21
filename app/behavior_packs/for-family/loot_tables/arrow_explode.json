@@ -10,7 +10,7 @@
                     "functions": [
                         {
                             "function": "set_data",
-                            "data": 411
+                            "data": 421
                         },
                         {
                             "function": "set_damage",
@@ -18,12 +18,12 @@
                         },
                         {
                             "function": "set_name",
-                            "name": "いなずまの矢"
+                            "name": "はかいの矢"
                         },
                         {
                             "function": "set_lore",
                             "lore": [
-                                "矢を放った所に稲妻を落とす"
+                                "矢を放った所を破壊する"
                             ]
                         }
                     ]

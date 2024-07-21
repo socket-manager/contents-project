@@ -317,6 +317,46 @@ class ParameterForMinecraft extends ParameterForWebsocket
     }
 
     /**
+     * マインクラフトへ送信する（はかいの）矢の着弾コマンドデータを取得
+     * 
+     * @param string $p_name プレイヤー名
+     * @return array 送信データ
+     */
+    public function getCommandDataForExplodeArrow(string $p_name): array
+    {
+        $cmd = 'function arrow_explode';
+        $w_ret = $this->getCommandData($cmd, 'item_used');
+        return $w_ret;
+    }
+
+    /**
+     * マインクラフトへ送信する２段ジャンプコマンドデータを取得
+     * 
+     * @param string $p_name プレイヤー名
+     * @return array 送信データ
+     */
+    public function getCommandDataForDoubleJump(string $p_name): array
+    {
+        $cmd = 'function double_jump';
+        $w_ret = $this->getCommandData($cmd, 'player_travelled');
+        return $w_ret;
+    }
+
+    /**
+     * マインクラフトへ送信する落下ダメージ設定用コマンドデータを取得
+     * 
+     * @param string $p_name プレイヤー名
+     * @param bool $p_flg true（ダメージあり） or false（ダメージなし）
+     * @return array 送信データ
+     */
+    public function getCommandDataForFallDamage(string $p_name, bool $p_flg): array
+    {
+        $cmd = "gamerule falldamage ".var_export($p_flg, true);
+        $w_ret = $this->getCommandData($cmd, 'player_travelled');
+        return $w_ret;
+    }
+
+    /**
      * 待ち受けるレスポンス情報の設定
      * 
      * @param ?string $p_rid リクエストID

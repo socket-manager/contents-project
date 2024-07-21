@@ -69,6 +69,11 @@ enum CommandQueueEnumForMinecraft: string
      */
     case ITEM_USED = 'item_used';
 
+    /**
+     * @var マインクラフトからのPlayerTravelledイベント発生時のキュー名
+     */
+    case PLAYER_TRAVELLED = 'player_travelled';
+
 
     //--------------------------------------------------------------------------
     // メソッド

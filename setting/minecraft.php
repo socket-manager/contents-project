@@ -6,11 +6,12 @@
 return [
 
     /**
-     * @var array 設定するサブスクライブタイプ（複数）
+     * @var array 設定するサブスクライブタイプ（複数指定可能）
      */
     'subscribe_types' =>
     [
         'PlayerMessage',
-        'ItemUsed'
+        'ItemUsed',
+        'PlayerTravelled'
     ]
 ];

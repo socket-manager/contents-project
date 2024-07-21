@@ -64,6 +64,35 @@ class InitForMinecraft extends InitForWebsocket
             $minecraft = $p_param->isMinecraft();
             if($minecraft === true)
             {
+                // 強制ディスパッチ中は抜ける
+                $sta = $p_param->getStatusName();
+                if($sta !== null)
+                {
+                    return null;
+                }
+
+                // マインクラフトからのItemUsedイベントの場合は受け入れる
+                if(isset($p_dat['data']['header']['eventName']) && $p_dat['data']['header']['eventName'] === 'ItemUsed')
+                {
+                    // 弓イベントの場合
+                    if($p_dat['data']['body']['item']['id'] === 'bow')
+                    {
+                        return CommandQueueEnumForMinecraft::ITEM_USED->value;
+                    }
+
+                    // 矢イベントの場合
+                    if($p_dat['data']['body']['item']['id'] === 'arrow')
+                    {
+                        return CommandQueueEnumForMinecraft::ITEM_USED->value;
+                    }
+                }
+
+                // マインクラフトからのPlayerTravelledイベントの場合は受け入れる
+                if(isset($p_dat['data']['header']['eventName']) && $p_dat['data']['header']['eventName'] === 'PlayerTravelled')
+                {
+                    return CommandQueueEnumForMinecraft::PLAYER_TRAVELLED->value;
+                }
+
                 // マインクラフトからのチャット送信の場合は受け入れる
                 if(isset($p_dat['data']['body']['type']))
                 {
@@ -124,22 +153,6 @@ class InitForMinecraft extends InitForWebsocket
                     }
                 }
 
-                // マインクラフトからのItemUsedイベントの場合は受け入れる
-                if(isset($p_dat['data']['header']['eventName']) && $p_dat['data']['header']['eventName'] === 'ItemUsed')
-                {
-                    // 弓イベントの場合
-                    if($p_dat['data']['body']['item']['id'] === 'bow')
-                    {
-                        return CommandQueueEnumForMinecraft::ITEM_USED->value;
-                    }
-
-                    // 矢イベントの場合
-                    if($p_dat['data']['body']['item']['id'] === 'arrow')
-                    {
-                        return CommandQueueEnumForMinecraft::ITEM_USED->value;
-                    }
-                }
-
                 // サーバーから送信したメッセージの返信はスルー
                 if(isset($p_dat['data']['body']['sender']) && $p_dat['data']['body']['sender'] === '外部')
                 {
@@ -155,7 +168,11 @@ class InitForMinecraft extends InitForWebsocket
                 // マインクラフトからのレスポンス
                 if(isset($p_dat['data']['body']['statusCode']))
                 {
-                    return CommandQueueEnumForMinecraft::RESPONSE->value;
+                    $que = $p_param->getQueueName();
+                    if($que === null)
+                    {
+                        return CommandQueueEnumForMinecraft::RESPONSE->value;
+                    }
                 }
 
                 return null;
