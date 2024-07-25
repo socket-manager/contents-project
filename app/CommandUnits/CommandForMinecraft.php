@@ -165,10 +165,6 @@ class CommandForMinecraft extends CommandForWebsocket
                 'status' => CommandStatusEnumForMinecraft::START->value,
                 'unit' => $this->getMinecraftPlayerTravelledStart()
             ];
-            $ret[] = [
-                'status' => CommandStatusEnumForMinecraft::JUMP->value,
-                'unit' => $this->getMinecraftPlayerTravelledJump()
-            ];
         }
 
         return $ret;
@@ -658,7 +654,7 @@ class CommandForMinecraft extends CommandForWebsocket
             }
             else
             {
-                return $sta;
+                return null;
             }
 
             // コマンド送信
@@ -691,14 +687,20 @@ class CommandForMinecraft extends CommandForWebsocket
         {
             $p_param->logWriter('debug', ['MINECRAFT PLAYER_TRAVELLED:START' => 'START']);
 
+            // インターバルタイムの検査
+            $now_time = microtime(true);
+            $last_time = $p_param->getTempBuff(['double_jump_time']);
+            if($last_time !== null)
+            {
+                $interval = config('minecraft.double_jump.interval');
+                if(($now_time - $last_time['double_jump_time']) < $interval)
+                {
+                    return null;
+                }
+            }
+
             // 受信データの取得
             $rcv = $p_param->getRecvData();
-
-            // ジャンプイベント以外の場合
-            if($rcv['data']['body']['travelMethod'] !== 2 || $rcv['data']['body']['metersTravelled'] <= 1.16)
-            {
-                return null;
-            }
 
             // コマンド送信
             $cmd_data = $p_param->getCommandDataForDoubleJump($rcv['data']['body']['player']['name']);
@@ -708,67 +710,9 @@ class CommandForMinecraft extends CommandForWebsocket
             ];
             $p_param->setSendStack($data);
 
-            // ディスパッチャー強制
-            $p_param->setForcedDispatcher(true);
+            $p_param->setTempBuff(['double_jump_time' => microtime(true)]);
 
-            return CommandStatusEnumForMinecraft::JUMP->value;
-        };
-    }
-
-    /**
-     * ステータス名： JUMP
-     * 
-     * 処理名：マインクラフトからのジャンプイベント待ち受け処理
-     * 
-     * @param ParameterForMinecraft $p_param UNITパラメータ
-     * @return ?string 遷移先のステータス名
-     */
-    protected function getMinecraftPlayerTravelledJump()
-    {
-        return function(ParameterForMinecraft $p_param): ?string
-        {
-            $p_param->logWriter('debug', ['MINECRAFT PLAYER_TRAVELLED:JUMP' => 'START']);
-
-            $sta = $p_param->getStatusName();
-
-            // 受信データの取得
-            $rcv = $p_param->getRecvData();
-            if($rcv === null)
-            {
-                goto end_second_event;
-            }
-
-            // PlayerTravelledイベントの判定
-            if(isset($rcv['data']['header']['eventName']) && $rcv['data']['header']['eventName'] === 'PlayerTravelled')
-            {
-                if($rcv['data']['body']['travelMethod'] === 2)
-                {
-                    goto end_second_event;
-                }
-                else
-                {
-                    // コマンド送信
-                    $cmd_data = $p_param->getCommandDataForFallDamage($rcv['data']['body']['player']['name'], true);
-                    $data =
-                    [
-                        'data' => $cmd_data
-                    ];
-                    $p_param->setSendStack($data);
-
-                    return null;
-                }
-            }
-            else
-            {
-                // PlayerTravelled以外のイベント
-                goto end_second_event;
-            }
-
-end_second_event:
-
-            // ディスパッチャー強制
-            $p_param->setForcedDispatcher(true);
-            return $sta;
+            return null;
         };
     }
 

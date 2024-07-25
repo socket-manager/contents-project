@@ -13,5 +13,22 @@ return [
         'PlayerMessage',
         'ItemUsed',
         'PlayerTravelled'
+    ],
+
+    /**
+     * @var array 二段ジャンプの設定
+     */
+    'double_jump' =>
+    [
+        
+        /**
+         * @var float ジャンプのみなし移動量（ｍ）
+         */
+        'meter'     => 1.21,
+
+        /**
+         * @var float 二段ジャンプのインターバル（秒）
+         */
+        'interval'  => 2.3
     ]
 ];

@@ -90,7 +90,12 @@ class InitForMinecraft extends InitForWebsocket
                 // マインクラフトからのPlayerTravelledイベントの場合は受け入れる
                 if(isset($p_dat['data']['header']['eventName']) && $p_dat['data']['header']['eventName'] === 'PlayerTravelled')
                 {
-                    return CommandQueueEnumForMinecraft::PLAYER_TRAVELLED->value;
+                    // 一定のジャンプ移動量を超えた場合
+                    $meter = config('minecraft.double_jump.meter');
+                    if($p_dat['data']['body']['travelMethod'] === 2 && $p_dat['data']['body']['metersTravelled'] > $meter)
+                    {
+                        return CommandQueueEnumForMinecraft::PLAYER_TRAVELLED->value;
+                    }
                 }
 
                 // マインクラフトからのチャット送信の場合は受け入れる
