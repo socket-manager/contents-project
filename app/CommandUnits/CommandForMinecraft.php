@@ -567,14 +567,10 @@ class CommandForMinecraft extends CommandForWebsocket
             // ディスパッチャー強制
             $p_param->setForcedDispatcher(true);
 
-            // コマンド送信
-            $cmd_data = $p_param->getCommandDataForArrowTag($rcv['data']['body']['player']['name']);
-            $data =
-            [
-                'data' => $cmd_data
-            ];
-            $p_param->setSendStack($data);
+            // 弓タイプの設定
+            $p_param->setTempBuff(['bow_type' => $rcv['data']['body']['item']['aux']]);
 
+            // いなずまの弓以外
             if($rcv['data']['body']['item']['aux'] !== 401)
             {
                 return CommandStatusEnumForMinecraft::ARROW->value;
@@ -639,8 +635,37 @@ class CommandForMinecraft extends CommandForWebsocket
                 return $sta;
             }
 
+            // 弓タイプの取得
+            $bow_type = $p_param->getTempBuff(['bow_type']);
+
+            // 通常の矢の場合
+            if($bow_type['bow_type'] !== 451 && $rcv['data']['body']['item']['aux'] === 0)
+            {
+                // コマンド送信
+                $cmd_data = $p_param->getCommandDataForArrowTagNormal($rcv['data']['body']['player']['name']);
+                $data =
+                [
+                    'data' => $cmd_data
+                ];
+                $p_param->setSendStack($data);
+                return null;
+            }
+
+            // コマンド送信
+            $cmd_data = $p_param->getCommandDataForArrowTagCheat($rcv['data']['body']['player']['name']);
+            $data =
+            [
+                'data' => $cmd_data
+            ];
+            $p_param->setSendStack($data);
+
+            // 機雷の弓で放たれた矢の場合
+            if($rcv['data']['body']['item']['aux'] === 0)
+            {
+                return null;
+            }
+
             // コマンドデータの取得
-            $cmd_data = null;
             if($rcv['data']['body']['item']['aux'] === 411)
             {
                 // いなずまの矢
@@ -651,10 +676,6 @@ class CommandForMinecraft extends CommandForWebsocket
             {
                 // はかいの矢
                 $cmd_data = $p_param->getCommandDataForExplodeArrow($rcv['data']['body']['player']['name']);
-            }
-            else
-            {
-                return null;
             }
 
             // コマンド送信

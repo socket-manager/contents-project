@@ -291,12 +291,25 @@ class ParameterForMinecraft extends ParameterForWebsocket
     }
 
     /**
-     * マインクラフトへ送信する矢へ付与するタグデータを取得
+     * マインクラフトへ送信する矢へ付与するタグデータ（ノーマル）を取得
      * 
      * @param string $p_name プレイヤー名
      * @return array 送信データ
      */
-    public function getCommandDataForArrowTag(string $p_name): array
+    public function getCommandDataForArrowTagNormal(string $p_name): array
+    {
+        $cmd = "function tag_normal";
+        $w_ret = $this->getCommandData($cmd, 'item_used');
+        return $w_ret;
+    }
+
+    /**
+     * マインクラフトへ送信する矢へ付与するタグデータ（チート）を取得
+     * 
+     * @param string $p_name プレイヤー名
+     * @return array 送信データ
+     */
+    public function getCommandDataForArrowTagCheat(string $p_name): array
     {
         $cmd = "function tag_cheat";
         $w_ret = $this->getCommandData($cmd, 'item_used');
