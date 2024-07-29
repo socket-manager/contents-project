@@ -74,6 +74,11 @@ enum CommandQueueEnumForMinecraft: string
      */
     case PLAYER_TRAVELLED = 'player_travelled';
 
+    /**
+     * @var マインクラフトからのダッシュイベント発生時のキュー名
+     */
+    case PLAYER_DASH = 'player_dash';
+
 
     //--------------------------------------------------------------------------
     // メソッド

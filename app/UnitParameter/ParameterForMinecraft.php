@@ -370,6 +370,19 @@ class ParameterForMinecraft extends ParameterForWebsocket
     }
 
     /**
+     * マインクラフトへ送信するスウィープロッド用コマンドデータを取得
+     * 
+     * @param string $p_name プレイヤー名
+     * @return array 送信データ
+     */
+    public function getCommandDataForSweepRod(string $p_name): array
+    {
+        $cmd = "function sweep_rod";
+        $w_ret = $this->getCommandData($cmd, 'sweep_rod');
+        return $w_ret;
+    }
+
+    /**
      * 待ち受けるレスポンス情報の設定
      * 
      * @param ?string $p_rid リクエストID

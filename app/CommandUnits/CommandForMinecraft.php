@@ -36,7 +36,8 @@ class CommandForMinecraft extends CommandForWebsocket
         CommandQueueEnumForMinecraft::USERSEARCH_RESULT->value,    // usersearch-resultコマンドを処理するキュー
         CommandQueueEnumForMinecraft::RESPONSE->value,             // responseコマンドを処理するキュー
         CommandQueueEnumForMinecraft::ITEM_USED->value,            // ItemUsedイベント発生時のキュー
-        CommandQueueEnumForMinecraft::PLAYER_TRAVELLED->value      // PlayerTravelledイベント発生時のキュー
+        CommandQueueEnumForMinecraft::PLAYER_TRAVELLED->value,     // PlayerTravelledイベント発生時のキュー
+        CommandQueueEnumForMinecraft::PLAYER_DASH->value           // ダッシュイベント発生時のキュー
     ];
 
 
@@ -164,6 +165,14 @@ class CommandForMinecraft extends CommandForWebsocket
             $ret[] = [
                 'status' => CommandStatusEnumForMinecraft::START->value,
                 'unit' => $this->getMinecraftPlayerTravelledStart()
+            ];
+        }
+        else
+        if($p_que === CommandQueueEnumForMinecraft::PLAYER_DASH->value)
+        {
+            $ret[] = [
+                'status' => CommandStatusEnumForMinecraft::START->value,
+                'unit' => $this->getMinecraftPlayerDashStart()
             ];
         }
 
@@ -737,4 +746,37 @@ class CommandForMinecraft extends CommandForWebsocket
         };
     }
 
+
+    //--------------------------------------------------------------------------
+    // 以降はステータスUNITの定義（"PLAYER_DASH"キュー）
+    //--------------------------------------------------------------------------
+
+    /**
+     * ステータス名： START
+     * 
+     * 処理名：マインクラフトからのダッシュイベント発生時処理
+     * 
+     * @param ParameterForMinecraft $p_param UNITパラメータ
+     * @return ?string 遷移先のステータス名
+     */
+    protected function getMinecraftPlayerDashStart()
+    {
+        return function(ParameterForMinecraft $p_param): ?string
+        {
+            $p_param->logWriter('debug', ['MINECRAFT PLAYER_DASH:START' => 'START']);
+
+            // 受信データの取得
+            $rcv = $p_param->getRecvData();
+
+            // コマンド送信
+            $cmd_data = $p_param->getCommandDataForSweepRod($rcv['data']['body']['player']['name']);
+            $data =
+            [
+                'data' => $cmd_data
+            ];
+            $p_param->setSendStack($data);
+
+            return null;
+        };
+    }
 }
