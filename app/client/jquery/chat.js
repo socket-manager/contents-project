@@ -137,6 +137,11 @@ $(function()
     $('input[name="private-user"]').prop('disabled', true);
     $('#private_send_button').prop('disabled', true);
 
+    // コマンド入力欄を禁止
+    $('input[name="command"]').prop('disabled', true);
+    $('input[name="command-user"]').prop('disabled', true);
+    $('#command_send_button').prop('disabled', true);
+
 
     //--------------------------------------------------------------------------
     // イベント定義
@@ -167,6 +172,11 @@ $(function()
             $('input[name="private-comment"]').prop('disabled', false);
             $('input[name="private-user"]').prop('disabled', false);
             $('#private_send_button').prop('disabled', false);
+
+            // コマンド入力欄を許可
+            $('input[name="command"]').prop('disabled', false);
+            $('input[name="command-user"]').prop('disabled', false);
+            $('#command_send_button').prop('disabled', false);
 
             // Websocketを開く
             setOpenWebsocket();
@@ -221,6 +231,18 @@ $(function()
         };
         websocket.send(JSON.stringify(data));
         $('#private_reply').text('');
+    });
+
+    // ポチるボタン（コマンド用）
+    $(document).on('click', '#command_send_button', function()
+    {
+        let data =
+        {
+              'cmd': 'execute-command'
+            , 'user': $('input[name="command-user"]').val()
+            , 'command': $('input[name="command"]').val()
+        };
+        websocket.send(JSON.stringify(data));
     });
 
 
@@ -624,6 +646,11 @@ $(function()
         $('input[name="private-comment"]').prop('disabled', true);
         $('input[name="private-user"]').prop('disabled', true);
         $('#private_send_button').prop('disabled', true);
+
+        // コマンド入力欄を禁止
+        $('input[name="command"]').prop('disabled', true);
+        $('input[name="command-user"]').prop('disabled', true);
+        $('#command_send_button').prop('disabled', true);
 
         // 初回入室フラグの戻し
         flg_first_entrance = true;

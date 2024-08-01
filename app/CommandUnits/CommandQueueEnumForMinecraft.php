@@ -79,6 +79,11 @@ enum CommandQueueEnumForMinecraft: string
      */
     case PLAYER_DASH = 'player_dash';
 
+    /**
+     * @var コマンド実行のキュー名
+     */
+    case EXECUTE_COMMAND = 'execute-command';
+
 
     //--------------------------------------------------------------------------
     // メソッド

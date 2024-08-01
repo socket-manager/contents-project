@@ -181,7 +181,7 @@ class ParameterForMinecraft extends ParameterForWebsocket
      * @param string $p_typ 処理タイプ文字列（'response'コマンドで利用）
      * @return array 送信データ
      */
-    protected function getCommandData(string $p_cmd, string $p_typ = null): array
+    public function getCommandData(string $p_cmd, string $p_typ = null): array
     {
         // UUIDの取得
         $uuidv4 = $this->getUuidv4();

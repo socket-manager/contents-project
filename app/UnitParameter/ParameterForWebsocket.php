@@ -483,6 +483,26 @@ class ParameterForWebsocket extends SocketManagerParameter
         unset($this->user_list[$cid]);
     }
 
+    /**
+     * ユーザー名から接続IDを取得
+     * 
+     * @param string ユーザー名
+     * @return string 接続ID or null（存在しない）
+     */
+    public function getConnectionIdByUserName(string $p_user): string
+    {
+        $cid = null;
+        foreach($this->user_list as $cid => $user)
+        {
+            if($user === $p_user)
+            {
+                break;
+            }
+        }
+
+        return $cid;
+    }
+
 
     //--------------------------------------------------------------------------
     // サーバー間通信リクエスト用

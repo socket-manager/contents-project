@@ -37,7 +37,8 @@ class CommandForMinecraft extends CommandForWebsocket
         CommandQueueEnumForMinecraft::RESPONSE->value,             // responseコマンドを処理するキュー
         CommandQueueEnumForMinecraft::ITEM_USED->value,            // ItemUsedイベント発生時のキュー
         CommandQueueEnumForMinecraft::PLAYER_TRAVELLED->value,     // PlayerTravelledイベント発生時のキュー
-        CommandQueueEnumForMinecraft::PLAYER_DASH->value           // ダッシュイベント発生時のキュー
+        CommandQueueEnumForMinecraft::PLAYER_DASH->value,          // ダッシュイベント発生時のキュー
+        CommandQueueEnumForMinecraft::EXECUTE_COMMAND->value       // コマンド実行のキュー
     ];
 
 
@@ -173,6 +174,14 @@ class CommandForMinecraft extends CommandForWebsocket
             $ret[] = [
                 'status' => CommandStatusEnumForMinecraft::START->value,
                 'unit' => $this->getMinecraftPlayerDashStart()
+            ];
+        }
+        else
+        if($p_que === CommandQueueEnumForMinecraft::EXECUTE_COMMAND->value)
+        {
+            $ret[] = [
+                'status' => CommandStatusEnumForMinecraft::START->value,
+                'unit' => $this->getMinecraftExecuteCommandStart()
             ];
         }
 
@@ -545,6 +554,11 @@ class CommandForMinecraft extends CommandForWebsocket
                 {
                     $p_param->logWriter('debug', ['MINECRAFT RESPONSE:START' => 'NO-COMMENT']);
                 }
+                else
+                if($w_ret['type'] === 'execute-command')
+                {
+                    $p_param->logWriter('debug', ['MINECRAFT RESPONSE:START' => 'EXECUTE-COMMAND']);
+                }
             }
 
             return null;
@@ -775,6 +789,43 @@ class CommandForMinecraft extends CommandForWebsocket
                 'data' => $cmd_data
             ];
             $p_param->setSendStack($data);
+
+            return null;
+        };
+    }
+
+
+    //--------------------------------------------------------------------------
+    // 以降はステータスUNITの定義（"EXECUTE_COMMAND"キュー）
+    //--------------------------------------------------------------------------
+
+    /**
+     * ステータス名： START
+     * 
+     * 処理名：マインクラフトのコマンド実行処理
+     * 
+     * @param ParameterForMinecraft $p_param UNITパラメータ
+     * @return ?string 遷移先のステータス名
+     */
+    protected function getMinecraftExecuteCommandStart()
+    {
+        return function(ParameterForMinecraft $p_param): ?string
+        {
+            $p_param->logWriter('debug', ['MINECRAFT EXECUTE_COMMAND:START' => 'START']);
+
+            // 受信データの取得
+            $rcv = $p_param->getRecvData();
+
+            // 相手先の接続ID取得
+            $cid = $p_param->getConnectionIdByUserName($rcv['data']['user']);
+
+            // コマンド送信
+            $cmd_data = $p_param->getCommandData($rcv['data']['command'], 'execute-command');
+            $data =
+            [
+                'data' => $cmd_data
+            ];
+            $p_param->setSendStack($data, $cid);
 
             return null;
         };
