@@ -188,11 +188,18 @@ class InitForMinecraft extends InitForWebsocket
                 // マインクラフトからのレスポンス
                 if(isset($p_dat['data']['body']['statusCode']))
                 {
-                    $que = $p_param->getQueueName();
-                    if($que === null)
+                    $sta = $p_param->getStatusName();
+                    if($sta !== null)
+                    {
+                        return null;
+                    }
+
+                    $rid = $p_param->getAwaitResponseForCustomize('stand-attack');
+                    if($rid === null)
                     {
                         return CommandQueueEnumForMinecraft::RESPONSE->value;
                     }
+                    return CommandQueueEnumForMinecraft::RESPONSE_STAND_ATTACK->value;
                 }
 
                 return null;

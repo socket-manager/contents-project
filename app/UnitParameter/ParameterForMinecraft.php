@@ -382,6 +382,198 @@ class ParameterForMinecraft extends ParameterForWebsocket
         return $w_ret;
     }
 
+    //--------------------------------------------------------------------------
+    // スタンドの弓矢用 <START>
+    //--------------------------------------------------------------------------
+
+    /**
+     * 待ち受けるレスポンス情報の設定
+     * 
+     * @param string $p_typ 処理タイプ文字列
+     * @param ?string $p_rid リクエストID
+     */
+    public function setAwaitResponseForCustomize(string $p_typ, ?string $p_rid)
+    {
+        $this->setTempBuff(
+            [
+                'response_'.$p_typ => $p_rid
+            ]
+        );
+    }
+
+    /**
+     * 待ち受けるレスポンス情報の取得
+     * 
+     * @param string $p_typ 処理タイプ文字列
+     * @return string|null リクエストID
+     */
+    public function getAwaitResponseForCustomize(string $p_typ)
+    {
+        $w_ret = $this->getTempBuff(['response_'.$p_typ]);
+        if($w_ret === null)
+        {
+            return null;
+        }
+
+        return $w_ret['response_'.$p_typ];
+    }
+
+    /**
+     * マインクラフトへ送信するコマンドデータを取得
+     * 
+     * @param string $p_cmd コマンド文字列
+     * @param ?string &$p_rid リクエストID格納エリア
+     * @return array 送信データ
+     */
+    public function getCommandOrganicData(string $p_cmd, ?string &$p_rid): array
+    {
+        // UUIDの取得
+        $p_rid = $this->getUuidv4();
+
+        // サブスクライブエントリデータ
+        $w_ret =
+        [
+            "header" =>
+            [
+                "version" => 1,
+                "requestId" => $p_rid, // UUIDv4を生成して指定
+                "messageType" => "commandRequest", // commandRequestを指定
+                "messagePurpose" => "commandRequest", // commandRequestを指定
+            ],
+            "body" =>
+            [
+                "origin" =>
+                [
+                    "type" => "player" // 誰がコマンドを実行するかを指定（ただし、Player以外にどの値が利用可能かは要調査）
+                ],
+                "version" => 1,
+                "commandLine" => $p_cmd, // マイクラで実行したいコマンドを指定
+            ]
+        ];
+
+        return $w_ret;
+    }
+
+    /**
+     * スタンド召喚用データを取得
+     * 
+     * ※「スタンドの弓矢」アイテム用
+     * 
+     * @param string $p_name プレイヤー名
+     * @return array 送信データ
+     */
+    public function getCommandDataForStandSummon(string $p_name): array
+    {
+        $cmd = "function stand_summon";
+        $w_ret = $this->getCommandData($cmd, 'stand-summon');
+        return $w_ret;
+    }
+
+    /**
+     * 座標計算用の矢のスポーンデータを取得
+     * 
+     * ※「スタンドの弓矢」アイテム用
+     * 
+     * @param string $p_name プレイヤー名
+     * @return array 送信データ
+     */
+    public function getCommandDataForStandArrowSpawn(string $p_name, float $p_x, float $p_y, float $p_z): array
+    {
+        $cmd = "summon arrow stand_attack ~{$p_x} ~ ~{$p_z}";
+        $w_ret = $this->getCommandData($cmd, 'stand-attack');
+        return $w_ret;
+    }
+
+    /**
+     * 座標計算用の矢へのタグ付与データを取得
+     * 
+     * ※「スタンドの弓矢」アイテム用
+     * 
+     * @param string $p_name プレイヤー名
+     * @return array 送信データ
+     */
+    public function getCommandDataForStandArrowTag(string $p_name, float $p_x, float $p_y, float $p_z): array
+    {
+        $cmd = "tag @e[type=arrow,x=~{$p_x},z=~{$p_z},c=1] add stand_attack";
+        $w_ret = $this->getCommandData($cmd, 'stand-attack');
+        return $w_ret;
+    }
+
+    /**
+     * スタンド攻撃相手用タグ付与データを取得
+     * 
+     * ※「スタンドの弓矢」アイテム用
+     * 
+     * @param string $p_name プレイヤー名
+     * @return array 送信データ
+     */
+    public function getCommandDataForStandAttackTag(string $p_name): array
+    {
+        $cmd = "function tag_stand_attack";
+        $w_ret = $this->getCommandData($cmd, 'stand-attack');
+        return $w_ret;
+    }
+
+    /**
+     * スタンド攻撃コマンド実行
+     * 
+     * ※「スタンドの弓矢」アイテム用
+     * 
+     * @return array 送信データ
+     */
+    public function sendCommandDataForStandAttack()
+    {
+        $cmd = "function stand_attack";
+        $cmd_data = $this->getCommandData($cmd, 'stand-attack');
+        $data =
+        [
+            'data' => $cmd_data
+        ];
+        $this->setSendStack($data);
+
+        $rid = null;
+        $cmd = "querytarget @e[family=mob,tag=stand_attack,r=10,c=1]";
+        $cmd_data = $this->getCommandOrganicData($cmd, $rid);
+        $data =
+        [
+            'data' => $cmd_data
+        ];
+        $this->setSendStack($data);
+        $this->setAwaitResponseForCustomize('stand-attack', $rid);
+        return;
+    }
+
+    //--------------------------------------------------------------------------
+    // スタンドの弓矢用 <END>
+    //--------------------------------------------------------------------------
+
+    /**
+     * 現在の座標からヨー角を考慮した相対座標を取得
+     * 
+     * @param float &$p_x X座標
+     * @param float &$p_y Y座標
+     * @param float &$p_z Z座標
+     * @param float $p_yrot ヨー角
+     * @param float $p_r 半径
+     */
+    public function getRelativeCoordinates(float &$p_x, float &$p_y, float &$p_z, float $p_yrot, float $p_r)
+    {
+        // ヨー角を絶対値へ変換
+        $yrot_abs = abs($p_yrot);
+
+        // Z座標の計算
+        $p_z = cos(deg2rad($yrot_abs)) * $p_r;
+
+        // X座標の計算
+        $p_x = sin(deg2rad($yrot_abs)) * $p_r;
+        if($p_yrot > 0)
+        {
+            $p_x = -$p_x;
+        }
+
+        return;
+    }
+
     /**
      * 待ち受けるレスポンス情報の設定
      * 

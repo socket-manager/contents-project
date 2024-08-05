@@ -65,6 +65,11 @@ enum CommandQueueEnumForMinecraft: string
     case RESPONSE = 'response';
 
     /**
+     * @var マインクラフトからのスタンド攻撃レスポンス時のキュー名
+     */
+    case RESPONSE_STAND_ATTACK = 'response_stand_attack';
+
+    /**
      * @var マインクラフトからのItemUsedイベント発生時のキュー名
      */
     case ITEM_USED = 'item_used';

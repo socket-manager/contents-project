@@ -35,6 +35,7 @@ class CommandForMinecraft extends CommandForWebsocket
         CommandQueueEnumForMinecraft::PRIVATE_RESULT->value,       // private-resultコマンドを処理するキュー
         CommandQueueEnumForMinecraft::USERSEARCH_RESULT->value,    // usersearch-resultコマンドを処理するキュー
         CommandQueueEnumForMinecraft::RESPONSE->value,             // responseコマンドを処理するキュー
+        CommandQueueEnumForMinecraft::RESPONSE_STAND_ATTACK->value,// response_stand_attackコマンドを処理するキュー
         CommandQueueEnumForMinecraft::ITEM_USED->value,            // ItemUsedイベント発生時のキュー
         CommandQueueEnumForMinecraft::PLAYER_TRAVELLED->value,     // PlayerTravelledイベント発生時のキュー
         CommandQueueEnumForMinecraft::PLAYER_DASH->value,          // ダッシュイベント発生時のキュー
@@ -146,6 +147,14 @@ class CommandForMinecraft extends CommandForWebsocket
             $ret[] = [
                 'status' => CommandStatusEnumForMinecraft::START->value,
                 'unit' => $this->getResponseStart()
+            ];
+        }
+        else
+        if($p_que === CommandQueueEnumForMinecraft::RESPONSE_STAND_ATTACK->value)
+        {
+            $ret[] = [
+                'status' => CommandStatusEnumForMinecraft::START->value,
+                'unit' => $this->getResponseStandAttackStart()
             ];
         }
         else
@@ -661,6 +670,57 @@ class CommandForMinecraft extends CommandForWebsocket
             // 弓タイプの取得
             $bow_type = $p_param->getTempBuff(['bow_type']);
 
+            // スタンドの召喚
+            if($bow_type['bow_type'] === 461 && $rcv['data']['body']['item']['aux'] === 0)
+            {
+                // コマンド送信（スタンド召喚）
+                $cmd_data = $p_param->getCommandDataForStandSummon($rcv['data']['body']['player']['name']);
+                $data =
+                [
+                    'data' => $cmd_data
+                ];
+                $p_param->setSendStack($data);
+                return null;
+            }
+            // スタンドによる攻撃
+            if($rcv['data']['body']['item']['aux'] === 471)
+            {
+                // 相対座標の取得
+                $x = $rcv['data']['body']['player']['position']['x'];
+                $y = $rcv['data']['body']['player']['position']['y'];
+                $z = $rcv['data']['body']['player']['position']['z'];
+                $yrot = $rcv['data']['body']['player']['yRot'];
+                $p_param->getRelativeCoordinates($x, $y, $z, $yrot, 5);
+
+                // コマンド送信（座標計算の矢をスポーン）
+                $cmd_data = $p_param->getCommandDataForStandArrowSpawn($rcv['data']['body']['player']['name'], $x, $y, $z);
+                $data =
+                [
+                    'data' => $cmd_data
+                ];
+                $p_param->setSendStack($data);
+
+                // コマンド送信（矢へのタグの付与）
+                $cmd_data = $p_param->getCommandDataForStandArrowTag($rcv['data']['body']['player']['name'], $x, $y, $z);
+                $data =
+                [
+                    'data' => $cmd_data
+                ];
+                $p_param->setSendStack($data);
+
+                // コマンド送信（攻撃相手へのタグ付与）
+                $cmd_data = $p_param->getCommandDataForStandAttackTag($rcv['data']['body']['player']['name']);
+                $data =
+                [
+                    'data' => $cmd_data
+                ];
+                $p_param->setSendStack($data);
+
+                // コマンド送信（スタンド攻撃）
+                $p_param->sendCommandDataForStandAttack();
+                return null;
+            }
+            else
             // 通常の矢の場合
             if($bow_type['bow_type'] !== 451 && $rcv['data']['body']['item']['aux'] === 0)
             {
@@ -707,6 +767,52 @@ class CommandForMinecraft extends CommandForWebsocket
                 'data' => $cmd_data
             ];
             $p_param->setSendStack($data);
+
+            return null;
+        };
+    }
+
+
+    //--------------------------------------------------------------------------
+    // 以降はステータスUNITの定義（"RESPONSE_STAND_ATTACK"キュー）
+    //--------------------------------------------------------------------------
+
+    /**
+     * ステータス名： START
+     * 
+     * 処理名：マインクラフトからのレスポンス受信時処理
+     * 
+     * ※自身の接続へのリクエストに対するレスポンスのみ受け付ける
+     * 
+     * @param ParameterForMinecraft $p_param UNITパラメータ
+     * @return ?string 遷移先のステータス名
+     */
+    protected function getResponseStandAttackStart()
+    {
+        return function(ParameterForMinecraft $p_param): ?string
+        {
+            $p_param->logWriter('debug', ['MINECRAFT RESPONSE_STAND_ATTACK:START' => 'START']);
+
+            $rcv = $p_param->getRecvData();
+            $w_ret = $p_param->getAwaitResponseForCustomize('stand-attack');
+            if($w_ret === null)
+            {
+                return null;
+            }
+            if($w_ret === $rcv['data']['header']['requestId'])
+            {
+                // ユーザー名重複時のレスポンス
+                if($rcv['data']['body']['statusMessage'] === 'セレクターに合う対象がありません')
+                {
+                    $p_param->setAwaitResponseForCustomize('stand-attack', null);
+                    return null;
+                }
+                else
+                {
+                    // コマンド送信（スタンド攻撃）
+                    $p_param->sendCommandDataForStandAttack();
+                }
+            }
 
             return null;
         };
