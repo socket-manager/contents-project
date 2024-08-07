@@ -50,6 +50,9 @@ let connection =
                 // プライベートコメント入力フォームを入力可能にする
                 global_func.private.setDisabled(false);
 
+                // コマンド入力フォームを入力可能にする
+                global_func.command.setDisabled(false);
+
                 // Websocketを開く
                 global_func.setOpenWebsocket(global_data.connection.uri);
             }

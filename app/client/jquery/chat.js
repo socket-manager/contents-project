@@ -392,6 +392,23 @@ $(function()
                 $('#private_reply').html(data.comment);
                 return;
             }
+            // コマンド入力送信結果
+            else
+            if(data.cmd === 'execute-command')
+            {
+                if(data.result === true)
+                {
+                    $('#command_reply').removeClass('command-guide-ng');
+                    $('#command_reply').addClass('command-guide-ok');
+                }
+                else
+                {
+                    $('#command_reply').removeClass('command-guide-ok');
+                    $('#command_reply').addClass('command-guide-ng');
+                }
+                $('#command_reply').html(data.response);
+                return;
+            }
 
             let flg_self = false;
 
@@ -631,6 +648,9 @@ $(function()
 
         // プライベートコメント入力フォームのガイドメッセージをクリア
         $('#private_reply').text('');
+
+        // コマンド入力フォームのガイドメッセージをクリア
+        $('#command_reply').text('');
 
         // ユーザー名入力を許可
         $('input[name="user"]').prop('disabled', false);

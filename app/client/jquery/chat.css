@@ -321,6 +321,16 @@ p.private-guide-ng {
     color: #ff0000;
     margin: 0px;
 }
+/* コマンド欄送信OK時ガイド */
+p.command-guide-ok {
+    color: #2db82d;
+    margin: 0px;
+}
+/* コマンド欄送信NG時ガイド */
+p.command-guide-ng {
+    color: #ff0000;
+    margin: 0px;
+}
 /* コメント欄送信ガイド */
 p.comment-guide {
     color: #ff0000;

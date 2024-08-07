@@ -50,8 +50,13 @@ div.private-div {
     margin-top: 20px;
 }
 
-/* コメント入力欄、プライベートコメント入力欄、ユーザー名入力欄 */
-div.comment-div, div.private-div, div.user-div {
+/* コマンド入力欄 */
+div.command-div {
+    margin-top: 20px;
+}
+
+/* コメント入力欄、プライベートコメント入力欄、ユーザー名入力欄、コマンド入力欄 */
+div.comment-div, div.private-div, div.user-div, div.command-div {
     display: flex;
     flex-direction: row;
 }
@@ -93,6 +98,20 @@ input.comment {
     font-size: 14px;
 }
 
+/* コマンド入力フィールド */
+input.command {
+    display: block;
+    height: 30px;
+    width: 350px;
+    padding: 0;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    text-indent: .5em;
+    box-shadow: none;
+    font-size: 14px;
+}
+
 /* チャットコメント入力フィールド */
 input.normal-comment {
     width: 470px;
@@ -108,8 +127,13 @@ input.private-user {
     width: 120px;
 }
 
+/* コマンド宛先入力フィールド */
+input.command-user {
+    width: 120px;
+}
+
 /* コメント送信ボタン、接続ボタン、プライベートコメント送信ボタン */
-#send_button, #connect_button, #private_send_button {
+#send_button, #connect_button, #private_send_button, #command_send_button {
     margin-left: 10px;
     border: 2px solid #f07e1a;
     border-radius: 3px;
@@ -136,6 +160,14 @@ input.private-user {
     background: #a14f06;
 }
 #private_send_button:disabled {
+    border: 2px solid #999999;
+    background: #ccc;
+}
+#command_send_button:active {
+    color: #fff;
+    background: #a14f06;
+}
+#command_send_button:disabled {
     border: 2px solid #999999;
     background: #ccc;
 }
@@ -287,6 +319,16 @@ p.private-guide-ok {
 }
 /* プライベートコメント欄送信NG時ガイド */
 p.private-guide-ng {
+    color: #ff0000;
+    margin: 0px;
+}
+/* コマンド欄送信OK時ガイド */
+p.command-guide-ok {
+    color: #2db82d;
+    margin: 0px;
+}
+/* コマンド欄送信NG時ガイド */
+p.command-guide-ng {
     color: #ff0000;
     margin: 0px;
 }

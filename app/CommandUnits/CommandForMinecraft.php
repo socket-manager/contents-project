@@ -567,6 +567,33 @@ class CommandForMinecraft extends CommandForWebsocket
                 if($w_ret['type'] === 'execute-command')
                 {
                     $p_param->logWriter('debug', ['MINECRAFT RESPONSE:START' => 'EXECUTE-COMMAND']);
+
+                    // レスポンス送信先接続IDの取得
+                    $cid = $p_param->getTempBuff(['response-cid']);
+
+                    // コマンド送信
+                    $user = $p_param->getUserName();
+                    $result = false;
+                    $response = ParameterForMinecraft::CHAT_NO_RESPONSE_MESSAGE;
+                    if(isset($rcv['data']['body']['statusMessage']))
+                    {
+                        $response = $rcv['data']['body']['statusMessage'];
+                    }
+                    if($rcv['data']['body']['statusCode'] === 0)
+                    {
+                        $result = true;
+                    }
+                    $data =
+                    [
+                        'data' =>
+                        [
+                            'cmd' => 'execute-command',
+                            'user' => $user,
+                            'response' => $response,
+                            'result' => $result
+                        ]
+                    ];
+                    $p_param->setSendStack($data, $cid['response-cid']);
                 }
             }
 
@@ -922,16 +949,86 @@ class CommandForMinecraft extends CommandForWebsocket
             // 受信データの取得
             $rcv = $p_param->getRecvData();
 
+            $result = true;
+            $comments = [];
+
+            // 宛先ユーザー名のチェック
+            $user = $p_param->chopHiddenCharacters($rcv['data']['user']);
+            if($user == '')
+            {
+                $result = false;
+                $comments[] = $p_param->getOption('no_user_comment');
+            }
+
+            // コマンド入力のチェック
+            $command = $p_param->chopHiddenCharacters($rcv['data']['command']);
+            if($command == '')
+            {
+                $result = false;
+                $comments[] = ParameterForMinecraft::CHAT_NO_COMMAND;
+            }
+
+            if($result === false)
+            {
+                // エラーコメントの生成
+                $comment_join = '';
+                foreach($comments as $comment)
+                {
+                    if(strlen($comment_join) > 0)
+                    {
+                        $comment_join .= '<br />';
+                    }
+                    $comment_join .= $comment;
+                }
+                // 送信データ作成
+                $data =
+                [
+                    'data' =>
+                    [
+                        'cmd' => 'execute-command',
+                        'user' => $user,
+                        'response' => $comment_join,
+                        'result' => false
+                    ]
+                ];
+                $p_param->setSendStack($data);
+                return null;
+            }
+
             // 相手先の接続ID取得
             $cid = $p_param->getConnectionIdByUserName($rcv['data']['user']);
 
+            // 相手先が見つからない
+            if($cid === null)
+            {
+                // 送信データ作成
+                $comment = ParameterForWebsocket::CHAT_PRIVATE_NG;
+                $comment = str_replace(':name', $rcv['data']['user'], $comment);
+                $data =
+                [
+                    'data' =>
+                    [
+                        'cmd' => 'execute-command',
+                        'user' => $user,
+                        'response' => $comment,
+                        'result' => false
+                    ]
+                ];
+                $p_param->setSendStack($data);
+                return null;
+            }
+
             // コマンド送信
-            $cmd_data = $p_param->getCommandData($rcv['data']['command'], 'execute-command');
+            $cmd_data = $p_param->getCommandData($rcv['data']['command'], 'execute-command', $cid);
             $data =
             [
                 'data' => $cmd_data
             ];
             $p_param->setSendStack($data, $cid);
+
+            // コマンド送信先の相手にレスポンス受信する接続IDを設定
+            $cid_self = $p_param->getConnectionId();
+            $p_param->setTempBuff(['response-cid' => $cid_self], $cid);
 
             return null;
         };

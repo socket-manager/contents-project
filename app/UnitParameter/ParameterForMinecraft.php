@@ -47,6 +47,16 @@ class ParameterForMinecraft extends ParameterForWebsocket
      */
     public const CHAT_ADMIN_USER = '運営チーム';
 
+    /**
+     * コマンド入力なし
+     */
+    public const CHAT_NO_COMMAND = 'コマンドを入力してください';
+
+    /**
+     * レスポンスメッセージなし
+     */
+    public const CHAT_NO_RESPONSE_MESSAGE = 'メッセージはありません';
+
 
     //--------------------------------------------------------------------------
     // プロパティ
@@ -179,9 +189,10 @@ class ParameterForMinecraft extends ParameterForWebsocket
      * 
      * @param string $p_cmd コマンド文字列
      * @param string $p_typ 処理タイプ文字列（'response'コマンドで利用）
+     * @param ?string $p_cid 接続ID
      * @return array 送信データ
      */
-    public function getCommandData(string $p_cmd, string $p_typ = null): array
+    public function getCommandData(string $p_cmd, string $p_typ = null, string $p_cid = null): array
     {
         // UUIDの取得
         $uuidv4 = $this->getUuidv4();
@@ -208,7 +219,7 @@ class ParameterForMinecraft extends ParameterForWebsocket
         ];
 
         // 待ち受けるレスポンス情報を設定
-        $this->setAwaitResponse($uuidv4, $p_typ);
+        $this->setAwaitResponse($uuidv4, $p_typ, $p_cid);
 
         return $w_ret;
     }
@@ -579,14 +590,16 @@ class ParameterForMinecraft extends ParameterForWebsocket
      * 
      * @param ?string $p_rid リクエストID
      * @param ?string $p_typ 処理タイプ文字列
+     * @param ?string $p_cid 接続ID
      */
-    public function setAwaitResponse(?string $p_rid, ?string $p_typ)
+    public function setAwaitResponse(?string $p_rid, ?string $p_typ, string $p_cid = null)
     {
         $this->setTempBuff(
             [
                 'requestId' => $p_rid,
                 'type' => $p_typ
-            ]
+            ],
+            $p_cid
         );
     }
 

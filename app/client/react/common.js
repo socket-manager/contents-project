@@ -264,6 +264,49 @@ const global_data =
          * @type {boolean}
          */
         disabled: false
+    },
+
+    /**
+     * コマンド入力フォーム用
+     * 
+     * @namespace
+     */
+    command:
+    {
+        /**
+         * コマンド
+         * 
+         * @type {string}
+         */
+        command: null,
+
+        /**
+         * 宛先ユーザー
+         * 
+         * @type {string}
+         */
+        user: null,
+
+        /**
+         * メッセージガイド
+         * 
+         * @type {string}
+         */
+        guide: null,
+
+        /**
+         * メッセージガイドのCSSクラス名
+         * 
+         * @type {string}
+         */
+        guide_class: null,
+
+        /**
+         * フォームのdisabled切り替え
+         * 
+         * @type {boolean}
+         */
+        disabled: false
     }
 };
 
@@ -745,6 +788,28 @@ const global_func =
                 global_func.private.setGuide(guide);
                 return;
             }
+            // コマンド入力送信結果
+            else
+            if(data.cmd === 'execute-command')
+            {
+                if(data.result === true)
+                {
+                    // メッセージガイドCSSのクラス名設定
+                    global_func.command.setGuideClass('command-guide-ok');
+                }
+                else
+                {
+                    // メッセージガイドCSSのクラス名設定
+                    global_func.command.setGuideClass('command-guide-ng');
+                }
+
+                // ガイドメッセージの生成
+                let guide = global_func.createElementWithBr(data.response);
+
+                // メッセージガイドの設定
+                global_func.command.setGuide(guide);
+                return;
+            }
 
             // 記事投稿
             global_func.postComment(article, flg_self);
@@ -802,6 +867,9 @@ const global_func =
         // プライベートコメント入力フォームのガイドメッセージをクリア
         global_func.private.setGuide('');
 
+        // コマンド入力フォームのガイドメッセージをクリア
+        global_func.command.setGuide('');
+
         // コネクションフォームを入力可能にする
         global_func.connection.setDisabled(false);
 
@@ -810,6 +878,9 @@ const global_func =
 
         // プライベートコメント入力フォームを入力不可にする
         global_func.private.setDisabled(true);
+
+        // コマンド入力フォームを入力不可にする
+        global_func.command.setDisabled(true);
 
         // Websocketインスタンスをクリア
         global_data.websocket = null;
@@ -1002,6 +1073,54 @@ const global_func =
          * @returns {void}
          */
         setComment: function(){},
+
+        /**
+         * 宛先ユーザーの設定
+         * 
+         * @param {string} state - 入力された宛先ユーザー
+         * @returns {void}
+         */
+        setUser: function(){},
+
+        /**
+         * メッセージガイドの設定
+         * 
+         * @param {string} state - ガイドメッセージ
+         * @returns {void}
+         */
+        setGuide: function(){},
+
+        /**
+         * メッセージガイドCSSのクラス名設定
+         * 
+         * @param {string} state - CSSのクラス名
+         * @returns {void}
+         */
+        setGuideClass: function(){},
+
+        /**
+         * disabled化の設定
+         * 
+         * @param {boolean} state - 非アクティブフラグ - true（非アクティブ） or false（アクティブ）
+         * @returns {void}
+         */
+        setDisabled: function(){}
+    },
+
+    /**
+     * コマンド入力フォーム用
+     * 
+     * @namespace
+     */
+    command:
+    {
+        /**
+         * コマンドの設定
+         * 
+         * @param {string} state - 入力されたコマンド
+         * @returns {void}
+         */
+        setCommand: function(){},
 
         /**
          * 宛先ユーザーの設定
