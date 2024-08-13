@@ -47,7 +47,7 @@
 </pre>
 
 ## 補足
-詳しい実装内容やコンテンツの詳細は<a href="https://socket-manager.github.io/document/extra-minecraft-contents.html">こちら</a>をご覧ください。
+詳しい実装内容やコンテンツの詳細は<a href="https://socket-manager.github.io/document/minecraft-contents/">こちら</a>をご覧ください。
 
 このプロジェクトにはデモ環境と同じ６種類のサーバーをご用意しています。<br />
 詳しい使い方は<a href="https://socket-manager.github.io/document/extra-demo.html">こちら</a>をご覧ください。
