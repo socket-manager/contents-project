@@ -39,7 +39,9 @@ class CommandForMinecraft extends CommandForWebsocket
         CommandQueueEnumForMinecraft::ITEM_USED->value,            // ItemUsedイベント発生時のキュー
         CommandQueueEnumForMinecraft::PLAYER_TRAVELLED->value,     // PlayerTravelledイベント発生時のキュー
         CommandQueueEnumForMinecraft::PLAYER_DASH->value,          // ダッシュイベント発生時のキュー
-        CommandQueueEnumForMinecraft::EXECUTE_COMMAND->value       // コマンド実行のキュー
+        CommandQueueEnumForMinecraft::EXECUTE_COMMAND->value,      // コマンド実行のキュー
+        CommandQueueEnumForMinecraft::CHAIR->value,                // 階段チェア着席実行のキュー
+        CommandQueueEnumForMinecraft::CHAIR_STANDUP->value         // 階段チェアからの起立実行のキュー
     ];
 
 
@@ -191,6 +193,26 @@ class CommandForMinecraft extends CommandForWebsocket
             $ret[] = [
                 'status' => CommandStatusEnumForMinecraft::START->value,
                 'unit' => $this->getMinecraftExecuteCommandStart()
+            ];
+        }
+        else
+        if($p_que === CommandQueueEnumForMinecraft::CHAIR->value)
+        {
+            $ret[] = [
+                'status' => CommandStatusEnumForMinecraft::START->value,
+                'unit' => $this->getMinecraftChairStart()
+            ];
+            $ret[] = [
+                'status' => CommandStatusEnumForMinecraft::CHAIR_RESPONSE->value,
+                'unit' => $this->getMinecraftChairResponse()
+            ];
+        }
+        else
+        if($p_que === CommandQueueEnumForMinecraft::CHAIR_STANDUP->value)
+        {
+            $ret[] = [
+                'status' => CommandStatusEnumForMinecraft::START->value,
+                'unit' => $this->getMinecraftChairStandupStart()
             ];
         }
 
@@ -1033,4 +1055,194 @@ class CommandForMinecraft extends CommandForWebsocket
             return null;
         };
     }
+
+
+    //--------------------------------------------------------------------------
+    // 以降はステータスUNITの定義（"CHAIR"キュー）
+    //--------------------------------------------------------------------------
+
+    /**
+     * ステータス名： START
+     * 
+     * 処理名：マインクラフトからのスニークイベント発生時処理
+     * 
+     * @param ParameterForMinecraft $p_param UNITパラメータ
+     * @return ?string 遷移先のステータス名
+     */
+    protected function getMinecraftChairStart()
+    {
+        return function(ParameterForMinecraft $p_param): ?string
+        {
+            $p_param->logWriter('debug', ['MINECRAFT CHAIR:START' => 'START']);
+
+            $rcv = $p_param->getRecvData();
+            $p_param->setTempBuff(['chair_yrot' => $rcv['data']['body']['player']['yRot']]);
+
+            // 階段ブロックIDのインデックスを取得
+            $idx = $p_param->getTempBuff(['stairs_idx']);
+
+            // 階段ブロックのリストを取得
+            $ids = config('minecraft.stairs_ids');
+
+            // コマンド送信
+            $cmd_data = $p_param->getCommandDataForStairsTest($ids[$idx['stairs_idx']]);
+            $data =
+            [
+                'data' => $cmd_data
+            ];
+            $p_param->setSendStack($data);
+
+            // ディスパッチャー強制
+            $p_param->setForcedDispatcher(true);
+
+            return CommandStatusEnumForMinecraft::CHAIR_RESPONSE->value;
+        };
+    }
+
+    /**
+     * ステータス名： CHAIR_RESPONSE
+     * 
+     * 処理名：マインクラフトからのブロック検査レスポンス処理
+     * 
+     * @param ParameterForMinecraft $p_param UNITパラメータ
+     * @return ?string 遷移先のステータス名
+     */
+    protected function getMinecraftChairResponse()
+    {
+        return function(ParameterForMinecraft $p_param): ?string
+        {
+            $p_param->logWriter('debug', ['MINECRAFT CHAIR:CHAIR_RESPONSE' => 'START']);
+
+            // 現在のステータスを取得
+            $sta = $p_param->getStatusName();
+
+            // 受信データの取得
+            $rcv = $p_param->getRecvData();
+            if($rcv === null)
+            {
+                // ディスパッチャー強制
+                $p_param->setForcedDispatcher(true);
+                return $sta;
+            }
+
+            // ブロック検査の結果ではない場合
+            if(!isset($rcv['data']['body']['matches']))
+            {
+                // ディスパッチャー強制
+                $p_param->setForcedDispatcher(true);
+                return $sta;
+            }
+
+            // 階段ブロックが不一致の場合
+            if($rcv['data']['body']['matches'] === false)
+            {
+                // 階段ブロックIDのインデックスを取得
+                $idx = $p_param->getTempBuff(['stairs_idx']);
+
+                // 一致するブロックが見つからなかった
+                if($idx['stairs_idx'] <= 0)
+                {
+                    return null;
+                }
+                $idx['stairs_idx']--;
+
+                // 階段ブロックのリストを取得
+                $ids = config('minecraft.stairs_ids');
+
+                // コマンド送信
+                $cmd_data = $p_param->getCommandDataForStairsTest($ids[$idx['stairs_idx']]);
+                $data =
+                [
+                    'data' => $cmd_data
+                ];
+                $p_param->setSendStack($data);
+
+                // 階段ブロックIDの次のインデックスを設定
+                $p_param->setTempBuff(['stairs_idx' => $idx['stairs_idx']]);
+
+                return $sta;
+            }
+
+            // 階段ブロックの座標を取得
+            $x = $rcv['data']['body']['position']['x'];
+            $y = $rcv['data']['body']['position']['y'];
+            $z = $rcv['data']['body']['position']['z'];
+
+            // コマンド送信（sitエンティティのデスポーン）
+            $cmd_data = $p_param->getCommandDataForDespawnSit($x, $y, $z);
+            $data =
+            [
+                'data' => $cmd_data
+            ];
+            $p_param->setSendStack($data);
+
+            // コマンド送信（体力ゲージ非表示）
+            $cmd_data = $p_param->getCommandDataForGaugeHide();
+            $data =
+            [
+                'data' => $cmd_data
+            ];
+            $p_param->setSendStack($data);
+
+            // コマンド送信（sitエンティティの召喚）
+            $yrot = $p_param->getTempBuff(['chair_yrot']);
+            $cmd_data = $p_param->getCommandDataForSummonSit($x, $y, $z, $yrot['chair_yrot']);
+            $data =
+            [
+                'data' => $cmd_data
+            ];
+            $p_param->setSendStack($data);
+
+            // コマンド送信（プレイヤーの搭乗）
+            $cmd_data = $p_param->getCommandDataForRidePlayer($x, $y, $z);
+            $data =
+            [
+                'data' => $cmd_data
+            ];
+            $p_param->setSendStack($data);
+
+            // 階段ブロックIDのインデックスクリア
+            $p_param->setTempBuff(['stairs_idx' => null]);
+
+            // 階段チェア着席フラグの設定
+            $p_param->setTempBuff(['chair_flag' => true]);
+
+            return null;
+        };
+    }
+
+
+    //--------------------------------------------------------------------------
+    // 以降はステータスUNITの定義（"CHAIR_STANDUP"キュー）
+    //--------------------------------------------------------------------------
+
+    /**
+     * ステータス名： START
+     * 
+     * 処理名：マインクラフトから階段チェアからの起立イベント発生時処理
+     * 
+     * @param ParameterForMinecraft $p_param UNITパラメータ
+     * @return ?string 遷移先のステータス名
+     */
+    protected function getMinecraftChairStandupStart()
+    {
+        return function(ParameterForMinecraft $p_param): ?string
+        {
+            $p_param->logWriter('debug', ['MINECRAFT CHAIR_STANDUP:START' => 'START']);
+
+            // コマンド送信（体力ゲージ非表示）
+            $cmd_data = $p_param->getCommandDataForGaugeShow();
+            $data =
+            [
+                'data' => $cmd_data
+            ];
+            $p_param->setSendStack($data);
+
+            // 階段チェア着席フラグのクリア
+            $p_param->setTempBuff(['chair_flag' => false]);
+
+            return null;
+        };
+    }
+
 }

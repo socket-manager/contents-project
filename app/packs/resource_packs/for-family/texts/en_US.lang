@@ -1,0 +1,3 @@
+entity.customize:sit.name=Sit
+item.spawn_egg.entity.customize:sit.name=Spawn Sit
+action.hint.exit.customize:sit=:_input_key.sneak: を押して降りる

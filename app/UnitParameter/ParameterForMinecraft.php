@@ -558,6 +558,100 @@ class ParameterForMinecraft extends ParameterForWebsocket
     // スタンドの弓矢用 <END>
     //--------------------------------------------------------------------------
 
+    //--------------------------------------------------------------------------
+    // 階段チェア用 <START>
+    //--------------------------------------------------------------------------
+
+    /**
+     * マインクラフトへ送信するブロック検査用コマンドデータを取得
+     * 
+     * @param string $p_id 階段ブロックID
+     * @return array 送信データ
+     */
+    public function getCommandDataForStairsTest(string $p_id): array
+    {
+        $cmd = "testforblock ~ ~-1 ~ {$p_id}";
+        $w_ret = $this->getCommandData($cmd, 'chair-test');
+        return $w_ret;
+    }
+
+    /**
+     * マインクラフトへ送信するsitエンティティのデスポーンコマンドデータを取得
+     * 
+     * @param int $p_x X座標（階段ブロック）
+     * @param int $p_y Y座標（階段ブロック）
+     * @param int $p_z Z座標（階段ブロック）
+     * @return array 送信データ
+     */
+    public function getCommandDataForDespawnSit(int $p_x, int $p_y, int $p_z): array
+    {
+        $p_y--;
+        $cmd = "kill @e[type=customize:sit,x={$p_x},y={$p_y},z={$p_z}]";
+        $w_ret = $this->getCommandData($cmd, 'chair-despawn');
+        return $w_ret;
+    }
+
+    /**
+     * マインクラフトへ送信する体力ゲージ非表示コマンドデータを取得
+     * 
+     * @return array 送信データ
+     */
+    public function getCommandDataForGaugeHide(): array
+    {
+        $cmd = "hud @s hide horse_health";
+        $w_ret = $this->getCommandData($cmd, 'chair-gauge-hide');
+        return $w_ret;
+    }
+
+    /**
+     * マインクラフトへ送信する体力ゲージ表示コマンドデータを取得
+     * 
+     * @return array 送信データ
+     */
+    public function getCommandDataForGaugeShow(): array
+    {
+        $cmd = "hud @s reset horse_health";
+        $w_ret = $this->getCommandData($cmd, 'chair-gauge-show');
+        return $w_ret;
+    }
+
+    /**
+     * マインクラフトへ送信するsitエンティティの召喚コマンドデータを取得
+     * 
+     * @param int $p_x X座標（階段ブロック）
+     * @param int $p_y Y座標（階段ブロック）
+     * @param int $p_z Z座標（階段ブロック）
+     * @param int $p_yrot ヨー角
+     * @return array 送信データ
+     */
+    public function getCommandDataForSummonSit(int $p_x, int $p_y, int $p_z, int $p_yrot): array
+    {
+        $p_y--;
+        $cmd = "function sit_summon";
+        $w_ret = $this->getCommandData($cmd, 'chair-summon');
+        return $w_ret;
+    }
+
+    /**
+     * マインクラフトへ送信するプレイヤー搭乗のコマンドデータを取得
+     * 
+     * @param int $p_x X座標（階段ブロック）
+     * @param int $p_y Y座標（階段ブロック）
+     * @param int $p_z Z座標（階段ブロック）
+     * @return array 送信データ
+     */
+    public function getCommandDataForRidePlayer(int $p_x, int $p_y, int $p_z): array
+    {
+        $p_y--;
+        $cmd = "ride @s start_riding @e[type=customize:sit,x={$p_x},y={$p_y},z={$p_z}]";
+        $w_ret = $this->getCommandData($cmd, 'chair-ride');
+        return $w_ret;
+    }
+
+    //--------------------------------------------------------------------------
+    // 階段チェア用 <END>
+    //--------------------------------------------------------------------------
+
     /**
      * 現在の座標からヨー角を考慮した相対座標を取得
      * 

@@ -102,6 +102,28 @@ class InitForMinecraft extends InitForWebsocket
                         }
                     }
 
+                    if($p_dat['data']['body']['travelMethod'] === 7)
+                    {
+                        // 階段ブロックのリストを取得
+                        $ids = config('minecraft.stairs_ids');
+
+                        // 処理対象のインデックスを設定
+                        $p_param->setTempBuff(['stairs_idx' => count($ids) - 1]);
+
+                        return CommandQueueEnumForMinecraft::CHAIR->value;
+                    }
+
+                    if($p_dat['data']['body']['travelMethod'] === 0)
+                    {
+                        // 階段チェア着席フラグの取得
+                        $flg = $p_param->getTempBuff(['chair_flag']);
+
+                        if(isset($flg['chair_flag']) && $flg['chair_flag'] === true)
+                        {
+                            return CommandQueueEnumForMinecraft::CHAIR_STANDUP->value;
+                        }
+                    }
+
                     // 一定のジャンプ移動量を超えた場合
                     $meter = config('minecraft.double_jump.meter');
                     if($p_dat['data']['body']['travelMethod'] === 2 && $p_dat['data']['body']['metersTravelled'] > $meter)

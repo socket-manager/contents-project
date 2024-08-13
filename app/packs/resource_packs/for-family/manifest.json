@@ -1,0 +1,18 @@
+{
+    "format_version": 2,
+    "header": {
+        "description": "ファミリーカスタマイズ",
+        "name": "family-customize",
+        "uuid": "d9a541cd-292f-4bb2-b8ea-660034e879c5",
+        "version": [0, 0, 1],
+        "min_engine_version": [ 1, 21, 0 ]
+    },
+    "modules": [
+        {
+            "description": "ファミリーカスタマイズ",
+            "type": "resources",
+            "uuid": "ec62f028-db93-47e5-9de6-b9abc6b007d5",
+            "version": [0, 0, 1]
+        }
+    ]
+}

@@ -85,9 +85,19 @@ enum CommandQueueEnumForMinecraft: string
     case PLAYER_DASH = 'player_dash';
 
     /**
-     * @var コマンド実行のキュー名
+     * @var Webブラウザからのコマンド実行のキュー名
      */
     case EXECUTE_COMMAND = 'execute-command';
+
+    /**
+     * @var マインクラフトからのスニークイベント発生時のキュー名
+     */
+    case CHAIR = 'chair';
+
+    /**
+     * @var マインクラフトから階段チェアからの起立イベント発生時のキュー名
+     */
+    case CHAIR_STANDUP = 'chair-standup';
 
 
     //--------------------------------------------------------------------------
