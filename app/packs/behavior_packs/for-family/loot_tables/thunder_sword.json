@@ -1,0 +1,26 @@
+{
+    "pools": [
+        {
+            "rolls": 1,
+            "entries": [
+                {
+                    "type": "item",
+                    "name": "customize:thunder_sword",
+                    "weight": 1,
+                    "functions": [
+                        {
+                            "function": "set_name",
+                            "name": "いなずまの剣"
+                        },
+                        {
+                            "function": "set_lore",
+                            "lore": [
+                                "前方へ稲妻を落とせる"
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

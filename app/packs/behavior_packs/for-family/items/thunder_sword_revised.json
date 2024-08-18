@@ -1,0 +1,30 @@
+{
+    "format_version": "1.20.50",
+    "minecraft:item": {
+        "description": {
+            "identifier": "customize:thunder_sword_revised"
+        },
+        "components": {
+            "minecraft:icon": {
+                "texture": "thunder_sword_revised"
+            },
+            "minecraft:display_name": {
+                "value": "item.customize:thunder_sword_revised.name"
+            },
+            "minecraft:can_destroy_in_creative": false,
+            "minecraft:max_damage": 400,
+            "minecraft:hand_equipped": true,
+            "minecraft:damage": 15,
+            "minecraft:glint": true,
+            "minecraft:use_animation": "bow",
+            "minecraft:use_modifiers": {
+                "use_duration": 0.5,
+                "movement_modifier": 0.0
+            },
+            "minecraft:food": {
+                "nutrition": 0,
+                "can_always_eat": true
+            }
+        }
+    }
+}

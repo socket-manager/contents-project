@@ -1,0 +1,27 @@
+{
+    "pools": [
+        {
+            "rolls": 1,
+            "entries": [
+                {
+                    "type": "item",
+                    "name": "customize:thunder_sword_revised",
+                    "weight": 1,
+                    "functions": [
+                        {
+                            "function": "set_name",
+                            "name": "いなずまの剣改"
+                        },
+                        {
+                            "function": "set_lore",
+                            "lore": [
+                                "前方へ稲妻を落とせる",
+                                "範囲内の相手に必中で稲妻を落とせる"
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}
