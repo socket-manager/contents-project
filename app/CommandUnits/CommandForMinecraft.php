@@ -539,6 +539,51 @@ class CommandForMinecraft extends CommandForWebsocket
                     // // 自身を切断
                     // $p_param->close($close_param);
                 }
+                else
+                if($w_ret['type'] === 'execute-command')
+                {
+                    $p_param->logWriter('debug', ['MINECRAFT RESPONSE:START' => 'EXECUTE-COMMAND']);
+
+                    // レスポンス送信先接続IDの取得
+                    $cid = $p_param->getTempBuff(['response-cid']);
+
+                    // コマンド送信
+                    $user = $p_param->getUserName();
+                    $result = false;
+                    $response = ParameterForMinecraft::CHAT_NO_RESPONSE_MESSAGE;
+                    if(isset($rcv['data']['body']['statusMessage']))
+                    {
+                        $response = $rcv['data']['body']['statusMessage'];
+                    }
+                    if($rcv['data']['body']['statusCode'] === 0)
+                    {
+                        $result = true;
+                    }
+                    $data =
+                    [
+                        'data' =>
+                        [
+                            'cmd' => 'execute-command',
+                            'user' => $user,
+                            'response' => $response,
+                            'result' => $result
+                        ]
+                    ];
+                    $p_param->setSendStack($data, $cid['response-cid']);
+                }
+                else
+                if($w_ret['type'] === 'thunder-sword-revised-for-sweep')
+                {
+                    $p_param->logWriter('debug', ['MINECRAFT RESPONSE:START' => 'THUNDER-SWORD-REVISED']);
+
+                    // エフェクトアイコン表示解除のコマンド送信
+                    $cmd_data = $p_param->getCommandDataForEffectIconReset('');
+                    $data =
+                    [
+                        'data' => $cmd_data
+                    ];
+                    $p_param->setSendStack($data);
+                }
                 // 以降の分岐はリザーブ用
                 else
                 if($w_ret['type'] === 'forced-close')
@@ -585,38 +630,6 @@ class CommandForMinecraft extends CommandForWebsocket
                 {
                     $p_param->logWriter('debug', ['MINECRAFT RESPONSE:START' => 'NO-COMMENT']);
                 }
-                else
-                if($w_ret['type'] === 'execute-command')
-                {
-                    $p_param->logWriter('debug', ['MINECRAFT RESPONSE:START' => 'EXECUTE-COMMAND']);
-
-                    // レスポンス送信先接続IDの取得
-                    $cid = $p_param->getTempBuff(['response-cid']);
-
-                    // コマンド送信
-                    $user = $p_param->getUserName();
-                    $result = false;
-                    $response = ParameterForMinecraft::CHAT_NO_RESPONSE_MESSAGE;
-                    if(isset($rcv['data']['body']['statusMessage']))
-                    {
-                        $response = $rcv['data']['body']['statusMessage'];
-                    }
-                    if($rcv['data']['body']['statusCode'] === 0)
-                    {
-                        $result = true;
-                    }
-                    $data =
-                    [
-                        'data' =>
-                        [
-                            'cmd' => 'execute-command',
-                            'user' => $user,
-                            'response' => $response,
-                            'result' => $result
-                        ]
-                    ];
-                    $p_param->setSendStack($data, $cid['response-cid']);
-                }
             }
 
             return null;
@@ -651,8 +664,12 @@ class CommandForMinecraft extends CommandForWebsocket
             // 弓タイプの設定
             $p_param->setTempBuff(['bow_type' => $rcv['data']['body']['item']['aux']]);
 
-            // いなずまの弓以外
-            if($rcv['data']['body']['item']['aux'] !== 401)
+            // 「いなずまの弓」「いなずまの剣（改）」以外
+            if(
+                $rcv['data']['body']['item']['aux'] !== 401
+            &&  $rcv['data']['body']['item']['id'] !== 'thunder_sword'
+            &&  $rcv['data']['body']['item']['id'] !== 'thunder_sword_revised'
+            )
             {
                 return CommandStatusEnumForMinecraft::ARROW->value;
             }
@@ -674,14 +691,18 @@ class CommandForMinecraft extends CommandForWebsocket
             }
 
             // コマンド送信
-            $cmd_data = $p_param->getCommandDataForThunderBow($x, 0, $z);
+            $cmd_data = $p_param->getCommandDataForSummonThunder($x, 0, $z);
             $data =
             [
                 'data' => $cmd_data
             ];
             $p_param->setSendStack($data);
 
-            return CommandStatusEnumForMinecraft::ARROW->value;
+            if($rcv['data']['body']['item']['aux'] === 401)
+            {
+                return CommandStatusEnumForMinecraft::ARROW->value;
+            }
+            return null;
         };
     }
 
@@ -937,8 +958,16 @@ class CommandForMinecraft extends CommandForWebsocket
             // 受信データの取得
             $rcv = $p_param->getRecvData();
 
-            // コマンド送信
+            // 「スウィープロッド（範囲攻撃）」実行のコマンド送信
             $cmd_data = $p_param->getCommandDataForSweepRod($rcv['data']['body']['player']['name']);
+            $data =
+            [
+                'data' => $cmd_data
+            ];
+            $p_param->setSendStack($data);
+
+            // 「いなずまの剣改」実行のコマンド送信
+            $cmd_data = $p_param->getCommandDataForThunderSwordRevised($rcv['data']['body']['player']['name']);
             $data =
             [
                 'data' => $cmd_data

@@ -294,10 +294,10 @@ class ParameterForMinecraft extends ParameterForWebsocket
      * @param float $p_z 相対Z座標
      * @return array 送信データ
      */
-    public function getCommandDataForThunderBow(float $p_x, float $p_y, float $p_z): array
+    public function getCommandDataForSummonThunder(float $p_x, float $p_y, float $p_z): array
     {
         $cmd = "summon lightning_bolt ~{$p_x} ~{$p_y} ~{$p_z}";
-        $w_ret = $this->getCommandData($cmd, 'item_used');
+        $w_ret = $this->getCommandData($cmd, 'item-used');
         return $w_ret;
     }
 
@@ -310,7 +310,7 @@ class ParameterForMinecraft extends ParameterForWebsocket
     public function getCommandDataForArrowTagNormal(string $p_name): array
     {
         $cmd = "function tag_normal";
-        $w_ret = $this->getCommandData($cmd, 'item_used');
+        $w_ret = $this->getCommandData($cmd, 'item-used');
         return $w_ret;
     }
 
@@ -323,7 +323,7 @@ class ParameterForMinecraft extends ParameterForWebsocket
     public function getCommandDataForArrowTagCheat(string $p_name): array
     {
         $cmd = "function tag_cheat";
-        $w_ret = $this->getCommandData($cmd, 'item_used');
+        $w_ret = $this->getCommandData($cmd, 'item-used');
         return $w_ret;
     }
 
@@ -336,7 +336,7 @@ class ParameterForMinecraft extends ParameterForWebsocket
     public function getCommandDataForThunderArrow(string $p_name): array
     {
         $cmd = 'function arrow_thunder';
-        $w_ret = $this->getCommandData($cmd, 'item_used');
+        $w_ret = $this->getCommandData($cmd, 'item-used');
         return $w_ret;
     }
 
@@ -349,7 +349,7 @@ class ParameterForMinecraft extends ParameterForWebsocket
     public function getCommandDataForExplodeArrow(string $p_name): array
     {
         $cmd = 'function arrow_explode';
-        $w_ret = $this->getCommandData($cmd, 'item_used');
+        $w_ret = $this->getCommandData($cmd, 'item-used');
         return $w_ret;
     }
 
@@ -362,7 +362,7 @@ class ParameterForMinecraft extends ParameterForWebsocket
     public function getCommandDataForDoubleJump(string $p_name): array
     {
         $cmd = 'function double_jump';
-        $w_ret = $this->getCommandData($cmd, 'player_travelled');
+        $w_ret = $this->getCommandData($cmd, 'player-travelled');
         return $w_ret;
     }
 
@@ -376,7 +376,7 @@ class ParameterForMinecraft extends ParameterForWebsocket
     public function getCommandDataForFallDamage(string $p_name, bool $p_flg): array
     {
         $cmd = "gamerule falldamage ".var_export($p_flg, true);
-        $w_ret = $this->getCommandData($cmd, 'player_travelled');
+        $w_ret = $this->getCommandData($cmd, 'player-travelled');
         return $w_ret;
     }
 
@@ -389,7 +389,33 @@ class ParameterForMinecraft extends ParameterForWebsocket
     public function getCommandDataForSweepRod(string $p_name): array
     {
         $cmd = "function sweep_rod";
-        $w_ret = $this->getCommandData($cmd, 'sweep_rod');
+        $w_ret = $this->getCommandData($cmd, 'sweep-rod');
+        return $w_ret;
+    }
+
+    /**
+     * マインクラフトへ送信するいなずまの剣改用コマンドデータを取得
+     * 
+     * @param string $p_name プレイヤー名
+     * @return array 送信データ
+     */
+    public function getCommandDataForThunderSwordRevised(string $p_name): array
+    {
+        $cmd = "function thunder_sword_revised";
+        $w_ret = $this->getCommandData($cmd, 'thunder-sword-revised-for-sweep');
+        return $w_ret;
+    }
+
+    /**
+     * マインクラフトへ送信するエフェクト非表示解除用コマンドデータを取得
+     * 
+     * @param string $p_name プレイヤー名
+     * @return array 送信データ
+     */
+    public function getCommandDataForEffectIconReset(string $p_name): array
+    {
+        $cmd = "hud @s reset status_effects";
+        $w_ret = $this->getCommandData($cmd, 'thunder-sword-revised');
         return $w_ret;
     }
 

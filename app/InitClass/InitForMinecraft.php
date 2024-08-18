@@ -85,6 +85,12 @@ class InitForMinecraft extends InitForWebsocket
                     {
                         return CommandQueueEnumForMinecraft::ITEM_USED->value;
                     }
+
+                    // 「いなずまの剣」イベントの場合
+                    if($p_dat['data']['body']['item']['id'] === 'thunder_sword' || $p_dat['data']['body']['item']['id'] === 'thunder_sword_revised')
+                    {
+                        return CommandQueueEnumForMinecraft::ITEM_USED->value;
+                    }
                 }
 
                 // マインクラフトからのPlayerTravelledイベントの場合は受け入れる
