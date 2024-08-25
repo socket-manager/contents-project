@@ -1,3 +1,6 @@
 entity.customize:sit.name=Sit
 item.spawn_egg.entity.customize:sit.name=Spawn Sit
 action.hint.exit.customize:sit=:_input_key.sneak: を押して降りる
+entity.customize:immovable.name=Immovable
+item.spawn_egg.entity.customize:immovable.name=Spawn Immovable
+action.hint.exit.customize:immovable=:_input_key.sneak: を押して降りる

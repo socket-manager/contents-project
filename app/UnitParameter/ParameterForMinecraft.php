@@ -292,10 +292,33 @@ class ParameterForMinecraft extends ParameterForWebsocket
      * @param float $p_x 相対X座標
      * @param float $p_y 相対Y座標
      * @param float $p_z 相対Z座標
+     * @param string $p_id アイテムID
      * @return array 送信データ
      */
-    public function getCommandDataForSummonThunder(float $p_x, float $p_y, float $p_z): array
+    public function getCommandDataForSummonThunder(float $p_x, float $p_y, float $p_z, string $p_id): array
     {
+        $cmd = null;
+
+        if($p_id === 'thunder_sword')
+        {
+            $cmd = "function thunder_sword_restore";
+        }
+        else
+        if($p_id === 'thunder_sword_revised')
+        {
+            $cmd = "function thunder_sword_revised_restore";
+        }
+
+        if($cmd !== null)
+        {
+            $cmd_data = $this->getCommandData($cmd, 'item-used');
+            $data =
+            [
+                'data' => $cmd_data
+            ];
+            $this->setSendStack($data);
+        }
+
         $cmd = "summon lightning_bolt ~{$p_x} ~{$p_y} ~{$p_z}";
         $w_ret = $this->getCommandData($cmd, 'item-used');
         return $w_ret;
@@ -416,6 +439,61 @@ class ParameterForMinecraft extends ParameterForWebsocket
     {
         $cmd = "hud @s reset status_effects";
         $w_ret = $this->getCommandData($cmd, 'thunder-sword-revised');
+        return $w_ret;
+    }
+
+    /**
+     * 「不動の杖」immovableエンティティのkill用コマンドデータを取得
+     * 
+     * @param string $p_name プレイヤー名
+     * @return array 送信データ
+     */
+    public function getCommandDataForKillImmovable(string $p_name): array
+    {
+        $minecraft_name = $this->getTempBuff(['minecraft-name']);
+        $cmd = "kill @e[tag=\"immovable_{$minecraft_name['minecraft-name']}\"]";
+        $w_ret = $this->getCommandData($cmd, 'immovable-rod');
+        return $w_ret;
+    }
+
+    /**
+     * 「不動の杖」immovableエンティティの召喚用コマンドデータを取得
+     * 
+     * @param string $p_name プレイヤー名
+     * @return array 送信データ
+     */
+    public function getCommandDataForImmovable(string $p_name): array
+    {
+        $cmd = "function immovable_rod";
+        $w_ret = $this->getCommandData($cmd, 'immovable-rod');
+        return $w_ret;
+    }
+
+    /**
+     * 「不動の杖」immovableエンティティへタグを付与するコマンドデータを取得
+     * 
+     * @param string $p_name プレイヤー名
+     * @return array 送信データ
+     */
+    public function getCommandDataForTagImmovable(string $p_name): array
+    {
+        $minecraft_name = $this->getTempBuff(['minecraft-name']);
+        $cmd = "tag @e[type=customize:immovable,r=10] add \"immovable_{$minecraft_name['minecraft-name']}\"";
+        $w_ret = $this->getCommandData($cmd, 'immovable-rod');
+        return $w_ret;
+    }
+
+    /**
+     * 「不動の杖」相手を浮遊させるコマンドデータを取得
+     * 
+     * @param string $p_name プレイヤー名
+     * @return array 送信データ
+     */
+    public function getCommandDataForFloatingByImmovableRod(string $p_name): array
+    {
+        $minecraft_name = $this->getTempBuff(['minecraft-name']);
+        $cmd = "damage @e[tag=\"immovable_{$minecraft_name['minecraft-name']}\",r=10] 1 entity_attack entity @s";
+        $w_ret = $this->getCommandData($cmd, 'immovable-rod');
         return $w_ret;
     }
 

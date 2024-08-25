@@ -21,6 +21,9 @@
         },
         "thunder_sword_revised": {
             "textures": "textures/items/thunder_sword_revised"
+        },
+        "immovable_rod": {
+            "textures": "textures/items/immovable_rod"
         }
     }
 }

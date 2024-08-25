@@ -584,16 +584,22 @@ class CommandForMinecraft extends CommandForWebsocket
                     ];
                     $p_param->setSendStack($data);
                 }
+                else
+                if($w_ret['type'] === 'entrance')
+                {
+                    $p_param->logWriter('debug', ['MINECRAFT RESPONSE:START' => 'ENTRANCE']);
+
+                    if($rcv['data']['body']['statusCode'] === 0)
+                    {
+                        $name = $rcv['data']['body']['recipient'][0];
+                        $p_param->setTempBuff(['minecraft-name' => $name]);
+                    }
+                }
                 // 以降の分岐はリザーブ用
                 else
                 if($w_ret['type'] === 'forced-close')
                 {
                     $p_param->logWriter('debug', ['MINECRAFT RESPONSE:START' => 'FORCED-CLOSE']);
-                }
-                else
-                if($w_ret['type'] === 'entrance')
-                {
-                    $p_param->logWriter('debug', ['MINECRAFT RESPONSE:START' => 'ENTRANCE']);
                 }
                 else
                 if($w_ret['type'] === 'message')
@@ -658,6 +664,35 @@ class CommandForMinecraft extends CommandForWebsocket
             // 受信データの取得
             $rcv = $p_param->getRecvData();
 
+            if($rcv['data']['body']['item']['id'] === 'immovable_rod')
+            {
+                // コマンド送信（immovableエンティティのkill）
+                $cmd_data = $p_param->getCommandDataForKillImmovable($rcv['data']['body']['player']['name']);
+                $data =
+                [
+                    'data' => $cmd_data
+                ];
+                $p_param->setSendStack($data);
+
+                // コマンド送信（足止め発動）
+                $cmd_data = $p_param->getCommandDataForImmovable($rcv['data']['body']['player']['name']);
+                $data =
+                [
+                    'data' => $cmd_data
+                ];
+                $p_param->setSendStack($data);
+
+                // コマンド送信（タグの付与）
+                $cmd_data = $p_param->getCommandDataForTagImmovable($rcv['data']['body']['player']['name']);
+                $data =
+                [
+                    'data' => $cmd_data
+                ];
+                $p_param->setSendStack($data);
+
+                return null;
+            }
+
             // ディスパッチャー強制
             $p_param->setForcedDispatcher(true);
 
@@ -691,7 +726,7 @@ class CommandForMinecraft extends CommandForWebsocket
             }
 
             // コマンド送信
-            $cmd_data = $p_param->getCommandDataForSummonThunder($x, 0, $z);
+            $cmd_data = $p_param->getCommandDataForSummonThunder($x, 0, $z, $rcv['data']['body']['item']['id']);
             $data =
             [
                 'data' => $cmd_data
@@ -968,6 +1003,14 @@ class CommandForMinecraft extends CommandForWebsocket
 
             // 「いなずまの剣改」実行のコマンド送信
             $cmd_data = $p_param->getCommandDataForThunderSwordRevised($rcv['data']['body']['player']['name']);
+            $data =
+            [
+                'data' => $cmd_data
+            ];
+            $p_param->setSendStack($data);
+
+            // 「不動の杖」実行のコマンド送信
+            $cmd_data = $p_param->getCommandDataForFloatingByImmovableRod($rcv['data']['body']['player']['name']);
             $data =
             [
                 'data' => $cmd_data
