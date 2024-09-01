@@ -1,0 +1,33 @@
+{
+    "format_version": "1.20.50",
+    "minecraft:item": {
+        "description": {
+            "identifier": "customize:hayabusa_sword"
+        },
+        "components": {
+            "minecraft:icon": {
+                "texture": "hayabusa_sword"
+            },
+            "minecraft:display_name": {
+                "value": "item.customize:hayabusa_sword.name"
+            },
+            "minecraft:can_destroy_in_creative": false,
+            "minecraft:max_damage": 400,
+            "minecraft:hand_equipped": true,
+            "minecraft:damage": 7,
+            "minecraft:glint": true,
+            "minecraft:use_modifiers": {
+                "use_duration": 0.1,
+                "movement_modifier": 0.0
+            },
+            "minecraft:food": {
+                "nutrition": 0,
+                "can_always_eat": true
+            },
+            "minecraft:enchantable": {
+                "slot": "sword",
+                "value": 10
+            }
+        }
+    }
+}

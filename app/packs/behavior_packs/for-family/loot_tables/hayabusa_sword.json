@@ -1,0 +1,36 @@
+{
+    "pools": [
+        {
+            "rolls": 1,
+            "entries": [
+                {
+                    "type": "item",
+                    "name": "customize:hayabusa_sword",
+                    "weight": 1,
+                    "functions": [
+                        {
+                            "function": "set_name",
+                            "name": "はやぶさの剣"
+                        },
+                        {
+                            "function": "set_lore",
+                            "lore": [
+                                "爆発力で回避行動がとれる",
+                                "「はやぶさ斬り」を発動できる"
+                            ]
+                        },
+                        {
+                            "function": "specific_enchants",
+                            "enchants": [
+                                {
+                                    "id": "knockback",
+                                    "level": 2
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

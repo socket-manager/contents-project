@@ -365,6 +365,9 @@ class CommandForMinecraft extends CommandForWebsocket
             // サブスクライブのエントリ
             $p_param->sendSubscribesData();
 
+            // 入室前のコマンド実行
+            $p_param->execCommandBeforeEntrance();
+
             // ユーザー名取得
             $hdrs = $p_param->getHeaders();
             $usr_nam = str_replace('/', '', $hdrs['GET'][0]);
@@ -473,6 +476,10 @@ class CommandForMinecraft extends CommandForWebsocket
 
             $rcv = $p_param->getRecvData();
             $w_ret = $p_param->getAwaitResponse();
+            if($w_ret === null)
+            {
+                return null;
+            }
             if($w_ret['requestId'] === $rcv['data']['header']['requestId'])
             {
                 // ユーザー名重複時のレスポンス
@@ -595,6 +602,90 @@ class CommandForMinecraft extends CommandForWebsocket
                         $p_param->setTempBuff(['minecraft-name' => $name]);
                     }
                 }
+                else
+                if($w_ret['type'] === 'hayabusa-sword-restore')
+                {
+                    $p_param->logWriter('debug', ['MINECRAFT RESPONSE:START' => 'HAYABUSA-SWORD-RESTORE']);
+
+                    // 剣のリストア成功か
+                    if($rcv['data']['body']['statusCode'] !== 0)
+                    {
+                        return null;
+                    }
+
+                    // コマンド送信
+                    $cmd_datas = $p_param->getCommandDataForHayabusaTeleport('');
+                    foreach($cmd_datas as $cmd_data)
+                    {
+                        $data =
+                        [
+                            'data' => $cmd_data
+                        ];
+                        $p_param->setSendStack($data);
+                    }
+                }
+                else
+                if($w_ret['type'] === 'hayabusa-sword-test')
+                {
+                    // 検査成功か
+                    if($rcv['data']['body']['statusCode'] !== 0)
+                    {
+                        return null;
+                    }
+
+                    // コマンド送信
+                    $cmd_datas = $p_param->getCommandDataForHayabusaAttackTagAdd();
+                    foreach($cmd_datas as $cmd_data)
+                    {
+                        $data =
+                        [
+                            'data' => $cmd_data
+                        ];
+                        $p_param->setSendStack($data);
+                    }
+                }
+                else
+                if($w_ret['type'] === 'hayabusa-sword-tag-add')
+                {
+                    // タグ付与成功か
+                    if($rcv['data']['body']['statusCode'] !== 0)
+                    {
+                        return null;
+                    }
+
+                    // コマンド送信
+                    $cmd_datas = $p_param->getCommandDataForHayabusaAttackTargetTest();
+                    foreach($cmd_datas as $cmd_data)
+                    {
+                        $data =
+                        [
+                            'data' => $cmd_data
+                        ];
+                        $p_param->setSendStack($data);
+                    }
+                }
+                else
+                if($w_ret['type'] === 'hayabusa-attack-target-test')
+                {
+                    $dec = json_decode($rcv['data']['body']['details']);
+
+                    // コマンド送信
+                    $cmd_datas = $p_param->getCommandDataForHayabusaAttack(
+                        $dec[0]->position->x,
+                        $dec[0]->position->y,
+                        $dec[0]->position->z,
+                        $dec[0]->yRot,
+                        1
+                    );
+                    foreach($cmd_datas as $cmd_data)
+                    {
+                        $data =
+                        [
+                            'data' => $cmd_data
+                        ];
+                        $p_param->setSendStack($data);
+                    }
+                }
                 // 以降の分岐はリザーブ用
                 else
                 if($w_ret['type'] === 'forced-close')
@@ -663,6 +754,27 @@ class CommandForMinecraft extends CommandForWebsocket
 
             // 受信データの取得
             $rcv = $p_param->getRecvData();
+
+            if($rcv['data']['body']['item']['id'] === 'hayabusa_sword')
+            {
+                // コマンド送信
+                $cmd_datas = $p_param->getCommandDataForHayabusaSwordUse(
+                    $rcv['data']['body']['player']['position']['x'],
+                    $rcv['data']['body']['player']['position']['y'],
+                    $rcv['data']['body']['player']['position']['z'],
+                    $rcv['data']['body']['player']['yRot']
+                );
+                foreach($cmd_datas as $cmd_data)
+                {
+                    $data =
+                    [
+                        'data' => $cmd_data
+                    ];
+                    $p_param->setSendStack($data);
+                }
+
+                return null;
+            }
 
             if($rcv['data']['body']['item']['id'] === 'immovable_rod')
             {
@@ -1011,6 +1123,14 @@ class CommandForMinecraft extends CommandForWebsocket
 
             // 「不動の杖」実行のコマンド送信
             $cmd_data = $p_param->getCommandDataForFloatingByImmovableRod($rcv['data']['body']['player']['name']);
+            $data =
+            [
+                'data' => $cmd_data
+            ];
+            $p_param->setSendStack($data);
+
+            // 「はやぶさの剣」コマンド送信（持ち物検査）
+            $cmd_data = $p_param->getCommandDataForHayabusaSwordMainhandTest($rcv['data']['body']['player']['name']);
             $data =
             [
                 'data' => $cmd_data

@@ -1,0 +1,28 @@
+{
+  "format_version": "1.10",
+  "render_controllers": {
+    "controller.render.hayabusa_sword": {
+      "arrays": {
+        "textures": {
+          "array.hayabusa_sword_texture_frames": [
+            "texture.default",
+            "texture.hayabusa_sword_pulling_0",
+            "texture.hayabusa_sword_pulling_1",
+            "texture.hayabusa_sword_pulling_2"
+          ]
+        },
+        "geometries": {
+          "array.hayabusa_sword_geo_frames": [
+            "geometry.default",
+            "geometry.hayabusa_sword_pulling_0",
+            "geometry.hayabusa_sword_pulling_1",
+            "geometry.hayabusa_sword_pulling_2"
+          ]
+        }
+      },
+      "geometry": "array.hayabusa_sword_geo_frames[query.get_animation_frame]",
+      "materials": [ { "*": "variable.is_enchanted ? material.enchanted : material.default" } ],
+      "textures": [ "array.hayabusa_sword_texture_frames[query.get_animation_frame]", "texture.enchanted" ]
+    }
+  }
+}

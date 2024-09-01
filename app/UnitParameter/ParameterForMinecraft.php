@@ -185,14 +185,32 @@ class ParameterForMinecraft extends ParameterForWebsocket
     }
 
     /**
+     * 入室前のコマンドデータの送信
+     * 
+     * @return array 送信データ
+     */
+    public function execCommandBeforeEntrance()
+    {
+        $cmd = "gamerule sendcommandfeedback false";
+        $cmd_data = $this->getCommandData($cmd, 'before-entrance');
+        $data =
+        [
+            'data' => $cmd_data
+        ];
+        $this->setSendStack($data);
+        return;
+    }
+
+    /**
      * マインクラフトへ送信するコマンドデータを取得
      * 
      * @param string $p_cmd コマンド文字列
      * @param string $p_typ 処理タイプ文字列（'response'コマンドで利用）
      * @param ?string $p_cid 接続ID
+     * @param bool $p_no_set レスポンス情報不要フラグ
      * @return array 送信データ
      */
-    public function getCommandData(string $p_cmd, string $p_typ = null, string $p_cid = null): array
+    public function getCommandData(string $p_cmd, string $p_typ = null, string $p_cid = null, bool $p_no_set = false): array
     {
         // UUIDの取得
         $uuidv4 = $this->getUuidv4();
@@ -217,6 +235,12 @@ class ParameterForMinecraft extends ParameterForWebsocket
                 "commandLine" => $p_cmd, // マイクラで実行したいコマンドを指定
             ]
         ];
+
+        // レスポンス情報不要
+        if($p_no_set === true)
+        {
+            return $w_ret;
+        }
 
         // 待ち受けるレスポンス情報を設定
         $this->setAwaitResponse($uuidv4, $p_typ, $p_cid);
@@ -385,7 +409,7 @@ class ParameterForMinecraft extends ParameterForWebsocket
     public function getCommandDataForDoubleJump(string $p_name): array
     {
         $cmd = 'function double_jump';
-        $w_ret = $this->getCommandData($cmd, 'player-travelled');
+        $w_ret = $this->getCommandData($cmd, null, null, true);
         return $w_ret;
     }
 
@@ -754,6 +778,205 @@ class ParameterForMinecraft extends ParameterForWebsocket
 
     //--------------------------------------------------------------------------
     // 階段チェア用 <END>
+    //--------------------------------------------------------------------------
+
+    //--------------------------------------------------------------------------
+    // はやぶさの剣用 <START>
+    //--------------------------------------------------------------------------
+
+    /**
+     * 「はやぶさの剣」リストア用コマンドデータを取得
+     * 
+     * @return array 送信データ
+     */
+    public function getCommandDataForHayabusaSwordUse(float $p_x, float $p_y, float $p_z, float $p_yrot): array
+    {
+        $cmd_datas = [];
+
+        // マインクラフト名を取得
+        $name = $this->getTempBuff(['minecraft-name']);
+
+        $cmd = "effect @s resistance 2 4 true";
+        $cmd_datas[] = $this->getCommandData($cmd, 'item-used');
+
+        // 座標退避
+        $w_x = $p_x;
+        $w_y = $p_y;
+        $w_z = $p_z;
+
+        // ヨー角補正
+        $w_yrot = $p_yrot;
+        if($p_yrot > 0)
+        {
+            $w_yrot = $p_yrot - 180;
+        }
+        else
+        {
+            $w_yrot = $p_yrot + 180;
+        }
+
+        // ダミーエンティティ座標の計算
+        $this->getRelativeCoordinates($w_x, $w_y, $w_z, $w_yrot, 1);
+
+        $cmd = "summon customize:hayabusa hayabusa_move_{$name['minecraft-name']} ~{$w_x} ~ ~{$w_z}";
+        $cmd_datas[] = $this->getCommandData($cmd, 'item-used');
+
+        // 座標退避
+        $w_x = $p_x;
+        $w_y = $p_y;
+        $w_z = $p_z;
+
+        // ウインドチャージ座標の計算
+        $this->getRelativeCoordinates($w_x, $w_y, $w_z, $w_yrot, 1.07);
+
+        $cmd = "summon wind_charge_projectile ~{$w_x} ~0.1 ~{$w_z}";
+        $cmd_datas[] = $this->getCommandData($cmd, 'item-used');
+
+        $cmd = "function hayabusa_sword_restore";
+        $cmd_datas[] = $this->getCommandData($cmd, 'hayabusa-sword-restore');
+
+        return $cmd_datas;
+    }
+
+    /**
+     * 「はやぶさの剣」テレポート用コマンドデータを取得
+     * 
+     * @return array 送信データ
+     */
+    public function getCommandDataForHayabusaTeleport(): array
+    {
+        $cmd_datas = [];
+
+        // マインクラフト名を取得
+        $name = $this->getTempBuff(['minecraft-name']);
+
+        $cmd = "tp @s @e[name=hayabusa_move_{$name['minecraft-name']}]";
+        $cmd_datas[] = $this->getCommandData($cmd, 'item-used');
+
+        $cmd = "tp @e[name=hayabusa_move_{$name['minecraft-name']}] ~ -50 ~";
+        $cmd_datas[] = $this->getCommandData($cmd, 'item-used');
+
+        $cmd = "kill @e[name=hayabusa_move_{$name['minecraft-name']}]";
+        $cmd_datas[] = $this->getCommandData($cmd, 'item-used');
+
+        return $cmd_datas;
+    }
+
+    /**
+     * 「はやぶさの剣」持ち物検査用コマンドデータを取得
+     * 
+     * @return array 送信データ
+     */
+    public function getCommandDataForHayabusaSwordMainhandTest(): array
+    {
+        $cmd = "querytarget @s[hasitem={item=customize:hayabusa_sword,location=slot.weapon.mainhand}]";
+        $cmd_data = $this->getCommandData($cmd, 'hayabusa-sword-test');
+        return $cmd_data;
+    }
+
+    /**
+     * 「はやぶさの剣」攻撃用タグの付与用コマンドデータを取得
+     * 
+     * @return array 送信データ
+     */
+    public function getCommandDataForHayabusaAttackTagAdd(): array
+    {
+        $cmd_datas = [];
+
+        // マインクラフト名を取得
+        $name = $this->getTempBuff(['minecraft-name']);
+
+        // タグを消去
+        $cmd = "tag @e[tag=\"hayabusa_attack_{$name['minecraft-name']}\"] remove \"hayabusa_attack_{$name['minecraft-name']}\"";
+        $cmd_datas[] = $this->getCommandData($cmd, 'hayabusa-sword-tag-remove');
+
+        // タグを付与
+        $cmd = "tag @e[family=mob,r=15,c=1] add \"hayabusa_attack_{$name['minecraft-name']}\"";
+        $cmd_datas[] = $this->getCommandData($cmd, 'hayabusa-sword-tag-add');
+
+        return $cmd_datas;
+    }
+
+    /**
+     * 「はやぶさの剣」ターゲット検査用コマンドデータを取得
+     * 
+     * @return array 送信データ
+     */
+    public function getCommandDataForHayabusaAttackTargetTest(): array
+    {
+        $cmd_datas = [];
+
+        // マインクラフト名を取得
+        $name = $this->getTempBuff(['minecraft-name']);
+
+        // 初期化
+        $cmd = "effect @s resistance 2 4 true";
+        $cmd_datas[] = $this->getCommandData($cmd, 'hayabusa-attack-init');
+
+        // ターゲットを検査
+        $cmd = "querytarget @e[tag=\"hayabusa_attack_{$name['minecraft-name']}\"]";
+        $cmd_datas[] = $this->getCommandData($cmd, 'hayabusa-attack-target-test');
+
+        return $cmd_datas;
+    }
+
+    /**
+     * 「はやぶさの剣」攻撃用コマンドデータを取得
+     * 
+     * @param float $p_x X座標
+     * @param float $p_y Y座標
+     * @param float $p_z Z座標
+     * @param float $p_yrot ヨー角
+     * @param float $p_r 半径
+     * @return array 送信データ
+     */
+    public function getCommandDataForHayabusaAttack(float $p_x, float $p_y, float $p_z, float $p_yrot, float $p_r): array
+    {
+        $cmd_datas = [];
+
+        // マインクラフト名を取得
+        $name = $this->getTempBuff(['minecraft-name']);
+
+        // ヨー角補正
+        $w_yrot = $p_yrot;
+        if($p_yrot > 0)
+        {
+            $w_yrot -= 180;
+        }
+        else
+        {
+            $w_yrot += 180;
+        }
+
+        // 座標退避
+        $w_x = $p_x;
+        $w_y = $p_y;
+        $w_z = $p_z;
+
+        // テレポート座標の計算
+        $this->getRelativeCoordinates($w_x, $w_y, $w_z, $w_yrot, $p_r);
+
+        // テレポート座標補正
+        $w_x += $p_x;
+        $w_z += $p_z;
+
+        // テレポート
+        $cmd = "tp @s {$w_x} {$w_y} {$w_z}";
+        $cmd_datas[] = $this->getCommandData($cmd, 'hayabusa-attack-teleport');
+
+        // ターゲットへパーティクル付与
+        $cmd = "particle minecraft:sonic_explosion {$p_x} ~2 {$p_z}";
+        $cmd_datas[] = $this->getCommandData($cmd, 'hayabusa-attack-particle');
+
+        // ターゲットを攻撃
+        $cmd = "damage @e[tag=\"hayabusa_attack_{$name['minecraft-name']}\"] 15 entity_attack entity @s";
+        $cmd_datas[] = $this->getCommandData($cmd, 'hayabusa-attack');
+
+        return $cmd_datas;
+    }
+
+    //--------------------------------------------------------------------------
+    // はやぶさの剣用 <END>
     //--------------------------------------------------------------------------
 
     /**

@@ -1,0 +1,35 @@
+{
+    "format_version": "1.12.0",
+    "minecraft:entity": {
+        "description": {
+            "identifier": "customize:hayabusa",
+            "is_spawnable": false,
+            "is_summonable": true,
+            "is_experimental": false
+        },
+        "components": {
+            "minecraft:nameable": {
+                "always_show": false
+            },
+            "minecraft:breathable": {
+                "breathes_solids": true,
+                "breathes_water": true
+            },
+            "minecraft:collision_box": {
+                "height": 0.1,
+                "width": 0.1
+            },
+            "minecraft:physics": {
+                "has_collision": true,
+                "has_gravity": true,
+                "push_towards_closest_space": true
+            },
+            "minecraft:pushable": {
+                "is_pushable": false,
+                "is_pushable_by_piston": false
+            },
+            "minecraft:movement.hover": {
+            }
+        }
+    }
+}
