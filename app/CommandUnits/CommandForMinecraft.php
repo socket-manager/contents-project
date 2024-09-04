@@ -812,7 +812,6 @@ class CommandForMinecraft extends CommandForWebsocket
             {
                 // コマンド送信
                 $cmd_datas = $p_param->getCommandDataForImmovableStone();
-                $p_param->logWriter('debug', ['@@@' => print_r($cmd_datas, true)]);
                 foreach($cmd_datas as $cmd_data)
                 {
                     $data =
@@ -821,6 +820,9 @@ class CommandForMinecraft extends CommandForWebsocket
                     ];
                     $p_param->setSendStack($data);
                 }
+
+                // 階段チェア着席フラグの設定
+                $p_param->setTempBuff(['chair_flag' => true]);
 
                 return null;
             }
@@ -1442,7 +1444,7 @@ class CommandForMinecraft extends CommandForWebsocket
         {
             $p_param->logWriter('debug', ['MINECRAFT CHAIR_STANDUP:START' => 'START']);
 
-            // コマンド送信（体力ゲージ非表示）
+            // コマンド送信（体力ゲージ表示）
             $cmd_data = $p_param->getCommandDataForGaugeShow();
             $data =
             [
