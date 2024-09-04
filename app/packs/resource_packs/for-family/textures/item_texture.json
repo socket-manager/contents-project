@@ -34,6 +34,9 @@
         },
         "hayabusa_sword": {
             "textures": "textures/items/hayabusa_sword"
+        },
+        "immovable_stone": {
+            "textures": "textures/items/immovable_stone"
         }
     }
 }

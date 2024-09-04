@@ -466,6 +466,10 @@ class ParameterForMinecraft extends ParameterForWebsocket
         return $w_ret;
     }
 
+    //--------------------------------------------------------------------------
+    // 不動の杖用 <START>
+    //--------------------------------------------------------------------------
+
     /**
      * 「不動の杖」immovableエンティティのkill用コマンドデータを取得
      * 
@@ -520,6 +524,10 @@ class ParameterForMinecraft extends ParameterForWebsocket
         $w_ret = $this->getCommandData($cmd, 'immovable-rod');
         return $w_ret;
     }
+
+    //--------------------------------------------------------------------------
+    // 不動の杖用 <END>
+    //--------------------------------------------------------------------------
 
     //--------------------------------------------------------------------------
     // スタンドの弓矢用 <START>
@@ -714,7 +722,7 @@ class ParameterForMinecraft extends ParameterForWebsocket
     public function getCommandDataForDespawnSit(int $p_x, int $p_y, int $p_z): array
     {
         $p_y--;
-        $cmd = "kill @e[type=customize:sit,x={$p_x},y={$p_y},z={$p_z}]";
+        $cmd = "kill @e[type=customize:sit,tag=,x={$p_x},y={$p_y},z={$p_z},c=1]";
         $w_ret = $this->getCommandData($cmd, 'chair-despawn');
         return $w_ret;
     }
@@ -771,7 +779,7 @@ class ParameterForMinecraft extends ParameterForWebsocket
     public function getCommandDataForRidePlayer(int $p_x, int $p_y, int $p_z): array
     {
         $p_y--;
-        $cmd = "ride @s start_riding @e[type=customize:sit,x={$p_x},y={$p_y},z={$p_z}]";
+        $cmd = "ride @s start_riding @e[type=customize:sit,tag=,x={$p_x},y={$p_y},z={$p_z},c=1]";
         $w_ret = $this->getCommandData($cmd, 'chair-ride');
         return $w_ret;
     }
@@ -977,6 +985,48 @@ class ParameterForMinecraft extends ParameterForWebsocket
 
     //--------------------------------------------------------------------------
     // はやぶさの剣用 <END>
+    //--------------------------------------------------------------------------
+
+    //--------------------------------------------------------------------------
+    // 不動の魔石用 <START>
+    //--------------------------------------------------------------------------
+
+    /**
+     * 不動の魔石用コマンドデータを取得
+     * 
+     * @return array コマンドデータのリスト
+     */
+    public function getCommandDataForImmovableStone()
+    {
+        $cmd_datas = [];
+
+        $minecraft_name = $this->getTempBuff(['minecraft-name']);
+
+        // コマンド送信（sitエンティティのデスポーン）
+        $cmd = "kill @e[tag=\"immovable_stone_{$minecraft_name['minecraft-name']}\"]";
+        $cmd_datas[] = $this->getCommandData($cmd, 'chair-despawn');
+
+        // コマンド送信（体力ゲージ非表示）
+        $cmd = "hud @s hide horse_health";
+        $cmd_datas[] = $this->getCommandData($cmd, 'chair-gauge-hide');
+
+        // コマンド送信（sitエンティティの召喚）
+        $cmd = "function sit_summon";
+        $cmd_datas[] = $this->getCommandData($cmd, 'chair-summon');
+
+        // コマンド送信（タグの付与）
+        $cmd = "tag @e[type=customize:sit,tag=,y=~-2,c=1] add \"immovable_stone_{$minecraft_name['minecraft-name']}\"";
+        $cmd_datas[] = $this->getCommandData($cmd, 'immovable-stone-tag');
+
+        // コマンド送信（プレイヤーの搭乗）
+        $cmd = "ride @s start_riding @e[tag=\"immovable_stone_{$minecraft_name['minecraft-name']}\"]";
+        $cmd_datas[] = $this->getCommandData($cmd, 'chair-ride');
+
+        return $cmd_datas;
+    }
+
+    //--------------------------------------------------------------------------
+    // 不動の魔石用 <END>
     //--------------------------------------------------------------------------
 
     /**

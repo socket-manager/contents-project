@@ -755,6 +755,7 @@ class CommandForMinecraft extends CommandForWebsocket
             // 受信データの取得
             $rcv = $p_param->getRecvData();
 
+            // はやぶさの剣
             if($rcv['data']['body']['item']['id'] === 'hayabusa_sword')
             {
                 // コマンド送信
@@ -776,6 +777,7 @@ class CommandForMinecraft extends CommandForWebsocket
                 return null;
             }
 
+            // 不動の杖
             if($rcv['data']['body']['item']['id'] === 'immovable_rod')
             {
                 // コマンド送信（immovableエンティティのkill）
@@ -801,6 +803,24 @@ class CommandForMinecraft extends CommandForWebsocket
                     'data' => $cmd_data
                 ];
                 $p_param->setSendStack($data);
+
+                return null;
+            }
+
+            // 不動の魔石
+            if($rcv['data']['body']['item']['id'] === 'immovable_stone')
+            {
+                // コマンド送信
+                $cmd_datas = $p_param->getCommandDataForImmovableStone();
+                $p_param->logWriter('debug', ['@@@' => print_r($cmd_datas, true)]);
+                foreach($cmd_datas as $cmd_data)
+                {
+                    $data =
+                    [
+                        'data' => $cmd_data
+                    ];
+                    $p_param->setSendStack($data);
+                }
 
                 return null;
             }
