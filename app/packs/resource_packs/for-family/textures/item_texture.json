@@ -37,6 +37,9 @@
         },
         "immovable_stone": {
             "textures": "textures/items/immovable_stone"
+        },
+        "floating_feather": {
+            "textures": "textures/items/floating_feather"
         }
     }
 }

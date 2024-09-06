@@ -109,6 +109,12 @@ class InitForMinecraft extends InitForWebsocket
                     {
                         return CommandQueueEnumForMinecraft::ITEM_USED->value;
                     }
+
+                    // 「浮遊の羽」イベントの場合
+                    if($p_dat['data']['body']['item']['id'] === 'floating_feather')
+                    {
+                        return CommandQueueEnumForMinecraft::ITEM_USED->value;
+                    }
                 }
 
                 // マインクラフトからのPlayerTravelledイベントの場合は受け入れる

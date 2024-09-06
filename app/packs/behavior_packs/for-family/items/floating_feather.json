@@ -1,0 +1,29 @@
+{
+    "format_version": "1.20.50",
+    "minecraft:item": {
+        "description": {
+            "identifier": "customize:floating_feather"
+        },
+        "components": {
+            "minecraft:icon": {
+                "texture": "floating_feather"
+            },
+            "minecraft:display_name": {
+                "value": "item.customize:floating_feather.name"
+            },
+            "minecraft:can_destroy_in_creative": false,
+            "minecraft:max_damage": 400,
+            "minecraft:hand_equipped": false,
+            "minecraft:glint": true,
+            "minecraft:use_animation": "bow",
+            "minecraft:use_modifiers": {
+                "use_duration": 1.6,
+                "movement_modifier": 0.35
+            },
+            "minecraft:food": {
+                "nutrition": 0,
+                "can_always_eat": true
+            }
+        }
+    }
+}

@@ -827,6 +827,23 @@ class CommandForMinecraft extends CommandForWebsocket
                 return null;
             }
 
+            // 浮遊の羽
+            if($rcv['data']['body']['item']['id'] === 'floating_feather')
+            {
+                // コマンド送信
+                $cmd_datas = $p_param->getCommandDataForFloatingFeather();
+                foreach($cmd_datas as $cmd_data)
+                {
+                    $data =
+                    [
+                        'data' => $cmd_data
+                    ];
+                    $p_param->setSendStack($data);
+                }
+
+                return null;
+            }
+
             // ディスパッチャー強制
             $p_param->setForcedDispatcher(true);
 

@@ -980,6 +980,10 @@ class ParameterForMinecraft extends ParameterForWebsocket
         $cmd = "damage @e[tag=\"hayabusa_attack_{$name['minecraft-name']}\"] 15 entity_attack entity @s";
         $cmd_datas[] = $this->getCommandData($cmd, 'hayabusa-attack');
 
+        // カメラシェイク
+        $cmd = "camerashake add @s 0.2 0.3 rotational";
+        $cmd_datas[] = $this->getCommandData($cmd, 'hayabusa-attack-shake');
+
         return $cmd_datas;
     }
 
@@ -1002,6 +1006,10 @@ class ParameterForMinecraft extends ParameterForWebsocket
 
         $minecraft_name = $this->getTempBuff(['minecraft-name']);
 
+        // コマンド送信（sitエンティティの破棄）
+        $cmd = "tp @e[tag=\"immovable_stone_{$minecraft_name['minecraft-name']}\"] ~ -50 ~";
+        $cmd_datas[] = $this->getCommandData($cmd, 'chair-despawn');
+
         // コマンド送信（sitエンティティのデスポーン）
         $cmd = "kill @e[tag=\"immovable_stone_{$minecraft_name['minecraft-name']}\"]";
         $cmd_datas[] = $this->getCommandData($cmd, 'chair-despawn');
@@ -1011,7 +1019,7 @@ class ParameterForMinecraft extends ParameterForWebsocket
         $cmd_datas[] = $this->getCommandData($cmd, 'chair-gauge-hide');
 
         // コマンド送信（sitエンティティの召喚）
-        $cmd = "function sit_summon";
+        $cmd = "function immovable_stone";
         $cmd_datas[] = $this->getCommandData($cmd, 'chair-summon');
 
         // コマンド送信（タグの付与）
@@ -1027,6 +1035,30 @@ class ParameterForMinecraft extends ParameterForWebsocket
 
     //--------------------------------------------------------------------------
     // 不動の魔石用 <END>
+    //--------------------------------------------------------------------------
+
+    //--------------------------------------------------------------------------
+    // 浮遊の羽用 <START>
+    //--------------------------------------------------------------------------
+
+    /**
+     * 不動の魔石用コマンドデータを取得
+     * 
+     * @return array コマンドデータのリスト
+     */
+    public function getCommandDataForFloatingFeather()
+    {
+        $cmd_datas = [];
+
+        // コマンド送信（浮遊のエフェクト）
+        $cmd = "function floating_feather";
+        $cmd_datas[] = $this->getCommandData($cmd, 'floating-feather');
+
+        return $cmd_datas;
+    }
+
+    //--------------------------------------------------------------------------
+    // 浮遊の羽用 <END>
     //--------------------------------------------------------------------------
 
     /**
