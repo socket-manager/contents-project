@@ -11,7 +11,7 @@ use SocketManager\Library\ProtocolQueueEnum;
 
 use App\UnitParameter\ParameterForMinecraft;
 use App\UnitParameter\ParameterForWebsocket;
-
+use App\UnitParameter\ShopStatusEnum;
 
 /**
  * コマンドUNIT登録クラス
@@ -41,7 +41,14 @@ class CommandForMinecraft extends CommandForWebsocket
         CommandQueueEnumForMinecraft::PLAYER_DASH->value,          // ダッシュイベント発生時のキュー
         CommandQueueEnumForMinecraft::EXECUTE_COMMAND->value,      // コマンド実行のキュー
         CommandQueueEnumForMinecraft::CHAIR->value,                // 階段チェア着席実行のキュー
-        CommandQueueEnumForMinecraft::CHAIR_STANDUP->value         // 階段チェアからの起立実行のキュー
+        CommandQueueEnumForMinecraft::CHAIR_STANDUP->value,        // 階段チェアからの起立実行のキュー
+        CommandQueueEnumForMinecraft::SHOP_ENTRANCE->value,        // SHOPからの入室時のキュー
+        CommandQueueEnumForMinecraft::SHOP_RELEASE_LOCK->value,    // SHOPへのロック解除要求時のキュー
+        CommandQueueEnumForMinecraft::SHOP_SURVIVAL_CHANGE->value, // SHOPからのサバイバルモード変更時のキュー
+        CommandQueueEnumForMinecraft::SHOP_BUY->value,             // SHOPからの購入時のキュー
+        CommandQueueEnumForMinecraft::SHOP_SELL_ENTRY->value,      // SHOPへ売却登録時のキュー
+        CommandQueueEnumForMinecraft::SHOP_SELL_RELEASE->value,    // SHOPからの返却時のキュー
+        CommandQueueEnumForMinecraft::SHOP_SELL->value             // SHOPからの売却時のキュー
     ];
 
 
@@ -213,6 +220,62 @@ class CommandForMinecraft extends CommandForWebsocket
             $ret[] = [
                 'status' => CommandStatusEnumForMinecraft::START->value,
                 'unit' => $this->getMinecraftChairStandupStart()
+            ];
+        }
+        else
+        if($p_que === CommandQueueEnumForMinecraft::SHOP_ENTRANCE->value)
+        {
+            $ret[] = [
+                'status' => CommandStatusEnumForMinecraft::START->value,
+                'unit' => $this->getShopEntranceStart()
+            ];
+        }
+        else
+        if($p_que === CommandQueueEnumForMinecraft::SHOP_RELEASE_LOCK->value)
+        {
+            $ret[] = [
+                'status' => CommandStatusEnumForMinecraft::START->value,
+                'unit' => $this->getShopReleaseLockStart()
+            ];
+        }
+        else
+        if($p_que === CommandQueueEnumForMinecraft::SHOP_SURVIVAL_CHANGE->value)
+        {
+            $ret[] = [
+                'status' => CommandStatusEnumForMinecraft::START->value,
+                'unit' => $this->getShopSurvivalChangeStart()
+            ];
+        }
+        else
+        if($p_que === CommandQueueEnumForMinecraft::SHOP_BUY->value)
+        {
+            $ret[] = [
+                'status' => CommandStatusEnumForMinecraft::START->value,
+                'unit' => $this->getShopBuyStart()
+            ];
+        }
+        else
+        if($p_que === CommandQueueEnumForMinecraft::SHOP_SELL_ENTRY->value)
+        {
+            $ret[] = [
+                'status' => CommandStatusEnumForMinecraft::START->value,
+                'unit' => $this->getShopSellEntryStart()
+            ];
+        }
+        else
+        if($p_que === CommandQueueEnumForMinecraft::SHOP_SELL_RELEASE->value)
+        {
+            $ret[] = [
+                'status' => CommandStatusEnumForMinecraft::START->value,
+                'unit' => $this->getShopSellReleaseStart()
+            ];
+        }
+        else
+        if($p_que === CommandQueueEnumForMinecraft::SHOP_SELL->value)
+        {
+            $ret[] = [
+                'status' => CommandStatusEnumForMinecraft::START->value,
+                'unit' => $this->getShopSellStart()
             ];
         }
 
@@ -407,6 +470,53 @@ class CommandForMinecraft extends CommandForWebsocket
     // 以降はステータスUNITの定義（"CLOSE"キュー）
     //--------------------------------------------------------------------------
 
+    /**
+     * ステータス名： START
+     * 
+     * 処理名：切断開始
+     * 
+     * @param ParameterForMinecraft $p_param UNITパラメータ
+     * @return ?string 遷移先のステータス名
+     */
+    protected function getCloseStart()
+    {
+        return function(ParameterForMinecraft $p_param): ?string
+        {
+            $p_param->logWriter('debug', ['MINECRAFT CLOSE:START' => 'START']);
+
+            $ret = null;
+
+            // ショップの場合はマインクラフト側のショップ情報を削除してクローズ
+            if($p_param->isShop() === true)
+            {
+                // マインクラフト側のショップ情報の削除
+                $shop_browser = $p_param->getTempBuff(['shop']);
+                $shop_browser['shop']['sta'] = ShopStatusEnum::CLOSE->value;
+                $p_param->setTempBuff(['shop' => $shop_browser['shop']]);
+                $p_param->setTempBuff(['shop' => null], $shop_browser['shop']['cid']);
+
+                // 受信データを取得
+                $w_ret = $p_param->getRecvData();
+
+                // 自身の切断シーケンス開始
+                $close_param =
+                [
+                    // 切断コード
+                    'code' => $w_ret['close_code'],
+                    // シリアライズ対象データ
+                    'data' => $w_ret['data']
+                ];
+                $p_param->close($close_param);
+            }
+            else
+            {
+                $fnc = parent::getCloseStart();
+                $ret = $fnc($p_param);
+            }
+
+            return $ret;
+        };
+    }
 
     //--------------------------------------------------------------------------
     // 以降はステータスUNITの定義（"PRIVATE"キュー）
@@ -685,6 +795,251 @@ class CommandForMinecraft extends CommandForWebsocket
                         ];
                         $p_param->setSendStack($data);
                     }
+                }
+                else
+                if($w_ret['type'] === 'get-gamemode')
+                {
+                    $p_param->logWriter('debug', ['MINECRAFT SHOP_ENTRANCE' => 'RESPONSE']);
+
+                    // 取得成功か
+                    if($rcv['data']['body']['statusCode'] === 0)
+                    {
+                        // 鍵を送信
+                        $cmd_data = $p_param->getCommandDataForSendLock();
+                        $data =
+                        [
+                            'data' => $cmd_data
+                        ];
+                        $p_param->setSendStack($data);
+
+                        return null;
+                    }
+
+                    // マインクラフト側のショップ情報を取得
+                    $shop_minecraft = $p_param->getTempBuff(['shop']);
+
+                    // オプションデータ
+                    $opts = config('shop.opts');
+
+                    // ゲームモードチェンジ要求
+                    $data =
+                    [
+                        'data' =>
+                        [
+                            'cmd' => CommandQueueEnumForMinecraft::SHOP_ENTRANCE->value,
+                            'result' => -3,
+                            'opts' => $opts
+                        ]
+                    ];
+                    $p_param->setSendStack($data, $shop_minecraft['shop']['cid']);
+                }
+                else
+                if($w_ret['type'] === 'change-survival')
+                {
+                    $p_param->logWriter('debug', ['MINECRAFT SHOP_ENTRANCE' => 'CHANGE-SURVIVAL']);
+
+                    // 取得成功か
+                    if($rcv['data']['body']['statusCode'] !== 0)
+                    {
+                        return null;
+                    }
+
+                    // マインクラフト側のショップ情報を取得
+                    $shop_minecraft = $p_param->getTempBuff(['shop']);
+
+                    // 鍵を送信
+                    $cmd_data = $p_param->getCommandDataForSendLock();
+                    $data =
+                    [
+                        'data' => $cmd_data
+                    ];
+                    $p_param->setSendStack($data);
+                }
+                else
+                if($w_ret['type'] === 'wallet-get')
+                {
+                    $p_param->logWriter('debug', ['MINECRAFT SHOP_RELEASE_LOCK' => 'RESPONSE']);
+
+                    // ウォレット取得成功か
+                    if($rcv['data']['body']['statusCode'] !== 0)
+                    {
+                        return null;
+                    }
+
+                    // ブラウザ側の接続IDを取得
+                    $shop = $p_param->getTempBuff(['shop']);
+                    $cid_browser = $shop['shop']['cid'];
+
+                    // 所持金の取得
+                    $wallet = strrchr($rcv['data']['body']['statusMessage'], ' ');
+                    $wallet = substr($wallet, 1, strlen($wallet) - 2);
+
+                    // オプションデータ
+                    $opts = config('shop.opts');
+
+                    // 購入可能リスト
+                    $buy_list = config('shop.buy_list');
+
+                    // ロック解除をブラウザへ送信
+                    $data =
+                    [
+                        'data' =>
+                        [
+                            'cmd' => CommandQueueEnumForMinecraft::SHOP_ENTRANCE->value,
+                            'result' => true,
+                            'user' => $p_param->getUserName(),
+                            'wallet' => $wallet,
+                            'opts' => $opts,
+                            'buy_list' => $buy_list
+                        ]
+                    ];
+                    $p_param->setSendStack($data, $cid_browser);
+
+                    $shop['shop']['sta'] = ShopStatusEnum::OPEN->value;
+
+                    // マインクラフト側のショップステータスを設定
+                    $p_param->setTempBuff(['shop' => $shop['shop']]);
+
+                    // ブラウザ側のショップステータスを設定
+                    $shop['shop']['cid'] = $p_param->getConnectionId();
+                    $p_param->setTempBuff(['shop' => $shop['shop']], $cid_browser);
+                }
+                else
+                if($w_ret['type'] === 'buy-pay')
+                {
+                    $p_param->logWriter('debug', ['MINECRAFT SHOP_BUY_PAY' => 'RESPONSE']);
+
+                    // ウォレット取得成功か
+                    if($rcv['data']['body']['statusCode'] !== 0)
+                    {
+                        return null;
+                    }
+
+                    // ブラウザ側の接続IDを取得
+                    $shop = $p_param->getTempBuff(['shop']);
+                    $cid_browser = $shop['shop']['cid'];
+
+                    // 所持金の取得
+                    $wallet = strrchr($rcv['data']['body']['statusMessage'], ' ');
+                    $wallet = substr($wallet, 1, strlen($wallet) - 2);
+
+                    // 購入可能リスト
+                    $buy_list = config('shop.buy_list');
+
+                    // 購入完了をブラウザへ送信
+                    $data =
+                    [
+                        'data' =>
+                        [
+                            'cmd' => CommandQueueEnumForMinecraft::SHOP_BUY->value,
+                            'result' => true,
+                            'wallet' => $wallet,
+                            'buy_list' => $buy_list
+                        ]
+                    ];
+                    $p_param->setSendStack($data, $cid_browser);
+
+                    $shop['shop']['sta'] = ShopStatusEnum::OPEN->value;
+
+                    // マインクラフト側のショップステータスを設定
+                    $p_param->setTempBuff(['shop' => $shop['shop']]);
+
+                    // ブラウザ側のショップステータスを設定
+                    $shop['shop']['cid'] = $p_param->getConnectionId();
+                    $p_param->setTempBuff(['shop' => $shop['shop']], $cid_browser);
+                }
+                else
+                if($w_ret['type'] === 'shop-sell-release')
+                {
+                    $p_param->logWriter('debug', ['MINECRAFT RESPONSE:START' => 'SHOP-SELL-RELEASE']);
+
+                    // 返却成功か
+                    if($rcv['data']['body']['statusCode'] !== 0)
+                    {
+                        return null;
+                    }
+
+                    // 受信データを取得
+                    $rcv = $rcv['data'];
+
+                    // マインクラフト側のショップ情報を取得
+                    $shop_minecraft = $p_param->getTempBuff(['shop']);
+
+                    // ブラウザ側のショップ情報を取得
+                    $shop_browser = $p_param->getTempBuff(['shop'], $shop_minecraft['shop']['cid']);
+
+                    // ブラウザ側のショップ情報から返却されたアイテム情報を削除
+                    $shop_browser['shop']['sell_list'][$shop_minecraft['shop']['release_item']]['count']--;
+                    if($shop_browser['shop']['sell_list'][$shop_minecraft['shop']['release_item']]['count'] <= 0)
+                    {
+                        unset($shop_browser['shop']['sell_list'][$shop_minecraft['shop']['release_item']]);
+                    }
+                    $p_param->setTempBuff(['shop' => $shop_browser['shop']], $shop_minecraft['shop']['cid']);
+
+                    // 登録がない場合はブラウザ側へコマンドを投げて抜ける
+                    if(!isset($shop_browser['shop']['sell_list']) || count($shop_browser['shop']['sell_list']) <= 0)
+                    {
+                        $data =
+                        [
+                            'data' =>
+                            [
+                                'cmd' => CommandQueueEnumForMinecraft::SHOP_SELL_RELEASE->value,
+                                'result' => true,
+                                'sell_list' => []
+                            ]
+                        ];
+                        $p_param->setSendStack($data, $shop_minecraft['shop']['cid']);
+                        return null;
+                    }
+
+                    // アイテムIDを取得
+                    $id = array_key_first($shop_browser['shop']['sell_list']);
+
+                    // マインクラフトへコマンドを送信
+                    $cmd_data = $p_param->getCommandDataForRelease($shop_browser['shop']['cid'], $shop_browser['shop']['sell_list'][$id]);
+                    $data =
+                    [
+                        'data' => $cmd_data
+                    ];
+                    $p_param->setSendStack($data, $shop_browser['shop']['cid']);
+
+                    // ショップ情報を設定
+                    $shop_minecraft['shop']['release_item'] = $id;
+                    $p_param->setTempBuff(['shop' => $shop_minecraft['shop']], $shop_browser['shop']['cid']);
+                }
+                else
+                if($w_ret['type'] === 'sell-paid')
+                {
+                    $p_param->logWriter('debug', ['MINECRAFT SHOP_SELL' => 'RESPONSE']);
+
+                    // ウォレット取得成功か
+                    if($rcv['data']['body']['statusCode'] !== 0)
+                    {
+                        return null;
+                    }
+
+                    // マインクラフト側のショップ情報を取得
+                    $shop_mainecraft = $p_param->getTempBuff(['shop']);
+
+                    // ブラウザ側のショップ情報を取得
+                    $shop_browser = $p_param->getTempBuff(['shop'], $shop_mainecraft['shop']['cid']);
+
+                    // 所持金の取得
+                    $wallet = strrchr($rcv['data']['body']['statusMessage'], ' ');
+                    $wallet = substr($wallet, 1, strlen($wallet) - 2);
+
+                    // 売却完了をブラウザへ送信
+                    $data =
+                    [
+                        'data' =>
+                        [
+                            'cmd' => CommandQueueEnumForMinecraft::SHOP_SELL->value,
+                            'result' => true,
+                            'wallet' => $wallet,
+                            'sell_list' => $shop_browser['shop']['sell_list']
+                        ]
+                    ];
+                    $p_param->setSendStack($data, $shop_mainecraft['shop']['cid']);
                 }
                 // 以降の分岐はリザーブ用
                 else
@@ -1476,4 +1831,397 @@ class CommandForMinecraft extends CommandForWebsocket
         };
     }
 
+    //--------------------------------------------------------------------------
+    // 以降はステータスUNITの定義（"SHOP_ENTRANCE"キュー）
+    //--------------------------------------------------------------------------
+
+    /**
+     * ステータス名： START
+     * 
+     * 処理名：SHOP入室処理開始
+     * 
+     * @param ParameterForMinecraft $p_param UNITパラメータ
+     * @return ?string 遷移先のステータス名
+     */
+    protected function getShopEntranceStart()
+    {
+        return function(ParameterForMinecraft $p_param): ?string
+        {
+            $p_param->logWriter('debug', ['MINECRAFT SHOP_ENTRANCE:START' => 'START']);
+
+            // 受信データを取得
+            $rcv = $p_param->getRecvData();
+            $res = $rcv['data'];
+
+            // ユーザー名MAX長調整
+            $res['user'] = mb_substr($res['user'], 0, ParameterForWebsocket::CHAT_USER_NAME_MAX_LENGTH);
+
+            // ユーザー名の存在をチェック
+            $res['user'] = $p_param->chopHiddenCharacters($res['user']);
+            if($res['user'] == '')
+            {
+                // 自身を切断
+                $p_param->closeNoUser();
+                return null;
+            }
+
+            // HTML変換
+            $res['user'] = htmlspecialchars($res['user']);
+
+            // 指定ユーザーの接続IDを取得
+            $cid_minecraft = $p_param->getConnectionIdByUserName($res['user']);
+
+            // マインクラフトの接続IDとステータスを設定
+            $p_param->setTempBuff(
+                [
+                    'shop' =>
+                    [
+                        'cid' => $cid_minecraft,
+                        'sta' => ShopStatusEnum::ENTRANCE->value
+                    ]
+                ]
+            );
+
+            // 指定ユーザーの接続IDが見つからない
+            if($cid_minecraft === null)
+            {
+                $opts = config('shop.opts');
+                $data =
+                [
+                    'data' =>
+                    [
+                        'cmd' => CommandQueueEnumForMinecraft::SHOP_ENTRANCE->value,
+                        'result' => -1,
+                        'opts' => $opts
+                    ]
+                ];
+                // 返信
+                $p_param->setSendStack($data);
+                return null;
+            }
+
+            // マインクラフト接続かどうか
+            $minecraft = $p_param->isMinecraft($cid_minecraft);
+            if($minecraft === false)
+            {
+                $opts = config('shop.opts');
+                $data =
+                [
+                    'data' =>
+                    [
+                        'cmd' => CommandQueueEnumForMinecraft::SHOP_ENTRANCE->value,
+                        'result' => -2,
+                        'opts' => $opts
+                    ]
+                ];
+                // 返信
+                $p_param->setSendStack($data);
+                return null;
+            }
+
+            // マインクラフト側の接続IDを設定
+            $cid = $p_param->getConnectionId();
+            $p_param->setTempBuff(
+                [
+                    'shop' =>
+                    [
+                        'cid' => $cid,
+                        'sta' => ShopStatusEnum::ENTRANCE->value
+                    ]
+                ]
+                , $cid_minecraft
+            );
+
+            // ゲームモード取得コマンドを送信
+            $cmd_data = $p_param->getCommandDataForGetGamemode($cid_minecraft);
+            $data =
+            [
+                'data' => $cmd_data
+            ];
+            $p_param->setSendStack($data, $cid_minecraft);
+
+            return null;
+        };
+    }
+
+    //--------------------------------------------------------------------------
+    // 以降はステータスUNITの定義（"SHOP_RELEASE_LOCK"キュー）
+    //--------------------------------------------------------------------------
+
+    /**
+     * ステータス名： START
+     * 
+     * 処理名：SHOPロック解除処理
+     * 
+     * @param ParameterForMinecraft $p_param UNITパラメータ
+     * @return ?string 遷移先のステータス名
+     */
+    protected function getShopReleaseLockStart()
+    {
+        return function(ParameterForMinecraft $p_param): ?string
+        {
+            // 受信データを取得
+            $rcv = $p_param->getRecvData();
+
+            if($rcv['data']['body']['item']['id'] === 'shop_lock')
+            {
+                // ウォレット取得のコマンド実行
+                $cmd_datas = $p_param->getCommandDataForGetWallet();
+                foreach($cmd_datas as $cmd_data)
+                {
+                    $data =
+                    [
+                        'data' => $cmd_data
+                    ];
+                    $p_param->setSendStack($data);
+                }
+            }
+
+            return null;
+        };
+    }
+
+    //--------------------------------------------------------------------------
+    // 以降はステータスUNITの定義（"SHOP_SURVIVAL_CHANGE"キュー）
+    //--------------------------------------------------------------------------
+
+    /**
+     * ステータス名： START
+     * 
+     * 処理名：SHOPサバイバル変更要求処理
+     * 
+     * @param ParameterForMinecraft $p_param UNITパラメータ
+     * @return ?string 遷移先のステータス名
+     */
+    protected function getShopSurvivalChangeStart()
+    {
+        return function(ParameterForMinecraft $p_param): ?string
+        {
+            $shop = $p_param->getTempBuff(['shop']);
+
+            // ウォレット取得のコマンド実行
+            $cmd_data = $p_param->getCommandDataForChangeSurvival($shop['shop']['cid']);
+            $data =
+            [
+                'data' => $cmd_data
+            ];
+            $p_param->setSendStack($data, $shop['shop']['cid']);
+
+            return null;
+        };
+    }
+
+    //--------------------------------------------------------------------------
+    // 以降はステータスUNITの定義（"SHOP_BUY"キュー）
+    //--------------------------------------------------------------------------
+
+    /**
+     * ステータス名： START
+     * 
+     * 処理名：SHOP購入処理開始
+     * 
+     * @param ParameterForMinecraft $p_param UNITパラメータ
+     * @return ?string 遷移先のステータス名
+     */
+    protected function getShopBuyStart()
+    {
+        return function(ParameterForMinecraft $p_param): ?string
+        {
+            $p_param->logWriter('debug', ['MINECRAFT SHOP_BUY:START' => 'START']);
+
+            // 受信データを取得
+            $rcv = $p_param->getRecvData();
+            $rcv = $rcv['data'];
+
+            // マインクラフトの接続IDを取得
+            $shop = $p_param->getTempBuff(['shop']);
+
+            // マインクラフトへコマンドを送信
+            $cmd_datas = $p_param->getCommandDataForBuy($shop['shop']['cid'], $rcv['item']);
+            foreach($cmd_datas as $cmd_data)
+            {
+                $data =
+                [
+                    'data' => $cmd_data
+                ];
+                $p_param->setSendStack($data, $shop['shop']['cid']);
+            }
+
+            return null;
+        };
+    }
+
+    //--------------------------------------------------------------------------
+    // 以降はステータスUNITの定義（"SHOP_SELL_ENTRY"キュー）
+    //--------------------------------------------------------------------------
+
+    /**
+     * ステータス名： START
+     * 
+     * 処理名：SHOPへの売却登録処理開始
+     * 
+     * @param ParameterForMinecraft $p_param UNITパラメータ
+     * @return ?string 遷移先のステータス名
+     */
+    protected function getShopSellEntryStart()
+    {
+        return function(ParameterForMinecraft $p_param): ?string
+        {
+            $p_param->logWriter('debug', ['MINECRAFT SHOP_SELL_ENTRY:START' => 'START']);
+
+            // 受信データを取得
+            $rcv = $p_param->getRecvData();
+            $rcv = $rcv['data'];
+
+            // 売却可能商品か？
+            $item = $rcv['body']['item']['id'];
+            $cnf_sell = config("shop.sell_list.{$item}");
+            if($cnf_sell === null)
+            {
+                return null;
+            }
+
+            // マインクラフト側ショップ情報の取得
+            $shop_minecraft = $p_param->getTempBuff(['shop']);
+
+            // ブラウザ側ショップ情報の取得
+            $shop_browser = $p_param->getTempBuff(['shop'], $shop_minecraft['shop']['cid']);
+
+            // 売却リストへの登録
+            if(isset($shop_browser['shop']['sell_list'][$cnf_sell['id']]))
+            {
+                $count = 1;
+                $count += $shop_browser['shop']['sell_list'][$cnf_sell['id']]['count'];
+                $shop_browser['shop']['sell_list'][$cnf_sell['id']]['count'] = $count;
+                $shop_browser['shop']['sell_list'][$cnf_sell['id']]['price'] = $cnf_sell['price'] * $count;
+            }
+            else
+            {
+                $shop_browser['shop']['sell_list'][$cnf_sell['id']] = $cnf_sell;
+                $shop_browser['shop']['sell_list'][$cnf_sell['id']]['count'] = 1;
+            }
+
+            // ブラウザへコマンド送信
+            $data =
+            [
+                'data' =>
+                [
+                    'cmd' => 'shop-sell-entry',
+                    'sell_list' => $shop_browser['shop']['sell_list']
+                ]
+            ];
+            $p_param->setSendStack($data, $shop_minecraft['shop']['cid']);
+
+            // ショップ情報の設定
+            $p_param->setTempBuff(['shop' => $shop_browser['shop']], $shop_minecraft['shop']['cid']);
+
+            return null;
+        };
+    }
+
+    //--------------------------------------------------------------------------
+    // 以降はステータスUNITの定義（"SHOP_SELL_RELEASE"キュー）
+    //--------------------------------------------------------------------------
+
+    /**
+     * ステータス名： START
+     * 
+     * 処理名：SHOPからの返却処理開始
+     * 
+     * @param ParameterForMinecraft $p_param UNITパラメータ
+     * @return ?string 遷移先のステータス名
+     */
+    protected function getShopSellReleaseStart()
+    {
+        return function(ParameterForMinecraft $p_param): ?string
+        {
+            $p_param->logWriter('debug', ['MINECRAFT SHOP_SELL_RELEASE:START' => 'START']);
+
+            // 受信データを取得
+            $rcv = $p_param->getRecvData();
+            $rcv = $rcv['data'];
+
+            // ショップ情報を取得
+            $shop = $p_param->getTempBuff(['shop']);
+
+            // 登録がない場合は抜ける
+            if(!isset($shop['shop']['sell_list']) || count($shop['shop']['sell_list']) <= 0)
+            {
+                return null;
+            }
+
+            // アイテムIDを取得
+            $id = array_key_first($shop['shop']['sell_list']);
+
+            // マインクラフトへコマンドを送信
+            $cmd_data = $p_param->getCommandDataForRelease($shop['shop']['cid'], $shop['shop']['sell_list'][$id]);
+            $data =
+            [
+                'data' => $cmd_data
+            ];
+            $p_param->setSendStack($data, $shop['shop']['cid']);
+
+            // ショップ情報をマインクラフト側へ設定
+            $shop_minecraft = $p_param->getTempBuff(['shop'], $shop['shop']['cid']);
+            $shop_minecraft['shop']['release_item'] = $id;
+            $p_param->setTempBuff(['shop' => $shop_minecraft['shop']], $shop['shop']['cid']);
+
+            return null;
+        };
+    }
+
+    //--------------------------------------------------------------------------
+    // 以降はステータスUNITの定義（"SHOP_SELL"キュー）
+    //--------------------------------------------------------------------------
+
+    /**
+     * ステータス名： START
+     * 
+     * 処理名：SHOPからの売却処理開始
+     * 
+     * @param ParameterForMinecraft $p_param UNITパラメータ
+     * @return ?string 遷移先のステータス名
+     */
+    protected function getShopSellStart()
+    {
+        return function(ParameterForMinecraft $p_param): ?string
+        {
+            $p_param->logWriter('debug', ['MINECRAFT SHOP_SELL:START' => 'START']);
+
+            // 受信データを取得
+            $rcv = $p_param->getRecvData();
+            $rcv = $rcv['data'];
+
+            // ショップ情報を取得
+            $shop = $p_param->getTempBuff(['shop']);
+
+            $p_param->logWriter('debug', ['MINECRAFT SHOP_SELL:SHOP INFO' => print_r($shop, true)]);
+
+            // 登録がない場合は抜ける
+            if(!isset($shop['shop']['sell_list']) || count($shop['shop']['sell_list']) <= 0)
+            {
+                return null;
+            }
+
+            $price = 0;
+            foreach($shop['shop']['sell_list'] as $item)
+            {
+                $price += $item['price'];
+            }
+
+            // マインクラフトへコマンドを送信
+            $cmd_data = $p_param->getCommandDataForSell($shop['shop']['cid'], $price);
+            $data =
+            [
+                'data' => $cmd_data
+            ];
+            $p_param->setSendStack($data, $shop['shop']['cid']);
+
+            // 売却一覧をクリア
+            $shop['shop']['sell_list'] = [];
+            $p_param->setTempBuff(['shop' => $shop['shop']]);
+
+            return null;
+        };
+    }
 }

@@ -1,0 +1,33 @@
+{
+    "format_version": "1.20.50",
+    "minecraft:item": {
+        "description": {
+            "identifier": "customize:shop_lock",
+            "menu_category": {  
+                "category": "none", 
+                "is_hidden_in_commands": true 
+            }
+        },
+        "components": {
+            "minecraft:icon": {
+                "texture": "shop_lock"
+            },
+            "minecraft:display_name": {
+                "value": "item.customize:shop_lock.name"
+            },
+            "minecraft:can_destroy_in_creative": false,
+            "minecraft:max_damage": 400,
+            "minecraft:hand_equipped": false,
+            "minecraft:glint": true,
+            "minecraft:use_animation": "bow",
+            "minecraft:use_modifiers": {
+                "use_duration": 1.6,
+                "movement_modifier": 0.35
+            },
+            "minecraft:food": {
+                "nutrition": 0,
+                "can_always_eat": true
+            }
+        }
+    }
+}

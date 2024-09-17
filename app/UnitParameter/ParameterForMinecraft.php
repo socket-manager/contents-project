@@ -109,6 +109,36 @@ class ParameterForMinecraft extends ParameterForWebsocket
     }
 
     /**
+     * 自身の接続がブラウザからのショップ接続かどうかを検査
+     * 
+     * @param string $p_cid 接続ID
+     * @return bool true（ショップ接続） or false（ショップ接続以外）
+     */
+    public function isShop(string $p_cid = null)
+    {
+        $cid = null;
+        if($p_cid !== null)
+        {
+            $cid = $p_cid;
+        }
+
+        // マインクラフト接続の場合は抜ける
+        if($this->isMinecraft($cid) === true)
+        {
+            return false;
+        }
+
+        // ショップ情報があるか
+        $shop = $this->getTempBuff(['shop'], $cid);
+        if($shop === null)
+        {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
      * UUIDv4の取得
      * 
      * @return string UUID(V4)
@@ -1061,6 +1091,142 @@ class ParameterForMinecraft extends ParameterForWebsocket
     // 浮遊の羽用 <END>
     //--------------------------------------------------------------------------
 
+    //--------------------------------------------------------------------------
+    // SHOP用 <START>
+    //--------------------------------------------------------------------------
+
+    /**
+     * ゲームモード取得のコマンドデータを取得
+     * 
+     * @param string $p_cid 接続ID
+     * @return array コマンドデータのリスト
+     */
+    public function getCommandDataForGetGamemode(string $p_cid)
+    {
+        // コマンド送信
+        $cmd = "querytarget @s[m=survival]";
+        $cmd_data = $this->getCommandData($cmd, 'get-gamemode', $p_cid);
+
+        return $cmd_data;
+    }
+
+    /**
+     * サバイバルモード変更のコマンドデータを取得
+     * 
+     * @param string $p_cid 接続ID
+     * @return array コマンドデータのリスト
+     */
+    public function getCommandDataForChangeSurvival(string $p_cid)
+    {
+        // コマンド送信
+        $cmd = "gamemode survival @s";
+        $cmd_data = $this->getCommandData($cmd, 'change-survival', $p_cid);
+
+        return $cmd_data;
+    }
+
+    /**
+     * 鍵を渡すコマンドデータを取得
+     * 
+     * @return string コマンドデータ
+     */
+    public function getCommandDataForSendLock()
+    {
+        // コマンド送信（鍵を渡す）
+        $cmd = "loot give @s loot shop_lock";
+        $cmd_data = $this->getCommandData($cmd, 'send-lock');
+
+        return $cmd_data;
+    }
+
+    /**
+     * 所持金取得のコマンドデータを取得
+     * 
+     * @param ?string $p_cid 接続ID
+     * @return array コマンドデータのリスト
+     */
+    public function getCommandDataForGetWallet(string $p_cid = null)
+    {
+        $cmd_datas = [];
+
+        // コマンド送信（スコアボードのオブジェクト設置）
+        $cmd = "scoreboard objectives add wallet dummy";
+        $cmd_datas[] = $this->getCommandData($cmd, 'wallet-obj', $p_cid);
+
+        // コマンド送信（所持金取得）
+        $cmd = "scoreboard players add @s wallet 0";
+        $cmd_datas[] = $this->getCommandData($cmd, 'wallet-get', $p_cid);
+
+        return $cmd_datas;
+    }
+
+    /**
+     * 購入時のコマンドデータを取得
+     * 
+     * @param string $p_cid 接続ID
+     * @return array コマンドデータのリスト
+     */
+    public function getCommandDataForBuy(string $p_cid, string $p_item)
+    {
+        $cmd_datas = [];
+
+        $cnf_item = config("shop.buy_list.{$p_item}");
+
+        // コマンド送信（購入商品の配布）
+        if($cnf_item['type'] === 'loot')
+        {
+            $cmd = "loot give @s loot {$p_item}";
+            $cmd_datas[] = $this->getCommandData($cmd, 'buy-delivery', $p_cid);
+        }
+
+        // コマンド送信（所持金減額）
+        $cmd = "scoreboard players remove @s wallet {$cnf_item['price']}";
+        $cmd_datas[] = $this->getCommandData($cmd, 'buy-pay', $p_cid);
+
+        return $cmd_datas;
+    }
+
+    /**
+     * 返却時のコマンドデータを取得
+     * 
+     * @param string $p_cid マインクラフトの接続ID
+     * @param array $p_item アイテム情報
+     * @return array コマンドデータのリスト
+     */
+    public function getCommandDataForRelease(string $p_cid, array $p_item)
+    {
+        $cmd_data = null;
+
+        // コマンド送信（商品の返却）
+        if($p_item['type'] === 'loot')
+        {
+            $cmd = "loot give @s loot {$p_item['id']}";
+            $cmd_data = $this->getCommandData($cmd, 'shop-sell-release', $p_cid);
+        }
+
+        return $cmd_data;
+    }
+
+    /**
+     * 売却時のコマンドデータを取得
+     * 
+     * @param string $p_cid 接続ID
+     * @param int $p_price 加算する金額
+     * @return array コマンドデータのリスト
+     */
+    public function getCommandDataForSell(string $p_cid, int $p_price)
+    {
+        // コマンド送信（所持金加算）
+        $cmd = "scoreboard players add @s wallet {$p_price}";
+        $cmd_data = $this->getCommandData($cmd, 'sell-paid', $p_cid);
+
+        return $cmd_data;
+    }
+
+    //--------------------------------------------------------------------------
+    // SHOP用 <END>
+    //--------------------------------------------------------------------------
+
     /**
      * 現在の座標からヨー角を考慮した相対座標を取得
      * 
@@ -1600,6 +1766,16 @@ class ParameterForMinecraft extends ParameterForWebsocket
         $this->param = $p_param;
 
         $this->param->logWriter('debug', [__METHOD__ => '緊急切断', 'minecraft' => "flag[{$this->param->isMinecraft()}]"]);
+
+        // ショップの場合はマインクラフト側のショップ情報を削除
+        if($this->param->isShop() === true)
+        {
+            $shop_browser = $this->param->getTempBuff(['shop']);
+            $shop_browser['shop']['sta'] = ShopStatusEnum::CLOSE->value;
+            $p_param->setTempBuff(['shop' => $shop_browser['shop']]);
+            $this->param->setTempBuff(['shop' => null], $shop_browser['shop']['cid']);
+            return;
+        }
 
         $msg = [];
 

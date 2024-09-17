@@ -413,7 +413,10 @@ class ProtocolForMinecraft extends ProtocolForWebsocket
             }
             else
             {
-                $p_param->delUserName();
+                if($p_param->isShop() === false)
+                {
+                    $p_param->delUserName();
+                }
 
                 // 切断パラメータの取得
                 $close_param = $p_param->getCloseParameter();

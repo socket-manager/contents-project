@@ -99,6 +99,41 @@ enum CommandQueueEnumForMinecraft: string
      */
     case CHAIR_STANDUP = 'chair-standup';
 
+    /**
+     * @var SHOPブラウザからの入室時のキュー名
+     */
+    case SHOP_ENTRANCE = 'shop-entrance';
+
+    /**
+     * @var SHOPからのサバイバルモードチェンジ要求のキュー名
+     */
+    case SHOP_SURVIVAL_CHANGE = 'shop-survival-change';
+
+    /**
+     * @var SHOPへロック解除要求のキュー名
+     */
+    case SHOP_RELEASE_LOCK = 'shop-release-lock';
+
+    /**
+     * @var SHOPからの購入時のキュー名
+     */
+    case SHOP_BUY = 'shop-buy';
+
+    /**
+     * @var SHOPへ売却登録時のキュー名
+     */
+    case SHOP_SELL_ENTRY = 'shop-sell-entry';
+
+    /**
+     * @var SHOPからの返却時のキュー名
+     */
+    case SHOP_SELL_RELEASE = 'shop-sell-release';
+
+    /**
+     * @var SHOPからの売却時のキュー名
+     */
+    case SHOP_SELL = 'shop-sell';
+
 
     //--------------------------------------------------------------------------
     // メソッド

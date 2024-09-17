@@ -1,0 +1,87 @@
+<!--
+    shop.html
+
+    ショップページ
+-->
+
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <title>jQuery版簡易ショップ</title>
+
+        <link type="text/css" rel="stylesheet" href="./shop/shop.css" media="all" />
+        <script src="./jquery-3.3.1.min.js"></script>
+        <script type="text/javascript" src="./shop/shop.js"></script>
+    </head>
+    <body>
+        <div class="parent-box">
+            <div class="connection-box">
+                <input class="uri" type="text" name="uri" value="ws://localhost:10000" placeholder="接続先">
+                <input class="user" type="text" name="user" value="" placeholder="ユーザー名" maxlength="8">
+                <button id="connect_button">入店する</button>
+            </div>
+            <div class="npc-box">
+                <div class="npc-img">
+                    <div class="blank"></div>
+                    <div class="loading-img-box"><img class="loading-img" src="./img/loading.gif" width="110px" height="22px" />&nbsp;</div>
+                    <div class="talk">．．．</div>
+                    <div class="talk-button-box">
+                        <button class="talk-button" id="btn-npc-ok">&nbsp;は&nbsp;い&nbsp;</button>
+                        <button class="talk-button" id="btn-npc-cancel">いいえ</button>
+                    </div>
+                </div>
+            </div>
+            <div class="entrance-box">
+            </div>
+        </div>
+
+        <div class="entrance-hidden-box">
+            <div class="wallet-box">
+                <div class="money-box">
+                    <p class="money-label">所持金&nbsp;$</p><p class="money-value">300000</p><p class="money-label">M（単位＝マネー）</p>
+                </div>
+            </div>
+            <div class="contents-box">
+            </div>
+        </div>
+
+        <div class="menu-list-box">
+            <div class="buy-box">
+                <div class="buy-label">
+                    商品一覧
+                </div>
+                <div class="buy-list">
+                </div>
+            </div>
+            <div class="sell-box">
+                <div class="sell-label">
+                    売却一覧
+                </div>
+                <div class="sell-list">
+                </div>
+                <div class="sell-total-box">
+                    <button class="sell-button" id="btn-sell" disabled>売却</button>
+                    <button class="sell-button" id="btn-sell-release" disabled>返却</button>
+                    <div class="sell-total">
+                        <p class="sell-total-label">売却合計&nbsp;$</p><p class="sell-total-value">0</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!--
+        ********************************************************************************
+            非表示領域
+        ********************************************************************************
+        -->
+        <div class="buy-item-hidden">
+            <input class="buy-radio" id="" name="buy-list" type="radio" value="" /><label for="" class="buy-item"><p class="buy-item-icon"><img src="" /></p><p class="buy-item-name"></p><p class="buy-item-unit">$</p><p class="buy-item-price"></p></label>
+        </div>
+        <div class="sell-item-hidden">
+            <div class="sell-item"><p class="sell-item-icon"><img src="" /></p><p class="sell-item-name"></p><p class="sell-item-count"></p><p class="sell-item-unit">$</p><p class="sell-item-price"></p></div>
+        </div>
+    </body>
+</html>

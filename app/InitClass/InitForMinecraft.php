@@ -10,8 +10,9 @@ namespace App\InitClass;
 use SocketManager\Library\SocketManagerParameter;
 
 use App\CommandUnits\CommandQueueEnumForMinecraft;
+use App\CommandUnits\CommandStatusEnumForMinecraft;
 use App\UnitParameter\ParameterForMinecraft;
-
+use App\UnitParameter\ShopStatusEnum;
 
 /**
  * SocketManager初期化クラス
@@ -74,6 +75,24 @@ class InitForMinecraft extends InitForWebsocket
                 // マインクラフトからのItemUsedイベントの場合は受け入れる
                 if(isset($p_dat['data']['header']['eventName']) && $p_dat['data']['header']['eventName'] === 'ItemUsed')
                 {
+                    // SHOPへ接続中
+                    $shop = $p_param->getTempBuff(['shop']);
+                    if($shop !== null)
+                    {
+                        // 入店手続き中
+                        if($shop['shop']['sta'] === ShopStatusEnum::ENTRANCE->value)
+                        {
+                            return CommandQueueEnumForMinecraft::SHOP_RELEASE_LOCK->value;
+                        }
+                        else
+                        // 営業中
+                        if($shop['shop']['sta'] === ShopStatusEnum::OPEN->value)
+                        {
+                            return CommandQueueEnumForMinecraft::SHOP_SELL_ENTRY->value;
+                        }
+                        return null;
+                    }
+
                     // 弓イベントの場合
                     if($p_dat['data']['body']['item']['id'] === 'bow')
                     {

@@ -1,0 +1,41 @@
+{
+  "format_version": "1.10.0",
+  "minecraft:attachable": {
+    "description": {
+      "identifier": "customize:shop_lock",
+      "materials": {
+        "default": "entity_alphatest",
+        "enchanted": "entity_alphatest_glint"
+      },
+      "textures": {
+        "default": "textures/items/shop_lock",
+        "shop_lock_pulling_0": "textures/items/shop_lock_pulling_0",
+        "shop_lock_pulling_1": "textures/items/shop_lock_pulling_1",
+        "shop_lock_pulling_2": "textures/items/shop_lock_pulling_2",
+        "enchanted": "textures/misc/enchanted_item_glint"
+      },
+      "geometry": {
+        "default": "geometry.shop_lock",
+        "shop_lock_pulling_0": "geometry.shop_lock_pulling_0",
+        "shop_lock_pulling_1": "geometry.shop_lock_pulling_1",
+        "shop_lock_pulling_2": "geometry.shop_lock_pulling_2"
+      },
+      "animations": {
+        "wield": "animation.shop_lock.wield",
+        "wield_first_person_pull": "animation.shop_lock.wield_first_person_pull"
+      },
+      "scripts": {
+        "pre_animation": [
+          "variable.charge_amount = math.clamp((query.main_hand_item_max_duration - (query.main_hand_item_use_duration - query.frame_alpha + 1.0)) / 10.0, 0.0, 1.0f);"
+        ],
+        "animate": [
+          "wield",
+          {
+            "wield_first_person_pull": "query.main_hand_item_use_duration > 0.0f && c.is_first_person"
+          }
+        ]
+      },
+      "render_controllers": [ "controller.render.shop_lock" ]
+    }
+  }
+}

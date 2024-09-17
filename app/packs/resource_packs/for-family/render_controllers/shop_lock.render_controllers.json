@@ -1,0 +1,28 @@
+{
+  "format_version": "1.10",
+  "render_controllers": {
+    "controller.render.shop_lock": {
+      "arrays": {
+        "textures": {
+          "array.shop_lock_texture_frames": [
+            "texture.default",
+            "texture.shop_lock_pulling_0",
+            "texture.shop_lock_pulling_1",
+            "texture.shop_lock_pulling_2"
+          ]
+        },
+        "geometries": {
+          "array.shop_lock_geo_frames": [
+            "geometry.default",
+            "geometry.shop_lock_pulling_0",
+            "geometry.shop_lock_pulling_1",
+            "geometry.shop_lock_pulling_2"
+          ]
+        }
+      },
+      "geometry": "array.shop_lock_geo_frames[query.get_animation_frame]",
+      "materials": [ { "*": "variable.is_enchanted ? material.enchanted : material.default" } ],
+      "textures": [ "array.shop_lock_texture_frames[query.get_animation_frame]", "texture.enchanted" ]
+    }
+  }
+}

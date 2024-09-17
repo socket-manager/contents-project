@@ -40,6 +40,9 @@
         },
         "floating_feather": {
             "textures": "textures/items/floating_feather"
+        },
+        "shop_lock": {
+            "textures": "textures/items/shop_lock"
         }
     }
 }

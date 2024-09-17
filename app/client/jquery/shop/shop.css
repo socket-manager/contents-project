@@ -1,0 +1,513 @@
+@charset "utf-8";
+
+body
+{
+    background-color: #fffff0;
+    color: #000333;
+    margin: auto;
+}
+
+button
+{
+    cursor: pointer;
+}
+
+/********************************************************************************
+    親表示枠
+********************************************************************************/
+
+/* 親表示枠BOX */
+.parent-box
+{
+    margin-top: 20px;
+    margin-left: 20px;
+}
+
+
+/*===============================================================================
+    接続情報表示枠
+===============================================================================*/
+
+/* 接続情報表示枠BOX */
+div.connection-box
+{
+    margin-top: 10px;
+    display: flex;
+    flex-direction: row;
+}
+
+/* 接続先アドレス入力欄 */
+div.connection-box input.uri
+{
+    display: block;
+    height: 30px;
+    padding: 0;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    text-indent: .5em;
+    box-shadow: none;
+    width: 200px;
+    font-size: 14px;
+    border: 2px solid #f07e1a;
+}
+
+/* ユーザー名入力欄 */
+div.connection-box input.user
+{
+    display: block;
+    height: 30px;
+    padding: 0;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    text-indent: .5em;
+    box-shadow: none;
+    width: 140px;
+    font-size: 14px;
+    border: 2px solid #f07e1a;
+}
+
+/* 接続ボタン */
+div.connection-box #connect_button
+{
+    margin-left: 10px;
+    border: 2px solid #f07e1a;
+    border-radius: 3px;
+    color: #fff;
+    background: #f07e1a;
+    font-weight: bold;
+    font-size: medium;
+}
+div.connection-box #connect_button:active
+{
+    color: #fff;
+    background: #a14f06;
+}
+
+
+/*===============================================================================
+    NPC表示枠
+===============================================================================*/
+
+/* NPC表示枠BOX */
+.parent-box .npc-box
+{
+    margin-top: 20px;
+}
+
+/* NPC画像表示 */
+.parent-box .npc-box .npc-img
+{
+    width: 636px;
+    height: 276px;
+    background-image: url("../img/npc.png");
+    background-size: cover;
+}
+
+/* ブランク表示 */
+.parent-box .npc-box .npc-img .blank
+{
+    height: 22px;
+}
+
+/* ローディング画像表示 */
+.parent-box .npc-box .npc-img .loading-img-box
+{
+    width: 110px;
+    height: 22px;
+    margin-left: 38px;
+}
+
+/* 吹き出しテキスト */
+.parent-box .npc-box .npc-img .talk
+{
+    width: 400px;
+    height: 22px;
+    margin-top: 20px;
+    margin-left: 200px;
+    font-size: large;
+}
+
+/* 吹き出しボタンBOX */
+.parent-box .npc-box .npc-img .talk-button-box
+{
+    margin-top: 110px;
+    margin-left: 450px;
+}
+
+/* 吹き出しボタン（共通） */
+.parent-box .npc-box .npc-img .talk-button
+{
+    margin-left: 10px;
+    border: 2px solid #f07e1a;
+    border-radius: 3px;
+    color: #fff;
+    background: #f07e1a;
+    font-weight: bold;
+    font-size: medium;
+}
+.parent-box .npc-box .npc-img .talk-button:active {
+    color: #fff;
+    background: #a14f06;
+}
+.parent-box .npc-box .npc-img .talk-button:disabled {
+    border: 2px solid #999999;
+    background: #ccc;
+}
+
+
+/*===============================================================================
+    入店時表示枠
+===============================================================================*/
+
+/* 入店時表示枠BOX */
+.parent-box .entrance-box
+{
+    margin-top: 20px;
+}
+
+/* 入店時非表示枠BOX */
+.entrance-hidden-box
+{
+    display: none;
+}
+
+
+/*-------------------------------------------------------------------------------
+    ウォレット表示枠
+-------------------------------------------------------------------------------*/
+
+/* ウォレット表示枠BOX */
+.parent-box .entrance-box .wallet-box
+{
+    /* margin-top: 20px; */
+}
+
+/* 所持金表示枠BOX */
+.parent-box .entrance-box .wallet-box .money-box
+{
+    background: #fffacd;
+    border-radius: 3px;
+    padding: 5px;
+    color: #f07e1a;
+    font-weight: bold;
+    display: flex;
+    flex-direction: row;
+    border: 2px solid #f07e1a;
+    width: 348px;
+}
+
+/* 所持金表示 */
+.parent-box .entrance-box .wallet-box .money-box .money-value
+{
+    background: #333;
+    color: #eee;
+    border-radius: 3px;
+    padding-left: 5px;
+    padding-right: 5px;
+    margin: 5px;
+    font-weight: bold;
+    height: 24px;
+    width: 100px;
+    text-align: right;
+}
+
+/* 所持金ラベル表示 */
+.parent-box .entrance-box .wallet-box .money-box .money-label
+{
+    margin: 5px;
+}
+
+
+/*-------------------------------------------------------------------------------
+    コンテンツ表示枠
+-------------------------------------------------------------------------------*/
+
+/* コンテンツ表示枠BOX */
+.parent-box .entrance-box .contents-box
+{
+    margin-top: 20px;
+    display: flex;
+    flex-direction: row;
+}
+
+
+/*-------------------------------------------------------------------------------
+    メニューリスト表示枠
+-------------------------------------------------------------------------------*/
+
+/* メニューリスト表示枠BOX */
+.menu-list-box
+{
+    display: none;
+}
+
+/***** 購入リスト表示枠 *****/
+
+.buy-box
+{
+    background: #fffacd;
+    padding: 10px;
+    border-radius: 3px;
+    border: 2px solid #f07e1a
+}
+
+/* 購入リストラベル */
+.buy-label {
+    color: #f07e1a;
+    font-weight: bold;
+}
+
+/* 購入リスト表示枠 */
+.buy-list
+{
+    overflow-y: auto;
+    background: #333;
+    border-radius: 3px;
+    padding: 5px;
+    height: 200px;
+    border: 2px solid #f07e1a
+}
+/* スクロールバー領域のサイズ */
+.buy-list::-webkit-scrollbar
+{
+    height: 14px;   /* 横スクロール時の高さ */
+    width: 14px;    /* 縦スクロール時の幅 */
+}
+/* スクロールバーの可動域 */
+.buy-list::-webkit-scrollbar-track
+{
+    background-color: #f5deb3;
+    border-radius: 3px;
+}
+/* スクロールバー本体 */
+.buy-list::-webkit-scrollbar-thumb
+{
+    border: 2px solid #f07e1a;
+    background-color: #f4a460;
+    border-radius: 3px;
+}
+
+/* 購入アイテムラジオボタン */
+.buy-radio {
+    display: none;
+}
+.buy-radio:checked + label {
+    background: #777;
+    color: #eee;
+}
+.buy-radio:hover + label {
+    background: #777;
+    color: #eee;
+}
+.buy-radio:disabled + label {
+    color: #888;
+}
+
+/* 購入アイテムラベル */
+.buy-item {
+    color: #eee;
+    background: #333;
+    display: flex;
+    flex-direction: row;
+}
+
+.buy-item-icon
+{
+    height: 24px;
+    margin: 0px;
+    padding: 10px 5px 0px 5px;
+}
+.buy-item-name
+{
+    height: 24px;
+    width: 154px;
+    margin: 0px;
+    padding: 5px;
+}
+.buy-item-unit
+{
+    height: 24px;
+    margin: 0px;
+    padding: 5px;
+}
+.buy-item-price
+{
+    height: 24px;
+    width: 90px;
+    margin: 0px;
+    padding: 5px;
+}
+
+/* 吹き出しテキスト */
+.talk-item
+{
+    display: flex;
+    flex-direction: row;
+}
+
+/***** 売却リスト表示枠 *****/
+
+.sell-box
+{
+    background: #fffacd;
+    padding: 10px;
+    border-radius: 3px;
+    border: 2px solid #f07e1a;
+    margin-left: 10px;
+}
+
+/* 売却リストラベル */
+.sell-label {
+    color: #f07e1a;
+    font-weight: bold;
+}
+
+/* 売却リスト表示枠 */
+.sell-list
+{
+    overflow-y: auto;
+    background: #333;
+    border-radius: 3px;
+    padding: 5px;
+    height: 200px;
+    border: 2px solid #f07e1a
+}
+/* スクロールバー領域のサイズ */
+.sell-list::-webkit-scrollbar
+{
+    height: 14px;   /* 横スクロール時の高さ */
+    width: 14px;    /* 縦スクロール時の幅 */
+}
+/* スクロールバーの可動域 */
+.sell-list::-webkit-scrollbar-track
+{
+    background-color: #f5deb3;
+    border-radius: 3px;
+}
+/* スクロールバー本体 */
+.sell-list::-webkit-scrollbar-thumb
+{
+    border: 2px solid #f07e1a;
+    background-color: #f4a460;
+    border-radius: 3px;
+}
+
+/* 売却アイテム行 */
+.sell-item {
+    color: #eee;
+    background: #333;
+    display: flex;
+    flex-direction: row;
+}
+.sell-item-icon
+{
+    height: 24px;
+    margin: 0px;
+    padding: 10px 5px 0px 5px;
+}
+.sell-item-name
+{
+    height: 24px;
+    width: 154px;
+    margin: 0px;
+    padding: 5px;
+}
+.sell-item-count
+{
+    height: 24px;
+    width: 40px;
+    margin: 0px;
+    padding: 5px;
+}
+.sell-item-unit
+{
+    height: 24px;
+    margin: 0px;
+    padding: 5px;
+}
+.sell-item-price
+{
+    height: 24px;
+    width: 90px;
+    margin: 0px;
+    padding: 5px;
+}
+
+/* 売却合計表示枠BOX */
+.sell-total-box
+{
+    background: #fffacd;
+    border-radius: 3px;
+    padding: 5px;
+    color: #f07e1a;
+    display: flex;
+    flex-direction: row;
+}
+
+/* 吹き出しボタン（共通） */
+.sell-button
+{
+    margin-left: 10px;
+    border: 2px solid #f07e1a;
+    border-radius: 3px;
+    color: #fff;
+    background: #f07e1a;
+    font-weight: bold;
+    font-size: medium;
+}
+.sell-button:active {
+    color: #fff;
+    background: #a14f06;
+}
+.sell-button:disabled {
+    border: 2px solid #999999;
+    background: #ccc;
+}
+
+/* 売却合計表示枠 */
+.sell-total
+{
+    width: 216px;
+    margin-left: auto;
+    display: flex;
+    flex-direction: row;
+}
+
+/* 売却合計表示 */
+.sell-total-value
+{
+    background: #333;
+    color: #eee;
+    border-radius: 3px;
+    padding-left: 5px;
+    padding-right: 5px;
+    margin: 5px;
+    height: 24px;
+    width: 100px;
+    text-align: right;
+}
+
+/* 売却合計ラベル表示 */
+.sell-total-label
+{
+    font-weight: bold;
+    margin: 5px;
+}
+
+/********************************************************************************
+    非表示枠
+********************************************************************************/
+
+/* 購入可能アイテムBOX */
+.buy-item-hidden
+{
+    display: none;
+}
+
+/* 購入可能アイテムBOX */
+.sell-item-hidden
+{
+    display: none;
+}
