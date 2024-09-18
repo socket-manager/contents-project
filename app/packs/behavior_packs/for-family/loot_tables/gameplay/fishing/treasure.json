@@ -76,12 +76,36 @@
                 {
                     "type": "item",
                     "name": "customize:immovable_stone",
-                    "weight": 5
+                    "weight": 5,
+                    "functions": [
+                        {
+                            "function": "set_name",
+                            "name": "不動の魔石"
+                        },
+                        {
+                            "function": "set_lore",
+                            "lore": [
+                                "動くものを足止めする力を秘めている"
+                            ]
+                        }
+                    ]
                 },
                 {
                     "type": "item",
                     "name": "customize:floating_feather",
-                    "weight": 6
+                    "weight": 6,
+                    "functions": [
+                        {
+                            "function": "set_name",
+                            "name": "浮遊の羽"
+                        },
+                        {
+                            "function": "set_lore",
+                            "lore": [
+                                "浮力を付与する効果がある"
+                            ]
+                        }
+                    ]
                 }
             ]
         }

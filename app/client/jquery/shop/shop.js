@@ -372,14 +372,13 @@ $(function()
         else
         if(switch_talk_btn === 'survival')
         {
-            // 吹き出しセット
-            $('.talk').html(opts.exit_comment);
-
-            // ローディング非表示
-            $('.loading-img').hide();
-
-            // 吹き出しボタン非表示
-            $('.talk-button-box').hide();
+            // 切断要求を送信
+            let param =
+            {
+                'cmd': 'close',
+                'code': CHAT_CLIENT_CLOSE_CODE
+            };
+            websocket.close(CHAT_CLIENT_CLOSE_CODE, JSON.stringify(param));
         }
     });
 

@@ -105,6 +105,38 @@ return [
      */
     'sell_list' =>
     [
+        'thunder_sword_revised' =>
+        [
+            'id' => 'thunder_sword_revised',
+            'type' => 'loot',
+            'icon' => './img/thunder_sword_revised.png',
+            'name' => 'いなずまの剣（改）',
+            'price' => 13500
+        ],
+        'thunder_sword' =>
+        [
+            'id' => 'thunder_sword',
+            'type' => 'loot',
+            'icon' => './img/thunder_sword.png',
+            'name' => 'いなずまの剣',
+            'price' => 6700
+        ],
+        'hayabusa_sword' =>
+        [
+            'id' => 'hayabusa_sword',
+            'type' => 'loot',
+            'icon' => './img/hayabusa_sword.png',
+            'name' => 'はやぶさの剣',
+            'price' => 10000
+        ],
+        'immovable_rod' =>
+        [
+            'id' => 'immovable_rod',
+            'type' => 'loot',
+            'icon' => './img/immovable_rod.png',
+            'name' => '不動の杖',
+            'price' => 13500
+        ],
         'immovable_stone' =>
         [
             'id' => 'immovable_stone',
