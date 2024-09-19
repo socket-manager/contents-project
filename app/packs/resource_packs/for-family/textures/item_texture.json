@@ -43,6 +43,9 @@
         },
         "shop_lock": {
             "textures": "textures/items/shop_lock"
+        },
+        "teleport_rod": {
+            "textures": "textures/items/teleport_rod"
         }
     }
 }

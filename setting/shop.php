@@ -42,6 +42,14 @@ return [
             'name' => '不動の杖',
             'price' => 20000
         ],
+        'teleport_rod' =>
+        [
+            'id' => 'teleport_rod',
+            'type' => 'loot',
+            'icon' => './img/teleport_rod.png',
+            'name' => '瞬間移動の杖',
+            'price' => 15000
+        ],
         'sweep_rod' =>
         [
             'id' => 'sweep_rod',
