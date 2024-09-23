@@ -4,6 +4,7 @@ body
 {
     background-color: #fffff0;
     color: #000333;
+    width: 825px;
     margin: auto;
 }
 
@@ -322,7 +323,7 @@ div.connection-box #connect_button:active
 .buy-item-name
 {
     height: 24px;
-    width: 154px;
+    width: 170px;
     margin: 0px;
     padding: 5px;
 }
@@ -372,6 +373,7 @@ div.connection-box #connect_button:active
     border-radius: 3px;
     padding: 5px;
     height: 200px;
+    width: 360px;
     border: 2px solid #f07e1a
 }
 /* スクロールバー領域のサイズ */

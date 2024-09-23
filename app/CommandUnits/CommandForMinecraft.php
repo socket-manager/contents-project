@@ -1028,6 +1028,9 @@ class CommandForMinecraft extends CommandForWebsocket
                     $wallet = strrchr($rcv['data']['body']['statusMessage'], ' ');
                     $wallet = substr($wallet, 1, strlen($wallet) - 2);
 
+                    // 商品一覧を取得
+                    $buy_list = config('shop.buy_list');
+
                     // 売却完了をブラウザへ送信
                     $data =
                     [
@@ -1036,7 +1039,8 @@ class CommandForMinecraft extends CommandForWebsocket
                             'cmd' => CommandQueueEnumForMinecraft::SHOP_SELL->value,
                             'result' => true,
                             'wallet' => $wallet,
-                            'sell_list' => $shop_browser['shop']['sell_list']
+                            'sell_list' => $shop_browser['shop']['sell_list'],
+                            'buy_list' => $buy_list
                         ]
                     ];
                     $p_param->setSendStack($data, $shop_mainecraft['shop']['cid']);

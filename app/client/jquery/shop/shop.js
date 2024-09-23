@@ -483,6 +483,9 @@ $(function()
                 // 購入可能リストの設定
                 setBuyList(data.buy_list, data.wallet);
 
+                // 売却リストの設定
+                setSellList([]);
+
                 // 店内表示
                 $('.contents-box').html($('.menu-list-box').html());
                 $('.entrance-box').html($('.entrance-hidden-box').html());
@@ -536,13 +539,16 @@ $(function()
                 // 吹き出しの設定
                 $('.talk').html(opts.sold_comment);
 
-                setTimeout(function(sell_list, wallet)
+                setTimeout(function(sell_list, buy_list, wallet)
                 {
                     // ウォレットの設定
                     $('.money-value').html(wallet);
 
-                    // 購入可能リストの設定
+                    // 売却リストの設定
                     setSellList(sell_list);
+
+                    // 購入可能リストの設定
+                    setBuyList(buy_list, wallet);
 
                     // 売却・返却ボタン共に、リストがあれば活性化する
                     if(sell_list.length > 0)
@@ -560,7 +566,7 @@ $(function()
 
                     // ローディング非表示
                     $('.loading-img').hide();
-                }, 2000, data.sell_list, data.wallet);
+                }, 2000, data.sell_list, data.buy_list, data.wallet);
             }
             else
             // 返却済みコマンド

@@ -186,5 +186,10 @@ return [
         'released_comment' => '返却しました。',
         'selling_comment' => '売却中．．．',
         'sold_comment' => '売却しました。'
-    ]
+    ],
+
+    /**
+     * @var string 金額データのスコアボードオブジェクト名
+     */
+    'wallet-object-name' => 'wallet'
 ];

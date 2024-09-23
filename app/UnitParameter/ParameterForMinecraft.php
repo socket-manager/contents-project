@@ -1171,12 +1171,14 @@ class ParameterForMinecraft extends ParameterForWebsocket
     {
         $cmd_datas = [];
 
+        $obj_name = config('shop.wallet-object-name');
+
         // コマンド送信（スコアボードのオブジェクト設置）
-        $cmd = "scoreboard objectives add wallet dummy";
+        $cmd = "scoreboard objectives add {$obj_name} dummy";
         $cmd_datas[] = $this->getCommandData($cmd, 'wallet-obj', $p_cid);
 
         // コマンド送信（所持金取得）
-        $cmd = "scoreboard players add @s wallet 0";
+        $cmd = "scoreboard players add @s {$obj_name} 0";
         $cmd_datas[] = $this->getCommandData($cmd, 'wallet-get', $p_cid);
 
         return $cmd_datas;
@@ -1202,7 +1204,8 @@ class ParameterForMinecraft extends ParameterForWebsocket
         }
 
         // コマンド送信（所持金減額）
-        $cmd = "scoreboard players remove @s wallet {$cnf_item['price']}";
+        $obj_name = config("shop.wallet-object-name");
+        $cmd = "scoreboard players remove @s {$obj_name} {$cnf_item['price']}";
         $cmd_datas[] = $this->getCommandData($cmd, 'buy-pay', $p_cid);
 
         return $cmd_datas;
@@ -1239,7 +1242,8 @@ class ParameterForMinecraft extends ParameterForWebsocket
     public function getCommandDataForSell(string $p_cid, int $p_price)
     {
         // コマンド送信（所持金加算）
-        $cmd = "scoreboard players add @s wallet {$p_price}";
+        $obj_name = config("shop.wallet-object-name");
+        $cmd = "scoreboard players add @s {$obj_name} {$p_price}";
         $cmd_data = $this->getCommandData($cmd, 'sell-paid', $p_cid);
 
         return $cmd_data;
