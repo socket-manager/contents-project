@@ -1103,7 +1103,7 @@ class ParameterForMinecraft extends ParameterForWebsocket
     public function getCommandDataForTeleportRod()
     {
         // コマンド送信
-        $cmd = "particle minecraft:critical_hit_emitter ~ ~2 ~";
+        $cmd = "function teleport_rod";
         $cmd_data = $this->getCommandData($cmd, 'teleport-rod');
 
         return $cmd_data;
