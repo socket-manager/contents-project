@@ -1203,20 +1203,6 @@ class CommandForMinecraft extends CommandForWebsocket
                 return null;
             }
 
-            // 瞬間移動の杖
-            if($rcv['data']['body']['item']['id'] === 'teleport_rod')
-            {
-                // コマンド送信
-                $cmd_data = $p_param->getCommandDataForTeleportRod();
-                $data =
-                [
-                    'data' => $cmd_data
-                ];
-                $p_param->setSendStack($data);
-
-                return null;
-            }
-
             // ディスパッチャー強制
             $p_param->setForcedDispatcher(true);
 
