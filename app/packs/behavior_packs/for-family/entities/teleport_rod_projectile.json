@@ -1,0 +1,117 @@
+{
+    "format_version": "1.17.10",
+    "minecraft:entity": {
+        "description": {
+            "identifier": "customize:teleport_rod_projectile",
+            "is_spawnable": false,
+            "is_summonable": true,
+            "is_experimental": false
+        },
+        "component_groups": {
+			"customize:despawn_self": {
+                "minecraft:instant_despawn": {
+                }
+            }
+		},
+        "components": {
+            "minecraft:breathable": {
+                "breathes_solids": true,
+                "breathes_water": true,
+                "generates_bubbles": false,
+                "total_supply": 15,
+                "suffocate_time": 0
+            },
+            "minecraft:nameable": {
+            },
+            "minecraft:type_family": {
+                "family": [ "teleport_rod_projectile", "mob" ]
+            },
+            "minecraft:collision_box": {
+                "width": 0.0,
+                "height": 0.0
+            },
+            "minecraft:health": {
+                "value": 100,
+                "max": 100
+            },
+            "minecraft:behavior.float": {
+                "priority": 0
+            },
+            "minecraft:physics": {
+                "has_collision": true,
+                "has_gravity": true,
+                "push_towards_closest_space": true
+            },
+            "minecraft:conditional_bandwidth_optimization": {
+            },
+            "minecraft:projectile": {
+                "on_hit": {
+                    "impact_damage": {
+                        "damage": [ 1, 4 ],
+                        "knockback": true,
+                        "semi_random_diff_damage": false,
+                        "destroy_on_hit": false
+                    },
+                    "stick_in_ground": {
+                        "shake_time" : 0.35
+                    },
+                    "arrow_effect": {
+                        "apply_effect_to_blocking_targets": false
+                    }
+                },
+                "hit_sound": "bow.hit",
+                "power": 1.6,
+                "gravity": 0.05,
+                "uncertainty_base": 16,
+                "uncertainty_multiplier": 4,
+                "anchor": 1,
+                "should_bounce": true,
+                "offset": [ 0, -0.1, 0 ]
+            },
+            "minecraft:entity_sensor": {
+                "subsensors": [
+                    {
+                        "event_filters": {
+                            "any_of": [
+                                { "test": "on_ground", "subject": "self", "operator": "equals", "value": true }
+                            ]
+                        },
+                        "event": "customize:on_ground"
+                    },
+                    {
+                        "event_filters": {
+                            "any_of": [
+                                {
+                                    "test": "is_moving",
+                                    "subject": "self",
+                                    "operator": "equals",
+                                    "value": true
+                                }
+                            ]
+                        },
+                        "event": "customize:is_moving"
+                    }
+                ]
+            }
+        },
+        "events": {
+            "customize:despawn_self": {
+                "add": {
+                    "component_groups": [
+                        "customize:despawn_self"
+                    ]
+                }
+            },
+            "customize:on_ground": {
+                "queue_command": {
+					"command": "event entity @s customize:despawn_self"
+				}
+            },
+            "customize:is_moving": {
+                "queue_command": {
+					"command": "tp @p ~ ~1 ~"
+				}
+            }
+        }
+    }
+}

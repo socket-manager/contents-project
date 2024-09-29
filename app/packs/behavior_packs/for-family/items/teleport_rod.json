@@ -22,7 +22,7 @@
                 "movement_modifier": 0.0
             },
             "minecraft:projectile": {
-                "projectile_entity": "ender_pearl"
+                "projectile_entity": "customize:teleport_rod_projectile"
             },
             "minecraft:shooter":{
                 "ammunition" :[{
