@@ -1206,6 +1206,12 @@ class ParameterForMinecraft extends ParameterForWebsocket
             $cmd = "loot give @s loot {$p_item['id']}";
             $cmd_data = $this->getCommandData($cmd, 'shop-sell-release', $p_cid);
         }
+        else
+        if($p_item['type'] === 'customize')
+        {
+            $cmd = "give @s {$p_item['type']}:{$p_item['id']}";
+            $cmd_data = $this->getCommandData($cmd, 'shop-sell-release', $p_cid);
+        }
 
         return $cmd_data;
     }

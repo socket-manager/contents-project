@@ -46,6 +46,12 @@
         },
         "teleport_rod": {
             "textures": "textures/items/teleport_rod"
+        },
+        "sanma": {
+            "textures": "textures/items/sanma"
+        },
+        "cooked_sanma": {
+            "textures": "textures/items/cooked_sanma"
         }
     }
 }

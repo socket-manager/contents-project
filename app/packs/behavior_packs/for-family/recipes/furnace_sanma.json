@@ -1,0 +1,17 @@
+{
+    "format_version": "1.20.10",
+    "minecraft:recipe_furnace": {
+        "description": {
+            "identifier": "minecraft:furnace_sanma"
+        },
+
+        "unlock": [
+            {
+                "context": "AlwaysUnlocked"
+            }
+        ],
+        "tags": ["furnace", "smoker", "campfire", "soul_campfire"],
+        "input": "customize:sanma",
+        "output": "customize:cooked_sanma"
+    }
+}

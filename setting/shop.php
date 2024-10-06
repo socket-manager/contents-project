@@ -160,6 +160,14 @@ return [
             'icon' => './img/floating_feather.png',
             'name' => '浮遊の羽',
             'price' => 4000
+        ],
+        'sanma' =>
+        [
+            'id' => 'sanma',
+            'type' => 'customize',
+            'icon' => './img/sanma.png',
+            'name' => '生さんま',
+            'price' => 100
         ]
     ],
 

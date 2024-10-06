@@ -1,0 +1,34 @@
+{
+    "format_version": "1.20.50",
+    "minecraft:item": {
+        "description": {
+            "identifier": "customize:cooked_sanma"
+        },
+        "components": {
+            "minecraft:icon": {
+                "texture": "cooked_sanma"
+            },
+            "minecraft:display_name": {
+                "value": "item.customize:cooked_sanma.name"
+            },
+            "minecraft:tags": {
+                "tags": [
+                  "minecraft:is_food"
+                ]
+            },
+            "minecraft:can_destroy_in_creative": false,
+            "minecraft:max_damage": 0,
+            "minecraft:hand_equipped": false,
+            "minecraft:glint": false,
+            "minecraft:use_animation": "eat",
+            "minecraft:use_modifiers": {
+                "use_duration": 1.6,
+                "movement_modifier": 0.35
+            },
+            "minecraft:food": {
+                "nutrition": 5,
+                "can_always_eat": false
+            }
+        }
+    }
+}
