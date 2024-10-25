@@ -3,7 +3,6 @@
   "minecraft:client_entity": {
     "description": {
       "identifier": "customize:sit",
-      "min_engine_version": "1.8.0",
       "materials": {
         "default": "entity_alphatest"
       },
@@ -11,10 +10,11 @@
         "default": "textures/entity/sit"
       },
       "geometry": {
+        // "default": "geometry.item_sprite"
         "default": "geometry.sit"
       },
       "render_controllers": [
-        "controller.render.sit"
+        "controller.render.item_sprite"
       ]
     }
   }

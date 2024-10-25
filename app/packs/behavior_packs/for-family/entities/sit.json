@@ -1,11 +1,10 @@
 {
-    "format_version": "1.12.0",
+    "format_version": "1.17.10",
     "minecraft:entity": {
         "description": {
             "identifier": "customize:sit",
             "is_spawnable": false,
-            "is_summonable": true,
-            "is_experimental": false
+            "is_summonable": true
         },
         "components": {
             "minecraft:breathable": {
