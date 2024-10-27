@@ -1,21 +1,21 @@
 {
     "format_version": "1.10.0",
     "minecraft:client_entity": {
-      "description": {
-        "identifier": "customize:hayabusa",
-        "min_engine_version": "1.8.0",
-        "materials": {
-          "default": "entity_alphatest"
-        },
-        "textures": {
-          "default": "textures/items/hayabusa"
-        },
-        "geometry": {
-          "default": "geometry.hayabusa"
-        },
-        "render_controllers": [
-          "controller.render.hayabusa"
-        ]
-      }
+        "description": {
+            "identifier": "customize:hayabusa",
+            "materials": {
+                "default": "entity_alphatest"
+            },
+            "textures": {
+                "default": "textures/entity/hayabusa"
+            },
+            "geometry": {
+                // "default": "geometry.item_sprite"
+                "default": "geometry.hayabusa"
+            },
+            "render_controllers": [
+                "controller.render.item_sprite"
+            ]
+        }
     }
-  }
+}

@@ -4,8 +4,7 @@
         "description": {
             "identifier": "customize:teleport_rod_projectile",
             "is_spawnable": false,
-            "is_summonable": true,
-            "is_experimental": false
+            "is_summonable": true
         },
         "component_groups": {
 			"customize:despawn_self": {
@@ -16,15 +15,9 @@
         "components": {
             "minecraft:breathable": {
                 "breathes_solids": true,
-                "breathes_water": true,
-                "generates_bubbles": false,
-                "total_supply": 15,
-                "suffocate_time": 0
+                "breathes_water": true
             },
             "minecraft:nameable": {
-            },
-            "minecraft:type_family": {
-                "family": [ "teleport_rod_projectile", "mob" ]
             },
             "minecraft:collision_box": {
                 "width": 0.0,
@@ -34,15 +27,10 @@
                 "value": 100,
                 "max": 100
             },
-            "minecraft:behavior.float": {
-                "priority": 0
-            },
             "minecraft:physics": {
                 "has_collision": true,
                 "has_gravity": true,
                 "push_towards_closest_space": true
-            },
-            "minecraft:conditional_bandwidth_optimization": {
             },
             "minecraft:projectile": {
                 "on_hit": {
