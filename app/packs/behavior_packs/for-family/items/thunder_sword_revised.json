@@ -13,6 +13,7 @@
             },
             "minecraft:can_destroy_in_creative": false,
             "minecraft:max_damage": 400,
+            "minecraft:max_stack_size": 1,
             "minecraft:hand_equipped": true,
             "minecraft:damage": 15,
             "minecraft:glint": true,

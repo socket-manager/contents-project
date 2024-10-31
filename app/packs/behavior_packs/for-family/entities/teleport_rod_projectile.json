@@ -69,12 +69,7 @@
                     {
                         "event_filters": {
                             "any_of": [
-                                {
-                                    "test": "is_moving",
-                                    "subject": "self",
-                                    "operator": "equals",
-                                    "value": true
-                                }
+                                { "test": "is_moving", "subject": "self", "operator": "equals", "value": true }
                             ]
                         },
                         "event": "customize:is_moving"
