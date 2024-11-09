@@ -2,7 +2,10 @@
     "format_version": "1.20.50",
     "minecraft:item": {
         "description": {
-            "identifier": "customize:teleport_rod"
+            "identifier": "customize:teleport_rod",
+            "menu_category": {
+                "category": "none"
+            }
         },
         "components": {
             "minecraft:icon": {
@@ -12,7 +15,6 @@
                 "value": "item.customize:teleport_rod.name"
             },
             "minecraft:can_destroy_in_creative": false,
-            "minecraft:max_damage": 400,
             "minecraft:hand_equipped": false,
             "minecraft:damage": 6,
             "minecraft:glint": true,

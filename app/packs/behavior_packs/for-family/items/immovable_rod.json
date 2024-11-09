@@ -12,7 +12,6 @@
                 "value": "item.customize:immovable_rod.name"
             },
             "minecraft:can_destroy_in_creative": false,
-            "minecraft:max_damage": 400,
             "minecraft:max_stack_size": 1,
             "minecraft:hand_equipped": false,
             "minecraft:damage": 6,
@@ -23,8 +22,7 @@
                 "movement_modifier": 0.35
             },
             "minecraft:food": {
-                "nutrition": 0,
-                "can_always_eat": true
+                "nutrition": 0
             }
         }
     }

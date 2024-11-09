@@ -12,7 +12,6 @@
                 "value": "item.customize:hayabusa_sword.name"
             },
             "minecraft:can_destroy_in_creative": false,
-            "minecraft:max_damage": 400,
             "minecraft:max_stack_size": 1,
             "minecraft:hand_equipped": true,
             "minecraft:damage": 7,
@@ -22,12 +21,11 @@
                 "movement_modifier": 0.0
             },
             "minecraft:food": {
-                "nutrition": 0,
-                "can_always_eat": true
+                "nutrition": 0
             },
             "minecraft:enchantable": {
                 "slot": "sword",
-                "value": 10
+                "value": 0
             }
         }
     }
