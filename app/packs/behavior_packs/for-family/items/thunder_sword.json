@@ -2,7 +2,11 @@
     "format_version": "1.20.50",
     "minecraft:item": {
         "description": {
-            "identifier": "customize:thunder_sword"
+            "identifier": "customize:thunder_sword",
+            "menu_category": {
+                "category": "equipment",
+                "group": "itemGroup.name.sword"
+            }
         },
         "components": {
             "minecraft:icon": {

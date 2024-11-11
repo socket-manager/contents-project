@@ -2,7 +2,10 @@
     "format_version": "1.20.50",
     "minecraft:item": {
         "description": {
-            "identifier": "customize:floating_feather"
+            "identifier": "customize:floating_feather",
+            "menu_category": {
+                "category": "items"
+            }
         },
         "components": {
             "minecraft:icon": {

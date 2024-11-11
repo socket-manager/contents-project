@@ -4,7 +4,8 @@
         "description": {
             "identifier": "customize:cooked_sanma",
             "menu_category": {
-                "category": "none"
+                "category": "equipment",
+                "group": "itemGroup.name.cookedFood"
             }
         },
         "components": {

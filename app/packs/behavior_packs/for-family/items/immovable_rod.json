@@ -2,7 +2,10 @@
     "format_version": "1.20.50",
     "minecraft:item": {
         "description": {
-            "identifier": "customize:immovable_rod"
+            "identifier": "customize:immovable_rod",
+            "menu_category": {
+                "category": "equipment"
+            }
         },
         "components": {
             "minecraft:icon": {

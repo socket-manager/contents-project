@@ -2,7 +2,10 @@
     "format_version": "1.20.50",
     "minecraft:item": {
         "description": {
-            "identifier": "customize:immovable_stone"
+            "identifier": "customize:immovable_stone",
+            "menu_category": {
+                "category": "items"
+            }
         },
         "components": {
             "minecraft:icon": {
