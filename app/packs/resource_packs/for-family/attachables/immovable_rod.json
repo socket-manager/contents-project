@@ -9,16 +9,10 @@
       },
       "textures": {
         "default": "textures/items/immovable_rod",
-        "immovable_rod_pulling_0": "textures/items/immovable_rod_pulling_0",
-        "immovable_rod_pulling_1": "textures/items/immovable_rod_pulling_1",
-        "immovable_rod_pulling_2": "textures/items/immovable_rod_pulling_2",
         "enchanted": "textures/misc/enchanted_item_glint"
       },
       "geometry": {
-        "default": "geometry.immovable_rod",
-        "immovable_rod_pulling_0": "geometry.immovable_rod_pulling_0",
-        "immovable_rod_pulling_1": "geometry.immovable_rod_pulling_1",
-        "immovable_rod_pulling_2": "geometry.immovable_rod_pulling_2"
+        "default": "geometry.immovable_rod"
       },
       "animations": {
         "wield": "animation.immovable_rod.wield",

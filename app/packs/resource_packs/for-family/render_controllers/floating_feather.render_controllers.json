@@ -5,18 +5,12 @@
       "arrays": {
         "textures": {
           "array.floating_feather_texture_frames": [
-            "texture.default",
-            "texture.floating_feather_pulling_0",
-            "texture.floating_feather_pulling_1",
-            "texture.floating_feather_pulling_2"
+            "texture.default"
           ]
         },
         "geometries": {
           "array.floating_feather_geo_frames": [
-            "geometry.default",
-            "geometry.floating_feather_pulling_0",
-            "geometry.floating_feather_pulling_1",
-            "geometry.floating_feather_pulling_2"
+            "geometry.default"
           ]
         }
       },

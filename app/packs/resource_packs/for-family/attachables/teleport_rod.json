@@ -9,16 +9,10 @@
       },
       "textures": {
         "default": "textures/items/teleport_rod",
-        "teleport_rod_pulling_0": "textures/items/teleport_rod_pulling_0",
-        "teleport_rod_pulling_1": "textures/items/teleport_rod_pulling_1",
-        "teleport_rod_pulling_2": "textures/items/teleport_rod_pulling_2",
         "enchanted": "textures/misc/enchanted_item_glint"
       },
       "geometry": {
-        "default": "geometry.teleport_rod",
-        "teleport_rod_pulling_0": "geometry.teleport_rod_pulling_0",
-        "teleport_rod_pulling_1": "geometry.teleport_rod_pulling_1",
-        "teleport_rod_pulling_2": "geometry.teleport_rod_pulling_2"
+        "default": "geometry.teleport_rod"
       },
       "animations": {
         "wield": "animation.teleport_rod.wield",

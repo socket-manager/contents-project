@@ -5,18 +5,12 @@
       "arrays": {
         "textures": {
           "array.thunder_sword_texture_frames": [
-            "texture.default",
-            "texture.thunder_sword_pulling_0",
-            "texture.thunder_sword_pulling_1",
-            "texture.thunder_sword_pulling_2"
+            "texture.default"
           ]
         },
         "geometries": {
           "array.thunder_sword_geo_frames": [
-            "geometry.default",
-            "geometry.thunder_sword_pulling_0",
-            "geometry.thunder_sword_pulling_1",
-            "geometry.thunder_sword_pulling_2"
+            "geometry.default"
           ]
         }
       },

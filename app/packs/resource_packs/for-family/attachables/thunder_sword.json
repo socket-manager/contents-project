@@ -9,16 +9,10 @@
       },
       "textures": {
         "default": "textures/items/thunder_sword",
-        "thunder_sword_pulling_0": "textures/items/thunder_sword_pulling_0",
-        "thunder_sword_pulling_1": "textures/items/thunder_sword_pulling_1",
-        "thunder_sword_pulling_2": "textures/items/thunder_sword_pulling_2",
         "enchanted": "textures/misc/enchanted_item_glint"
       },
       "geometry": {
-        "default": "geometry.thunder_sword",
-        "thunder_sword_pulling_0": "geometry.thunder_sword_pulling_0",
-        "thunder_sword_pulling_1": "geometry.thunder_sword_pulling_1",
-        "thunder_sword_pulling_2": "geometry.thunder_sword_pulling_2"
+        "default": "geometry.thunder_sword"
       },
       "animations": {
         "wield": "animation.thunder_sword.wield",

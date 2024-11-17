@@ -21,7 +21,6 @@
             },
             "minecraft:rideable": {
                 "seat_count": 1,
-                "crouching_skip_interact": true,
                 "family_types": ["player"],
                 "seats": [
                     {

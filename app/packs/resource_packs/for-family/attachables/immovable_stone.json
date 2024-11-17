@@ -9,16 +9,10 @@
       },
       "textures": {
         "default": "textures/items/immovable_stone",
-        "immovable_stone_pulling_0": "textures/items/immovable_stone_pulling_0",
-        "immovable_stone_pulling_1": "textures/items/immovable_stone_pulling_1",
-        "immovable_stone_pulling_2": "textures/items/immovable_stone_pulling_2",
         "enchanted": "textures/misc/enchanted_item_glint"
       },
       "geometry": {
-        "default": "geometry.immovable_stone",
-        "immovable_stone_pulling_0": "geometry.immovable_stone_pulling_0",
-        "immovable_stone_pulling_1": "geometry.immovable_stone_pulling_1",
-        "immovable_stone_pulling_2": "geometry.immovable_stone_pulling_2"
+        "default": "geometry.immovable_stone"
       },
       "animations": {
         "wield": "animation.immovable_stone.wield",

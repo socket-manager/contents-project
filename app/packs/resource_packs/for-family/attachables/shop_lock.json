@@ -9,16 +9,10 @@
       },
       "textures": {
         "default": "textures/items/shop_lock",
-        "shop_lock_pulling_0": "textures/items/shop_lock_pulling_0",
-        "shop_lock_pulling_1": "textures/items/shop_lock_pulling_1",
-        "shop_lock_pulling_2": "textures/items/shop_lock_pulling_2",
         "enchanted": "textures/misc/enchanted_item_glint"
       },
       "geometry": {
-        "default": "geometry.shop_lock",
-        "shop_lock_pulling_0": "geometry.shop_lock_pulling_0",
-        "shop_lock_pulling_1": "geometry.shop_lock_pulling_1",
-        "shop_lock_pulling_2": "geometry.shop_lock_pulling_2"
+        "default": "geometry.shop_lock"
       },
       "animations": {
         "wield": "animation.shop_lock.wield",

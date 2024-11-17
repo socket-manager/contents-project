@@ -2,35 +2,14 @@
     "resource_pack_name": "family-customize",
     "texture_name": "atlas.items",
     "texture_data": {
-        "thunder_sword_pulling": {
-            "textures": [
-              "textures/items/thunder_sword_pulling_0",
-              "textures/items/thunder_sword_pulling_1",
-              "textures/items/thunder_sword_pulling_2"
-            ]
-        },
         "thunder_sword": {
             "textures": "textures/items/thunder_sword"
-        },
-        "thunder_sword_revised_pulling": {
-            "textures": [
-              "textures/items/thunder_sword_revised_pulling_0",
-              "textures/items/thunder_sword_revised_pulling_1",
-              "textures/items/thunder_sword_revised_pulling_2"
-            ]
         },
         "thunder_sword_revised": {
             "textures": "textures/items/thunder_sword_revised"
         },
         "immovable_rod": {
             "textures": "textures/items/immovable_rod"
-        },
-        "hayabusa_sword_pulling": {
-            "textures": [
-              "textures/items/hayabusa_sword_pulling_0",
-              "textures/items/hayabusa_sword_pulling_1",
-              "textures/items/hayabusa_sword_pulling_2"
-            ]
         },
         "hayabusa_sword": {
             "textures": "textures/items/hayabusa_sword"

@@ -9,16 +9,10 @@
       },
       "textures": {
         "default": "textures/items/hayabusa_sword",
-        "hayabusa_sword_pulling_0": "textures/items/hayabusa_sword_pulling_0",
-        "hayabusa_sword_pulling_1": "textures/items/hayabusa_sword_pulling_1",
-        "hayabusa_sword_pulling_2": "textures/items/hayabusa_sword_pulling_2",
         "enchanted": "textures/misc/enchanted_item_glint"
       },
       "geometry": {
-        "default": "geometry.hayabusa_sword",
-        "hayabusa_sword_pulling_0": "geometry.hayabusa_sword_pulling_0",
-        "hayabusa_sword_pulling_1": "geometry.hayabusa_sword_pulling_1",
-        "hayabusa_sword_pulling_2": "geometry.hayabusa_sword_pulling_2"
+        "default": "geometry.hayabusa_sword"
       },
       "animations": {
         "wield": "animation.hayabusa_sword.wield",
