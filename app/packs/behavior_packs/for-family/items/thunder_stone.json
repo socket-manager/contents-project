@@ -1,0 +1,41 @@
+{
+    "format_version": "1.20.50",
+    "minecraft:item": {
+        "description": {
+            "identifier": "customize:thunder_stone",
+            "menu_category": {
+                "category": "items"
+            }
+        },
+        "components": {
+            "minecraft:icon": {
+                "texture": "thunder_stone"
+            },
+            "minecraft:display_name": {
+                "value": "item.customize:thunder_stone.name"
+            },
+            "minecraft:can_destroy_in_creative": false,
+            "minecraft:hand_equipped": false,
+            "minecraft:glint": true,
+            "minecraft:use_animation": "spear",
+            "minecraft:use_modifiers": {
+                "use_duration": 1.6,
+                "movement_modifier": 0.35
+            },
+            "minecraft:projectile": {
+                "projectile_entity": "customize:thunder_stone_projectile"
+            },
+            "minecraft:throwable": {
+                "do_swing_animation": false,
+                "launch_power_scale": 1.5,
+                "max_launch_power": 1.5,
+                "scale_power_by_draw_duration": true,
+                "max_draw_duration": 1.6
+            },
+            "minecraft:cooldown": {
+                "category": "thunder_stone",
+                "duration": 0.2
+            }
+        }
+    }
+}

@@ -489,8 +489,20 @@ class CommandForMinecraft extends CommandForWebsocket
             // ショップの場合はマインクラフト側のショップ情報を削除してクローズ
             if($p_param->isShop() === true)
             {
-                // マインクラフト側のショップ情報の削除
                 $shop_browser = $p_param->getTempBuff(['shop']);
+
+                // 退店時のコマンド送信
+                $cmd_datas = $p_param->getCommandDataForShopClose($shop_browser['shop']['cid']);
+                foreach($cmd_datas as $cmd_data)
+                {
+                    $data =
+                    [
+                        'data' => $cmd_data
+                    ];
+                    $p_param->setSendStack($data, $shop_browser['shop']['cid']);
+                }
+
+                // マインクラフト側のショップ情報の削除
                 $shop_browser['shop']['sta'] = ShopStatusEnum::CLOSE->value;
                 $p_param->setTempBuff(['shop' => $shop_browser['shop']]);
                 $p_param->setTempBuff(['shop' => null], $shop_browser['shop']['cid']);
@@ -864,6 +876,17 @@ class CommandForMinecraft extends CommandForWebsocket
                     if($rcv['data']['body']['statusCode'] !== 0)
                     {
                         return null;
+                    }
+
+                    // 入店前の送信
+                    $cmd_datas = $p_param->getCommandDataForShopInit();
+                    foreach($cmd_datas as $cmd_data)
+                    {
+                        $data =
+                        [
+                            'data' => $cmd_data
+                        ];
+                        $p_param->setSendStack($data);
                     }
 
                     // ブラウザ側の接続IDを取得

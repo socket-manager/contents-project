@@ -153,6 +153,14 @@ return [
             'name' => '不動の魔石',
             'price' => 6000
         ],
+        'thunder_stone' =>
+        [
+            'id' => 'thunder_stone',
+            'type' => 'loot',
+            'icon' => './img/thunder_stone.png',
+            'name' => '召雷の魔石',
+            'price' => 5000
+        ],
         'floating_feather' =>
         [
             'id' => 'floating_feather',

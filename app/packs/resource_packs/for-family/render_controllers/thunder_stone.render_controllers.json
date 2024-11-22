@@ -1,0 +1,22 @@
+{
+  "format_version": "1.10",
+  "render_controllers": {
+    "controller.render.thunder_stone": {
+      "arrays": {
+        "textures": {
+          "array.thunder_stone_texture_frames": [
+            "texture.default"
+          ]
+        },
+        "geometries": {
+          "array.thunder_stone_geo_frames": [
+            "geometry.default"
+          ]
+        }
+      },
+      "geometry": "array.thunder_stone_geo_frames[query.get_animation_frame]",
+      "materials": [ { "*": "variable.is_enchanted ? material.enchanted : material.default" } ],
+      "textures": [ "array.thunder_stone_texture_frames[query.get_animation_frame]", "texture.enchanted" ]
+    }
+  }
+}

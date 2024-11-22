@@ -14,3 +14,5 @@ item.customize:shop_lock.name=ショップへ入店する鍵
 item.customize:teleport_rod.name=瞬間移動の杖
 item.customize:sanma.name=生さんま
 item.customize:cooked_sanma.name=焼きさんま
+item.customize:thunder_stone.name=召雷の魔石
+entity.customize:thunder_stone_projectile.name=thunder_stone_projectile

@@ -31,6 +31,9 @@
         },
         "cooked_sanma": {
             "textures": "textures/items/cooked_sanma"
+        },
+        "thunder_stone": {
+            "textures": "textures/items/thunder_stone"
         }
     }
 }

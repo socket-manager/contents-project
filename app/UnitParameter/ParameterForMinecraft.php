@@ -221,13 +221,19 @@ class ParameterForMinecraft extends ParameterForWebsocket
      */
     public function execCommandBeforeEntrance()
     {
-        $cmd = "gamerule sendcommandfeedback false";
-        $cmd_data = $this->getCommandData($cmd, 'before-entrance');
-        $data =
-        [
-            'data' => $cmd_data
-        ];
-        $this->setSendStack($data);
+        $cmds = [];
+        $cmds[] = "gamerule sendcommandfeedback false";
+        $cmds[] = "event entity @s customize:is_shop_reset";
+
+        foreach($cmds as $cmd)
+        {
+            $cmd_data = $this->getCommandData($cmd, 'before-entrance');
+            $data =
+            [
+                'data' => $cmd_data
+            ];
+            $this->setSendStack($data);
+        }
         return;
     }
 
@@ -1163,6 +1169,22 @@ class ParameterForMinecraft extends ParameterForWebsocket
     }
 
     /**
+     * 入店前のコマンドデータを取得
+     * 
+     * @return array コマンドデータのリスト
+     */
+    public function getCommandDataForShopInit()
+    {
+        $cmd_datas = [];
+
+        // プレイヤーのis_shopフラグを立てる
+        $cmd = "event entity @s customize:is_shop_set";
+        $cmd_datas[] = $this->getCommandData($cmd, 'shop-init');
+
+        return $cmd_datas;
+    }
+
+    /**
      * 購入時のコマンドデータを取得
      * 
      * @param string $p_cid 接続ID
@@ -1231,6 +1253,23 @@ class ParameterForMinecraft extends ParameterForWebsocket
         $cmd_data = $this->getCommandData($cmd, 'sell-paid', $p_cid);
 
         return $cmd_data;
+    }
+
+    /**
+     * 退店後のコマンドデータを取得
+     * 
+     * @param string $p_cid 接続ID
+     * @return array コマンドデータのリスト
+     */
+    public function getCommandDataForShopClose(string $p_cid)
+    {
+        $cmd_datas = [];
+
+        // プレイヤーのis_shopフラグを落とす
+        $cmd = "event entity @s customize:is_shop_reset";
+        $cmd_datas[] = $this->getCommandData($cmd, 'shop-close', $p_cid);
+
+        return $cmd_datas;
     }
 
     //--------------------------------------------------------------------------

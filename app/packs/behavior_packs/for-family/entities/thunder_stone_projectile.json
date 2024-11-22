@@ -1,0 +1,82 @@
+{
+    "format_version": "1.17.10",
+    "minecraft:entity": {
+        "description": {
+            "identifier": "customize:thunder_stone_projectile",
+            "is_spawnable": false,
+            "is_summonable": true
+        },
+        "component_groups": {
+			"customize:despawn_self": {
+                "minecraft:instant_despawn": {
+                }
+            }
+		},
+        "components": {
+            "minecraft:breathable": {
+                "breathes_solids": true,
+                "breathes_water": true
+            },
+            "minecraft:collision_box": {
+                "width": 0.0,
+                "height": 0.0
+            },
+            "minecraft:physics": {
+                "has_collision": true,
+                "has_gravity": true,
+                "push_towards_closest_space": false
+            },
+            "minecraft:projectile": {
+                "on_hit": {
+                    "impact_damage": {
+                        "damage": 1,
+                        "knockback": true,
+                        "semi_random_diff_damage": true,
+                        "destroy_on_hit": false
+                    },
+                    "stick_in_ground": {
+                        "shake_time" : 0.35
+                    }
+                },
+                "hit_sound": "bow.hit",
+                "power": 1.6,
+                "gravity": 0.05,
+                "anchor": 1
+            },
+            "minecraft:entity_sensor": {
+                "subsensors": [
+                    {
+                        "event_filters": {
+                            "test": "on_ground", "subject": "self", "operator": "equals", "value": true
+                        },
+                        "event": "customize:on_ground"
+                    }
+                ]
+            }
+        },
+        "events": {
+            "minecraft:entity_spawned": {
+                "queue_command": {
+					"command": [
+                        "event entity @p customize:is_shop_for_thunder_stone"
+                    ]
+				}
+            },
+            "customize:despawn_self": {
+                "add": {
+                    "component_groups": [
+                        "customize:despawn_self"
+                    ]
+                }
+            },
+            "customize:on_ground": {
+                "queue_command": {
+					"command": [
+                        "summon lightning_bolt ~ ~ ~",
+                        "event entity @s customize:despawn_self"
+                    ]
+				}
+            }
+        }
+    }
+}
