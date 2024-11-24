@@ -42,19 +42,12 @@
                     },
                     "stick_in_ground": {
                         "shake_time" : 0.35
-                    },
-                    "arrow_effect": {
-                        "apply_effect_to_blocking_targets": false
                     }
                 },
                 "hit_sound": "bow.hit",
                 "power": 1.6,
                 "gravity": 0.05,
-                "uncertainty_base": 16,
-                "uncertainty_multiplier": 4,
-                "anchor": 1,
-                "should_bounce": true,
-                "offset": [ 0, -0.1, 0 ]
+                "anchor": 1
             },
             "minecraft:entity_sensor": {
                 "subsensors": [
