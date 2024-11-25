@@ -27,14 +27,14 @@
             },
             "minecraft:throwable": {
                 "do_swing_animation": false,
-                "launch_power_scale": 1.5,
-                "max_launch_power": 1.5,
+                "launch_power_scale": 1.6,
+                "max_launch_power": 1.6,
                 "scale_power_by_draw_duration": true,
-                "max_draw_duration": 1.6
+                "max_draw_duration": 0.1
             },
             "minecraft:cooldown": {
                 "category": "thunder_stone",
-                "duration": 0.2
+                "duration": 0.1
             }
         }
     }

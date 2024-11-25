@@ -4,7 +4,13 @@
         "description": {
             "identifier": "customize:teleport_rod_projectile",
             "is_spawnable": false,
-            "is_summonable": true
+            "is_summonable": true,
+            "properties": {
+                "customize:is_response": {
+                  "type": "bool",
+                  "default": false
+                }
+            }
         },
         "component_groups": {
 			"customize:despawn_self": {
@@ -61,7 +67,8 @@
                     },
                     {
                         "event_filters": {
-                            "any_of": [
+                            "all_of": [
+                                { "test": "bool_property", "domain": "customize:is_response", "subject": "self", "operator": "equals", "value": true },
                                 { "test": "is_moving", "subject": "self", "operator": "equals", "value": true }
                             ]
                         },
@@ -71,6 +78,18 @@
             }
         },
         "events": {
+            "minecraft:entity_spawned": {
+                "queue_command": {
+					"command": [
+                        "event entity @p customize:is_shop_for_teleport_rod"
+                    ]
+				}
+            },
+            "customize:is_response_set": {
+                "set_property": {
+                    "customize:is_response": true
+                }
+            },
             "customize:despawn_self": {
                 "add": {
                     "component_groups": [
@@ -80,12 +99,16 @@
             },
             "customize:on_ground": {
                 "queue_command": {
-					"command": "event entity @s customize:despawn_self"
+					"command": [
+                        "event entity @s customize:despawn_self"
+                    ]
 				}
             },
             "customize:is_moving": {
                 "queue_command": {
-					"command": "tp @p ~ ~1 ~"
+					"command": [
+                        "tp @p ~ ~1 ~"
+                    ]
 				}
             }
         }

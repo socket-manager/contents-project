@@ -145,6 +145,14 @@ return [
             'name' => '不動の杖',
             'price' => 13500
         ],
+        'teleport_rod' =>
+        [
+            'id' => 'teleport_rod',
+            'type' => 'loot',
+            'icon' => './img/teleport_rod.png',
+            'name' => '瞬間移動の杖',
+            'price' => 10000
+        ],
         'immovable_stone' =>
         [
             'id' => 'immovable_stone',

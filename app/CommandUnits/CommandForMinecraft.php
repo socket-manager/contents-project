@@ -2139,6 +2139,17 @@ class CommandForMinecraft extends CommandForWebsocket
             ];
             $p_param->setSendStack($data, $shop_minecraft['shop']['cid']);
 
+            if($cnf_sell['id'] === 'teleport_rod')
+            {
+                $cmd = 'clear @s[hasitem={item=customize:teleport_rod,location=slot.weapon.mainhand}] customize:teleport_rod 0 1';
+                $cmd_data = $p_param->getCommandData($cmd);
+                $data =
+                [
+                    'data' => $cmd_data
+                ];
+                $p_param->setSendStack($data);
+            }
+
             // ショップ情報の設定
             $p_param->setTempBuff(['shop' => $shop_browser['shop']], $shop_minecraft['shop']['cid']);
 

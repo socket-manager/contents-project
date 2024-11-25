@@ -4,7 +4,7 @@
         "description": {
             "identifier": "customize:teleport_rod",
             "menu_category": {
-                "category": "none"
+                "category": "equipment"
             }
         },
         "components": {
@@ -33,9 +33,13 @@
                     "search_inventory" :true,
                     "use_in_creative" :true
                 }],
-                "max_draw_duration" :1.0,
+                "max_draw_duration" :0.1,
                 "scale_power_by_draw_duration" :true,
                 "charge_on_draw" :false
+            },
+            "minecraft:cooldown": {
+                "category": "teleport_rod",
+                "duration": 1.0
             }
         }
     }

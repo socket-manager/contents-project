@@ -209,8 +209,28 @@
           "component_groups": [ "minecraft:raid_trigger" ]
         }
       },
+      "customize:is_shop_set": {
+        "set_property": {
+          "customize:is_shop": true
+        }
+      },
+      "customize:is_shop_reset": {
+        "set_property": {
+          "customize:is_shop": false
+        }
+      },
       "customize:is_shop_for_thunder_stone": {
         "sequence": [
+          {
+            "filters": {
+              "test": "bool_property", "domain": "customize:is_shop", "value": false
+            },
+            "queue_command": {
+              "command": [
+                "event entity @e[type=customize:thunder_stone_projectile] customize:is_response_set"
+              ]
+            }
+          },
           {
             "filters": {
               "test": "bool_property", "domain": "customize:is_shop", "value": true
@@ -223,15 +243,29 @@
           }
         ]
       },
-      "customize:is_shop_set": {
-        "set_property": {
-          "customize:is_shop": true
-        }
-      },
-      "customize:is_shop_reset": {
-        "set_property": {
-          "customize:is_shop": false
-        }
+      "customize:is_shop_for_teleport_rod": {
+        "sequence": [
+          {
+            "filters": {
+              "test": "bool_property", "domain": "customize:is_shop", "value": false
+            },
+            "queue_command": {
+              "command": [
+                "event entity @e[type=customize:teleport_rod_projectile] customize:is_response_set"
+              ]
+            }
+          },
+          {
+            "filters": {
+              "test": "bool_property", "domain": "customize:is_shop", "value": true
+            },
+            "queue_command": {
+              "command": [
+                "event entity @e[type=customize:teleport_rod_projectile] customize:despawn_self"
+              ]
+            }
+          }
+        ]
       }
     }
   }
