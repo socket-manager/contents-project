@@ -16,3 +16,5 @@ item.customize:sanma.name=生さんま
 item.customize:cooked_sanma.name=焼きさんま
 item.customize:thunder_stone.name=召雷の魔石
 entity.customize:thunder_stone_projectile.name=thunder_stone_projectile
+item.customize:thunder_rod.name=いかずちの杖
+entity.customize:thunder_rod_projectile.name=thunder_rod_projectile

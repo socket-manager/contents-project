@@ -1,0 +1,21 @@
+{
+    "format_version": "1.10.0",
+    "minecraft:client_entity": {
+        "description": {
+            "identifier": "customize:thunder_rod_projectile",
+            "materials": {
+                "default": "entity_alphatest"
+            },
+            "textures": {
+                "default": "textures/entity/thunder_rod_projectile"
+            },
+            "geometry": {
+                // "default": "geometry.item_sprite"
+                "default": "geometry.thunder_rod_projectile"
+            },
+            "render_controllers": [
+                "controller.render.item_sprite"
+            ]
+        }
+    }
+}

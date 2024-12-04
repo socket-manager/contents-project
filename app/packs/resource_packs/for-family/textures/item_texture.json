@@ -34,6 +34,9 @@
         },
         "thunder_stone": {
             "textures": "textures/items/thunder_stone"
+        },
+        "thunder_rod": {
+            "textures": "textures/items/thunder_rod"
         }
     }
 }
