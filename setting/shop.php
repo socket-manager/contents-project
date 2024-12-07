@@ -42,6 +42,14 @@ return [
             'name' => '不動の杖',
             'price' => 20000
         ],
+        'thunder_rod' =>
+        [
+            'id' => 'thunder_rod',
+            'type' => 'loot',
+            'icon' => './img/thunder_rod.png',
+            'name' => 'いかずちの杖',
+            'price' => 20000
+        ],
         'teleport_rod' =>
         [
             'id' => 'teleport_rod',
@@ -144,14 +152,6 @@ return [
             'icon' => './img/immovable_rod.png',
             'name' => '不動の杖',
             'price' => 13500
-        ],
-        'teleport_rod' =>
-        [
-            'id' => 'teleport_rod',
-            'type' => 'loot',
-            'icon' => './img/teleport_rod.png',
-            'name' => '瞬間移動の杖',
-            'price' => 10000
         ],
         'immovable_stone' =>
         [
