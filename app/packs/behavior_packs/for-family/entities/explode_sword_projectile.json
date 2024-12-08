@@ -2,7 +2,7 @@
     "format_version": "1.17.10",
     "minecraft:entity": {
         "description": {
-            "identifier": "customize:thunder_rod_projectile",
+            "identifier": "customize:explode_sword_projectile",
             "is_spawnable": false,
             "is_summonable": true,
             "properties": {
@@ -82,7 +82,7 @@
             "minecraft:entity_spawned": {
                 "queue_command": {
 					"command": [
-                        "event entity @p customize:is_shop_for_thunder_rod"
+                        "event entity @p customize:is_shop_for_explode_sword"
                     ]
 				}
             },
@@ -126,14 +126,14 @@
                         },
                         "queue_command": {
                             "command": [
-                                "summon ender_crystal ~ ~ ~ 0 0 minecraft:crystal_explode"
+                                "summon lightning_bolt ~ ~-2 ~"
                             ]
                         }
                     },
                     {
                         "queue_command": {
                             "command": [
-                                "summon lightning_bolt ~ ~-2 ~"
+                                "summon ender_crystal ~ ~ ~ 0 0 minecraft:crystal_explode"
                             ]
                         }
                     }

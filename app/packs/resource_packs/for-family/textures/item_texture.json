@@ -37,6 +37,9 @@
         },
         "thunder_rod": {
             "textures": "textures/items/thunder_rod"
+        },
+        "explode_sword": {
+            "textures": "textures/items/explode_sword"
         }
     }
 }

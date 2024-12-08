@@ -18,3 +18,5 @@ item.customize:thunder_stone.name=召雷の魔石
 entity.customize:thunder_stone_projectile.name=thunder_stone_projectile
 item.customize:thunder_rod.name=いかずちの杖
 entity.customize:thunder_rod_projectile.name=thunder_rod_projectile
+item.customize:explode_sword.name=はかいのつるぎ
+entity.customize:explode_sword_projectile.name=explode_sword_projectile

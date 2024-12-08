@@ -2,9 +2,10 @@
     "format_version": "1.20.50",
     "minecraft:item": {
         "description": {
-            "identifier": "customize:thunder_rod",
+            "identifier": "customize:explode_sword",
             "menu_category": {
-                "category": "none"
+                "category": "equipment",
+                "group": "itemGroup.name.sword"
             }
         },
         "components": {
@@ -12,14 +13,14 @@
                 "value": true
             },
             "minecraft:icon": {
-                "texture": "thunder_rod"
+                "texture": "explode_sword"
             },
             "minecraft:display_name": {
-                "value": "item.customize:thunder_rod.name"
+                "value": "item.customize:explode_sword.name"
             },
             "minecraft:can_destroy_in_creative": false,
             "minecraft:hand_equipped": false,
-            "minecraft:damage": 6,
+            "minecraft:damage": 15,
             "minecraft:glint": true,
             "minecraft:use_animation": "bow",
             "minecraft:use_modifiers": {
@@ -27,11 +28,11 @@
                 "movement_modifier": 0.35
             },
             "minecraft:projectile": {
-                "projectile_entity": "customize:thunder_rod_projectile"
+                "projectile_entity": "customize:explode_sword_projectile"
             },
             "minecraft:shooter":{
                 "ammunition" :[{
-                    "item" :"customize:thunder_rod",
+                    "item" :"customize:explode_sword",
                     "use_offhand" :true,
                     "search_inventory" :true,
                     "use_in_creative" :true
@@ -41,7 +42,7 @@
                 "charge_on_draw" :false
             },
             "minecraft:cooldown": {
-                "category": "thunder_rod",
+                "category": "explode_sword",
                 "duration": 1.0
             }
         }

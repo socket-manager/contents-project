@@ -10,6 +10,14 @@ return [
      */
     'buy_list' =>
     [
+        'explode_sword' =>
+        [
+            'id' => 'explode_sword',
+            'type' => 'loot',
+            'icon' => './img/explode_sword.png',
+            'name' => 'はかいのつるぎ',
+            'price' => 20000
+        ],
         'thunder_sword_revised' =>
         [
             'id' => 'thunder_sword_revised',

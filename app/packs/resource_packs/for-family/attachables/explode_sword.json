@@ -1,0 +1,35 @@
+{
+  "format_version": "1.10.0",
+  "minecraft:attachable": {
+    "description": {
+      "identifier": "customize:explode_sword",
+      "materials": {
+        "default": "entity_alphatest",
+        "enchanted": "entity_alphatest_glint"
+      },
+      "textures": {
+        "default": "textures/items/explode_sword",
+        "enchanted": "textures/misc/enchanted_item_glint"
+      },
+      "geometry": {
+        "default": "geometry.explode_sword"
+      },
+      "animations": {
+        "wield": "animation.explode_sword.wield",
+        "wield_first_person_pull": "animation.explode_sword.wield_first_person_pull"
+      },
+      "scripts": {
+        "pre_animation": [
+          "variable.charge_amount = math.clamp((query.main_hand_item_max_duration - (query.main_hand_item_use_duration - query.frame_alpha + 1.0)) / 10.0, 0.0, 1.0f);"
+        ],
+        "animate": [
+          "wield",
+          {
+            "wield_first_person_pull": "query.main_hand_item_use_duration > 0.0f && c.is_first_person"
+          }
+        ]
+      },
+      "render_controllers": [ "controller.render.explode_sword" ]
+    }
+  }
+}

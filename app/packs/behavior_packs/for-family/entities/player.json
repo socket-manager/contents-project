@@ -282,11 +282,55 @@
           },
           {
             "filters": {
+              "test": "has_equipment", "subject": "self", "domain": "hand", "operator": "equals", "value": "customize:explode_sword"
+            },
+            "queue_command": {
+              "command": [
+                "event entity @e[type=customize:thunder_rod_projectile] customize:is_offhand_set"
+              ]
+            }
+          },
+          {
+            "filters": {
               "test": "bool_property", "domain": "customize:is_shop", "value": true
             },
             "queue_command": {
               "command": [
                 "event entity @e[type=customize:thunder_rod_projectile] customize:despawn_self"
+              ]
+            }
+          }
+        ]
+      },
+      "customize:is_shop_for_explode_sword": {
+        "sequence": [
+          {
+            "filters": {
+              "test": "bool_property", "domain": "customize:is_shop", "value": false
+            },
+            "queue_command": {
+              "command": [
+                "event entity @e[type=customize:explode_sword_projectile] customize:is_response_set"
+              ]
+            }
+          },
+          {
+            "filters": {
+              "test": "has_equipment", "subject": "self", "domain": "hand", "operator": "equals", "value": "customize:thunder_rod"
+            },
+            "queue_command": {
+              "command": [
+                "event entity @e[type=customize:explode_sword_projectile] customize:is_offhand_set"
+              ]
+            }
+          },
+          {
+            "filters": {
+              "test": "bool_property", "domain": "customize:is_shop", "value": true
+            },
+            "queue_command": {
+              "command": [
+                "event entity @e[type=customize:explode_sword_projectile] customize:despawn_self"
               ]
             }
           }
