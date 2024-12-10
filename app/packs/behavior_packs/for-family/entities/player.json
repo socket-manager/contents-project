@@ -271,22 +271,23 @@
         "sequence": [
           {
             "filters": {
-              "test": "bool_property", "domain": "customize:is_shop", "value": false
+              "test": "has_equipment", "subject": "self", "domain": "hand", "operator": "equals", "value": "customize:explode_sword"
             },
             "queue_command": {
               "command": [
-                "event entity @e[type=customize:thunder_rod_projectile] customize:is_response_set",
-                "particle minecraft:critical_hit_emitter ~ ~2 ~"
+                "event entity @e[type=customize:thunder_rod_projectile] customize:is_offhand_set",
+                "particle minecraft:sonic_explosion ~ ~1 ~"
               ]
             }
           },
           {
             "filters": {
-              "test": "has_equipment", "subject": "self", "domain": "hand", "operator": "equals", "value": "customize:explode_sword"
+              "test": "bool_property", "domain": "customize:is_shop", "value": false
             },
             "queue_command": {
               "command": [
-                "event entity @e[type=customize:thunder_rod_projectile] customize:is_offhand_set"
+                "particle minecraft:critical_hit_emitter ~ ~2 ~",
+                "event entity @e[type=customize:thunder_rod_projectile] customize:is_response_set"
               ]
             }
           },
@@ -306,21 +307,23 @@
         "sequence": [
           {
             "filters": {
-              "test": "bool_property", "domain": "customize:is_shop", "value": false
+              "test": "has_equipment", "subject": "self", "domain": "hand", "operator": "equals", "value": "customize:thunder_rod"
             },
             "queue_command": {
               "command": [
-                "event entity @e[type=customize:explode_sword_projectile] customize:is_response_set"
+                "event entity @e[type=customize:explode_sword_projectile] customize:is_offhand_set",
+                "particle minecraft:critical_hit_emitter ~ ~2 ~"
               ]
             }
           },
           {
             "filters": {
-              "test": "has_equipment", "subject": "self", "domain": "hand", "operator": "equals", "value": "customize:thunder_rod"
+              "test": "bool_property", "domain": "customize:is_shop", "value": false
             },
             "queue_command": {
               "command": [
-                "event entity @e[type=customize:explode_sword_projectile] customize:is_offhand_set"
+                "particle minecraft:sonic_explosion ~ ~1 ~",
+                "event entity @e[type=customize:explode_sword_projectile] customize:is_response_set"
               ]
             }
           },

@@ -54,7 +54,7 @@
                 },
                 "hit_sound": "bow.hit",
                 "power": 1.6,
-                "gravity": 0.00
+                "gravity": 0.01
             },
             "minecraft:entity_sensor": {
                 "subsensors": [
