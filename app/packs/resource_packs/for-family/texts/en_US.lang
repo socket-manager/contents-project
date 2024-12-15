@@ -20,3 +20,5 @@ item.customize:thunder_rod.name=いかずちの杖
 entity.customize:thunder_rod_projectile.name=thunder_rod_projectile
 item.customize:explode_sword.name=はかいのつるぎ
 entity.customize:explode_sword_projectile.name=explode_sword_projectile
+item.customize:wind_rod.name=風のつえ
+entity.customize:wind_rod_projectile.name=wind_rod_projectile

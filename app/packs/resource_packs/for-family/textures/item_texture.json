@@ -40,6 +40,9 @@
         },
         "explode_sword": {
             "textures": "textures/items/explode_sword"
+        },
+        "wind_rod": {
+            "textures": "textures/items/wind_rod"
         }
     }
 }

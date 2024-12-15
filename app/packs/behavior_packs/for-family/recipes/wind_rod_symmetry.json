@@ -2,27 +2,24 @@
     "format_version": "1.20.10",
     "minecraft:recipe_shaped": {
         "description": {
-            "identifier": "minecraft:immovable_rod"
+            "identifier": "customize:wind_rod_symmetry"
         },
 
         
         "tags": [ "crafting_table" ],
-        "assume_symmetry": false,
+        "assume_symmetry": true,
         "priority": 1,
         "pattern": [
-            "YXY",
-            " #",
-            " #"
+            "X",
+            " X",
+            "  #"
         ],
         "key": {
             "#": {
                 "item": "minecraft:stick"
             },
             "X": {
-                "item": "customize:immovable_stone"
-            },
-            "Y": {
-                "item": "customize:floating_feather"
+                "item": "minecraft:wind_charge"
             }
         },
         "unlock": [
@@ -31,9 +28,9 @@
             }
         ],
         "result": {
-            "item": "customize:immovable_rod",
+            "item": "customize:wind_rod",
             "data": 0,
             "count": 1
-    }
+        }
     }
 }

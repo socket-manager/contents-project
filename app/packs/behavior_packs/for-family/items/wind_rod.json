@@ -1,0 +1,50 @@
+{
+    "format_version": "1.20.50",
+    "minecraft:item": {
+        "description": {
+            "identifier": "customize:wind_rod",
+            "menu_category": {
+                "category": "none"
+            }
+        },
+        "components": {
+            "minecraft:icon": {
+                "texture": "wind_rod"
+            },
+            "minecraft:display_name": {
+                "value": "item.customize:wind_rod.name"
+            },
+            "minecraft:can_destroy_in_creative": false,
+            "minecraft:hand_equipped": false,
+            "minecraft:damage": 6,
+            "minecraft:glint": true,
+            "minecraft:use_animation": "bow",
+            "minecraft:use_modifiers": {
+                "use_duration": 1.6,
+                "movement_modifier": 0.35
+            },
+            "minecraft:projectile": {
+                "projectile_entity": "customize:wind_rod_projectile"
+            },
+            "minecraft:shooter":{
+                "ammunition" :[{
+                    "item" :"customize:wind_rod",
+                    "use_offhand" :true,
+                    "search_inventory" :true,
+                    "use_in_creative" :true
+                }],
+                "max_draw_duration" :0.1,
+                "scale_power_by_draw_duration" :true,
+                "charge_on_draw" :false
+            },
+            "minecraft:cooldown": {
+                "category": "wind_rod",
+                "duration": 1.0
+            },
+            "minecraft:enchantable": {
+                "slot": "bow",
+                "value": 0
+            }
+        }
+    }
+}

@@ -338,6 +338,30 @@
             }
           }
         ]
+      },
+      "customize:is_shop_for_wind_rod": {
+        "sequence": [
+          {
+            "filters": {
+              "test": "bool_property", "domain": "customize:is_shop", "value": false
+            },
+            "queue_command": {
+              "command": [
+                "particle minecraft:critical_hit_emitter ~ ~2 ~"
+              ]
+            }
+          },
+          {
+            "filters": {
+              "test": "bool_property", "domain": "customize:is_shop", "value": true
+            },
+            "queue_command": {
+              "command": [
+                "event entity @e[type=customize:wind_rod_projectile] customize:despawn_self"
+              ]
+            }
+          }
+        ]
       }
     }
   }
