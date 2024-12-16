@@ -16,7 +16,7 @@ return [
             'type' => 'loot',
             'icon' => './img/explode_sword.png',
             'name' => 'はかいのつるぎ',
-            'price' => 20000
+            'price' => 25000
         ],
         'thunder_sword_revised' =>
         [
@@ -42,6 +42,14 @@ return [
             'name' => 'はやぶさの剣',
             'price' => 15000
         ],
+        'thunder_rod' =>
+        [
+            'id' => 'thunder_rod',
+            'type' => 'loot',
+            'icon' => './img/thunder_rod.png',
+            'name' => 'いかずちの杖',
+            'price' => 25000
+        ],
         'immovable_rod' =>
         [
             'id' => 'immovable_rod',
@@ -50,13 +58,13 @@ return [
             'name' => '不動の杖',
             'price' => 20000
         ],
-        'thunder_rod' =>
+        'wind_rod' =>
         [
-            'id' => 'thunder_rod',
+            'id' => 'wind_rod',
             'type' => 'loot',
-            'icon' => './img/thunder_rod.png',
-            'name' => 'いかずちの杖',
-            'price' => 20000
+            'icon' => './img/wind_rod.png',
+            'name' => '風のつえ',
+            'price' => 15000
         ],
         'teleport_rod' =>
         [
@@ -183,7 +191,7 @@ return [
             'type' => 'loot',
             'icon' => './img/floating_feather.png',
             'name' => '浮遊の羽',
-            'price' => 4000
+            'price' => 3000
         ],
         'sanma' =>
         [

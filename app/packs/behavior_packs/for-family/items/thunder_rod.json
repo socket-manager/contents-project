@@ -43,6 +43,10 @@
             "minecraft:cooldown": {
                 "category": "thunder_rod",
                 "duration": 1.0
+            },
+            "minecraft:enchantable": {
+                "slot": "bow",
+                "value": 0
             }
         }
     }

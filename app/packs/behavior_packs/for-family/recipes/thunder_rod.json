@@ -2,20 +2,20 @@
     "format_version": "1.20.10",
     "minecraft:recipe_shapeless": {
         "description": {
-            "identifier": "customize:explode_sword"
+            "identifier": "customize:thunder_rod"
         },
 
         "tags": [ "crafting_table" ],
         "priority": 0,
         "ingredients": [
             {
-                "item": "minecraft:netherite_sword",
+                "item": "minecraft:stick",
                 "data": 0,
-                "count": 1
+                "count": 2
             },
             {
-                "item": "minecraft:arrow",
-                "data": 421,
+                "item": "customize:thunder_stone",
+                "data": 0,
                 "count": 3
             }
         ],
@@ -25,7 +25,7 @@
             }
         ],
         "result": {
-            "item": "customize:explode_sword",
+            "item": "customize:thunder_rod",
             "data": 0,
             "count": 1
         }

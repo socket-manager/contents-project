@@ -43,6 +43,10 @@
             "minecraft:cooldown": {
                 "category": "explode_sword",
                 "duration": 1.0
+            },
+            "minecraft:enchantable": {
+                "slot": "bow",
+                "value": 0
             }
         }
     }
