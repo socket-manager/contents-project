@@ -48,7 +48,8 @@ class CommandForMinecraft extends CommandForWebsocket
         CommandQueueEnumForMinecraft::SHOP_BUY->value,             // SHOPからの購入時のキュー
         CommandQueueEnumForMinecraft::SHOP_SELL_ENTRY->value,      // SHOPへ売却登録時のキュー
         CommandQueueEnumForMinecraft::SHOP_SELL_RELEASE->value,    // SHOPからの返却時のキュー
-        CommandQueueEnumForMinecraft::SHOP_SELL->value             // SHOPからの売却時のキュー
+        CommandQueueEnumForMinecraft::SHOP_SELL->value,            // SHOPからの売却時のキュー
+        CommandQueueEnumForMinecraft::WIND_CONTROL_UP->value       // 繰風弾（上昇）処理のキュー
     ];
 
 
@@ -276,6 +277,14 @@ class CommandForMinecraft extends CommandForWebsocket
             $ret[] = [
                 'status' => CommandStatusEnumForMinecraft::START->value,
                 'unit' => $this->getShopSellStart()
+            ];
+        }
+        else
+        if($p_que === CommandQueueEnumForMinecraft::WIND_CONTROL_UP->value)
+        {
+            $ret[] = [
+                'status' => CommandStatusEnumForMinecraft::START->value,
+                'unit' => $this->getWindControlUpStart()
             ];
         }
 
@@ -1068,6 +1077,132 @@ class CommandForMinecraft extends CommandForWebsocket
                     ];
                     $p_param->setSendStack($data, $shop_mainecraft['shop']['cid']);
                 }
+                else
+                if($w_ret['type'] === 'wind-control-rod-summon')
+                {
+                    $p_param->logWriter('debug', ['MINECRAFT WIND-CONTROL-ROD:QUERYTARGET' => 'SUMMON']);
+
+                    // ターゲット取得成功か
+                    if($rcv['data']['body']['statusCode'] !== 0)
+                    {
+                        return null;
+                    }
+
+                    $cmd_datas = [];
+                    $name = $p_param->getTempBuff(['minecraft-name']);
+
+                    $cmd = "summon customize:wind_control_projectile ~ ~3 ~";
+                    $cmd_datas[] = $p_param->getCommandData($cmd, null);
+
+                    $cmd = "tag @e[type=customize:wind_control_projectile,tag=,c=1] add wind_control_rod_{$name['minecraft-name']}";
+                    $cmd_datas[] = $p_param->getCommandData($cmd, null);
+
+                    foreach($cmd_datas as $cmd_data)
+                    {
+                        $data =
+                        [
+                            'data' => $cmd_data
+                        ];
+                        $p_param->setSendStack($data);
+                    }
+                }
+                else
+                if($w_ret['type'] === 'wind-control-rod-variant0')
+                {
+                    $p_param->logWriter('debug', ['MINECRAFT WIND-CONTROL-ROD:QUERYTARGET' => 'VARIANT-0']);
+
+                    // ターゲット取得成功か
+                    if($rcv['data']['body']['statusCode'] !== 0)
+                    {
+                        return null;
+                    }
+
+                    $name = $p_param->getTempBuff(['minecraft-name']);
+                    $yrot = $p_param->getTempBuff(['yrot']);
+                    $details = json_decode($rcv['data']['body']['details'], true);
+
+                    foreach($details as $detail)
+                    {
+                        // 座標退避
+                        $w_x = $detail['position']['x'];
+                        $w_y = $detail['position']['y'];
+                        $w_z = $detail['position']['z'];
+                        $w_yrot = $yrot['yrot'];
+
+                        // ウインドチャージ座標の計算
+                        $p_param->getRelativeCoordinates($w_x, $w_y, $w_z, $w_yrot, 1.0);
+
+                        $w_x = $detail['position']['x'] + $w_x;
+                        $w_z = $detail['position']['z'] + $w_z;
+                        $cmd = "tp @e[tag=wind_control_rod_{$name['minecraft-name']},x={$detail['position']['x']},y={$detail['position']['y']},z={$detail['position']['z']},c=1] {$w_x} {$detail['position']['y']} {$w_z}";
+                        $cmd_data = $p_param->getCommandData($cmd, null);
+                        $data =
+                        [
+                            'data' => $cmd_data
+                        ];
+                        $p_param->setSendStack($data);
+                    }
+                }
+                else
+                if($w_ret['type'] === 'wind-control-rod-variant1')
+                {
+                    $p_param->logWriter('debug', ['MINECRAFT WIND-CONTROL-ROD:QUERYTARGET' => 'VARIANT-1']);
+
+                    // ターゲット取得成功か
+                    if($rcv['data']['body']['statusCode'] !== 0)
+                    {
+                        return null;
+                    }
+
+                    $name = $p_param->getTempBuff(['minecraft-name']);
+                    $details = json_decode($rcv['data']['body']['details'], true);
+
+                    foreach($details as $detail)
+                    {
+                        // 座標退避
+                        $w_x = $detail['position']['x'];
+                        $w_y = $detail['position']['y'] - 1;
+                        $w_z = $detail['position']['z'];
+
+                        $cmd = "tp @e[tag=wind_control_rod_{$name['minecraft-name']},x={$detail['position']['x']},y={$detail['position']['y']},z={$detail['position']['z']},c=1] {$w_x} {$w_y} {$w_z}";
+                        $cmd_data = $p_param->getCommandData($cmd, null);
+                        $data =
+                        [
+                            'data' => $cmd_data
+                        ];
+                        $p_param->setSendStack($data);
+                    }
+                }
+                else
+                if($w_ret['type'] === 'wind-control-rod-variant6')
+                {
+                    $p_param->logWriter('debug', ['MINECRAFT WIND-CONTROL-ROD:QUERYTARGET' => 'VARIANT-6']);
+
+                    // ターゲット取得成功か
+                    if($rcv['data']['body']['statusCode'] !== 0)
+                    {
+                        return null;
+                    }
+
+                    $name = $p_param->getTempBuff(['minecraft-name']);
+                    $details = json_decode($rcv['data']['body']['details'], true);
+
+                    foreach($details as $detail)
+                    {
+                        // 座標退避
+                        $w_x = $detail['position']['x'];
+                        $w_y = $detail['position']['y'] + 1;
+                        $w_z = $detail['position']['z'];
+
+                        $cmd = "tp @e[tag=wind_control_rod_{$name['minecraft-name']},x={$detail['position']['x']},y={$detail['position']['y']},z={$detail['position']['z']},c=1] {$w_x} {$w_y} {$w_z}";
+                        $cmd_data = $p_param->getCommandData($cmd, null);
+                        $data =
+                        [
+                            'data' => $cmd_data
+                        ];
+                        $p_param->setSendStack($data);
+                    }
+                }
                 // 以降の分岐はリザーブ用
                 else
                 if($w_ret['type'] === 'forced-close')
@@ -1136,6 +1271,26 @@ class CommandForMinecraft extends CommandForWebsocket
 
             // 受信データの取得
             $rcv = $p_param->getRecvData();
+
+            // 繰風弾の杖
+            if($rcv['data']['body']['item']['id'] === 'wind_control_rod')
+            {
+                // コマンド送信
+                $cmd_datas = $p_param->getCommandDataForWindControlRodItemUsed(
+                    $rcv['data']['body']['player']['variant'],
+                    $rcv['data']['body']['player']['yRot']
+                );
+                foreach($cmd_datas as $cmd_data)
+                {
+                    $data =
+                    [
+                        'data' => $cmd_data
+                    ];
+                    $p_param->setSendStack($data);
+                }
+
+                return null;
+            }
 
             // はやぶさの剣
             if($rcv['data']['body']['item']['id'] === 'hayabusa_sword')
@@ -1557,6 +1712,17 @@ class CommandForMinecraft extends CommandForWebsocket
                 'data' => $cmd_data
             ];
             $p_param->setSendStack($data);
+
+            // 繰風弾発現用実行のコマンド送信
+            $cmd_datas = $p_param->getCommandDataForWindControlRodDashAndSneak();
+            foreach($cmd_datas as $cmd_data)
+            {
+                $data =
+                [
+                    'data' => $cmd_data
+                ];
+                $p_param->setSendStack($data);
+            }
 
             return null;
         };
@@ -2258,6 +2424,45 @@ class CommandForMinecraft extends CommandForWebsocket
             // 売却一覧をクリア
             $shop['shop']['sell_list'] = [];
             $p_param->setTempBuff(['shop' => $shop['shop']]);
+
+            return null;
+        };
+    }
+
+    //--------------------------------------------------------------------------
+    // 以降はステータスUNITの定義（"WIND_CONTROL"キュー）
+    //--------------------------------------------------------------------------
+
+    /**
+     * ステータス名： START
+     * 
+     * 処理名：繰風弾（上昇）処理の処理開始
+     * 
+     * @param ParameterForMinecraft $p_param UNITパラメータ
+     * @return ?string 遷移先のステータス名
+     */
+    protected function getWindControlUpStart()
+    {
+        return function(ParameterForMinecraft $p_param): ?string
+        {
+            $p_param->logWriter('debug', ['MINECRAFT WIND_CONTROL_UP:START' => 'START']);
+
+            // 受信データを取得
+            $rcv = $p_param->getRecvData();
+
+            // コマンド送信
+            $cmd_datas = $p_param->getCommandDataForWindControlRodItemUsed(
+                $rcv['data']['body']['player']['variant'],
+                null
+            );
+            foreach($cmd_datas as $cmd_data)
+            {
+                $data =
+                [
+                    'data' => $cmd_data
+                ];
+                $p_param->setSendStack($data);
+            }
 
             return null;
         };

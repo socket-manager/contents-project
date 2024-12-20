@@ -134,6 +134,11 @@ enum CommandQueueEnumForMinecraft: string
      */
     case SHOP_SELL = 'shop-sell';
 
+    /**
+     * @var 繰風弾（上昇）処理のキュー名
+     */
+    case WIND_CONTROL_UP = 'wind-control-up';
+
 
     //--------------------------------------------------------------------------
     // メソッド

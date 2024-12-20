@@ -58,14 +58,6 @@ return [
             'name' => '不動の杖',
             'price' => 20000
         ],
-        'wind_rod' =>
-        [
-            'id' => 'wind_rod',
-            'type' => 'loot',
-            'icon' => './img/wind_rod.png',
-            'name' => '風のつえ',
-            'price' => 15000
-        ],
         'teleport_rod' =>
         [
             'id' => 'teleport_rod',
@@ -81,6 +73,22 @@ return [
             'icon' => './img/sweep_rod.png',
             'name' => 'スウィープロッド',
             'price' => 15000
+        ],
+        'wind_control_rod' =>
+        [
+            'id' => 'wind_control_rod',
+            'type' => 'loot',
+            'icon' => './img/wind_control_rod.png',
+            'name' => '繰風弾の杖',
+            'price' => 15000
+        ],
+        'wind_rod' =>
+        [
+            'id' => 'wind_rod',
+            'type' => 'loot',
+            'icon' => './img/wind_rod.png',
+            'name' => '風のつえ',
+            'price' => 10000
         ],
         'bow_thunder' =>
         [

@@ -134,6 +134,12 @@ class InitForMinecraft extends InitForWebsocket
                     {
                         return CommandQueueEnumForMinecraft::ITEM_USED->value;
                     }
+
+                    // 「繰風弾の杖」イベントの場合
+                    if($p_dat['data']['body']['item']['id'] === 'wind_control_rod')
+                    {
+                        return CommandQueueEnumForMinecraft::ITEM_USED->value;
+                    }
                 }
 
                 // マインクラフトからのPlayerTravelledイベントの場合は受け入れる
@@ -149,6 +155,12 @@ class InitForMinecraft extends InitForWebsocket
                             $p_param->setTempBuff(['travel_method' => $p_dat['data']['body']['travelMethod']]);
                             return CommandQueueEnumForMinecraft::PLAYER_DASH->value;
                         }
+                    }
+
+                    // 繰風弾の判定
+                    if($p_dat['data']['body']['travelMethod'] === 7 || $p_dat['data']['body']['player']['variant'] === 6)
+                    {
+                        return CommandQueueEnumForMinecraft::WIND_CONTROL_UP->value;
                     }
 
                     if($p_dat['data']['body']['travelMethod'] === 7)

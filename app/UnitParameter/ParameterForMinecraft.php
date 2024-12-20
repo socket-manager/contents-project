@@ -1276,6 +1276,54 @@ class ParameterForMinecraft extends ParameterForWebsocket
     // SHOP用 <END>
     //--------------------------------------------------------------------------
 
+    //--------------------------------------------------------------------------
+    // 繰風弾の杖用 <START>
+    //--------------------------------------------------------------------------
+
+    /**
+     * 繰風弾発現用コマンドデータを取得
+     * 
+     * @return array 送信データ
+     */
+    public function getCommandDataForWindControlRodDashAndSneak(): array
+    {
+        $cmd_datas = [];
+
+        $cmd = "querytarget @s[hasitem={item=customize:wind_control_rod,location=slot.weapon.mainhand}]";
+        $cmd_datas[] = $this->getCommandData($cmd, 'wind-control-rod-summon');
+
+        return $cmd_datas;
+    }
+
+    /**
+     * 「繰風弾の杖」セレクト用コマンドデータを取得
+     * 
+     * @return array 送信データ
+     */
+    public function getCommandDataForWindControlRodItemUsed(int $variant, float $yrot = null): array
+    {
+        $cmd_datas = [];
+
+        // マインクラフト名を取得
+        $name = $this->getTempBuff(['minecraft-name']);
+
+        if($yrot !== null)
+        {
+            $this->setTempBuff(['yrot' => $yrot]);
+        }
+
+        $response_type = "wind-control-rod-variant{$variant}";
+
+        $cmd = "querytarget @e[tag=wind_control_rod_{$name['minecraft-name']}]";
+        $cmd_datas[] = $this->getCommandData($cmd, $response_type);
+
+        return $cmd_datas;
+    }
+
+    //--------------------------------------------------------------------------
+    // 繰風弾の杖用 <END>
+    //--------------------------------------------------------------------------
+
     /**
      * 現在の座標からヨー角を考慮した相対座標を取得
      * 

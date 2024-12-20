@@ -46,6 +46,26 @@
             "target": "self"
           }
         }
+      },
+      "customize:variant_normal": {
+        "minecraft:variant": {
+          "value": 0
+        }
+      },
+      "customize:variant_sneak_held": {
+        "minecraft:variant": {
+          "value": 1
+        }
+      },
+      "customize:variant_sneak_move": {
+        "minecraft:variant": {
+          "value": 2
+        }
+      },
+      "customize:variant_sneak_move_for_wind_control_rod": {
+        "minecraft:variant": {
+          "value": 6
+        }
       }
     },
 
@@ -176,6 +196,47 @@
           },
           "event": "minecraft:gain_raid_omen"
         }
+      },
+      "minecraft:entity_sensor": {
+        "subsensors": [
+          {
+            "event_filters": {
+              "all_of": [
+                { "test": "is_sneak_held", "subject": "self", "operator": "equals", "value": true },
+                { "test": "is_moving", "subject": "self", "operator": "equals", "value": true },
+                { "test": "has_equipment", "subject": "self", "domain": "hand", "operator": "not", "value": "customize:wind_control_rod" }
+            ]
+            },
+            "event": "customize:is_sneak_move"
+          },
+          {
+            "event_filters": {
+              "all_of": [
+                { "test": "is_sneak_held", "subject": "self", "operator": "equals", "value": true },
+                { "test": "is_moving", "subject": "self", "operator": "equals", "value": true },
+                { "test": "has_equipment", "subject": "self", "domain": "hand", "operator": "equals", "value": "customize:wind_control_rod" }
+            ]
+            },
+            "event": "customize:is_sneak_move_for_wind_control_rod"
+          },
+          {
+            "event_filters": {
+              "all_of": [
+                { "test": "is_sneak_held", "subject": "self", "operator": "equals", "value": true },
+                { "test": "is_moving", "subject": "self", "operator": "equals", "value": false }
+              ]
+            },
+            "event": "customize:is_sneak_held"
+          },
+          {
+            "event_filters": {
+              "all_of": [
+                { "test": "is_sneak_held", "subject": "self", "operator": "equals", "value": false }
+              ]
+            },
+            "event": "customize:is_sneak_none"
+          }
+        ]
       }
     },
 
@@ -358,6 +419,56 @@
             "queue_command": {
               "command": [
                 "event entity @e[type=customize:wind_rod_projectile] customize:despawn_self"
+              ]
+            }
+          }
+        ]
+      },
+      "customize:is_sneak_move_for_wind_control_rod": {
+        "sequence": [
+          {
+            "add": {
+              "component_groups": [ "customize:variant_sneak_move_for_wind_control_rod" ]
+            }
+          }
+        ]
+      },
+      "customize:is_sneak_move": {
+        "sequence": [
+          {
+            "add": {
+              "component_groups": [ "customize:variant_sneak_move" ]
+            }
+          }
+        ]
+      },
+      "customize:is_sneak_held": {
+        "sequence": [
+          {
+            "add": {
+              "component_groups": [ "customize:variant_sneak_held" ]
+            }
+          }
+        ]
+      },
+      "customize:is_sneak_none": {
+        "sequence": [
+          {
+            "add": {
+              "component_groups": [ "customize:variant_normal" ]
+            }
+          }
+        ]
+      },
+      "customize:is_shop_for_wind_control_rod": {
+        "sequence": [
+          {
+            "filters": {
+              "test": "bool_property", "domain": "customize:is_shop", "value": true
+            },
+            "queue_command": {
+              "command": [
+                "event entity @e[type=customize:wind_control_rod_projectile,c=1] customize:despawn_self"
               ]
             }
           }
