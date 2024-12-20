@@ -288,7 +288,7 @@
             },
             "queue_command": {
               "command": [
-                "event entity @e[type=customize:thunder_stone_projectile] customize:is_response_set"
+                "event entity @e[type=customize:thunder_stone_projectile,c=1] customize:is_response_set"
               ]
             }
           },
@@ -298,7 +298,7 @@
             },
             "queue_command": {
               "command": [
-                "event entity @e[type=customize:thunder_stone_projectile] customize:despawn_self"
+                "event entity @e[type=customize:thunder_stone_projectile,c=1] customize:despawn_self"
               ]
             }
           }
@@ -312,7 +312,7 @@
             },
             "queue_command": {
               "command": [
-                "event entity @e[type=customize:teleport_rod_projectile] customize:is_response_set"
+                "event entity @e[type=customize:teleport_rod_projectile,c=1] customize:is_response_set"
               ]
             }
           },
@@ -322,7 +322,7 @@
             },
             "queue_command": {
               "command": [
-                "event entity @e[type=customize:teleport_rod_projectile] customize:despawn_self"
+                "event entity @e[type=customize:teleport_rod_projectile,c=1] customize:despawn_self"
               ]
             }
           }
@@ -336,7 +336,7 @@
             },
             "queue_command": {
               "command": [
-                "event entity @e[type=customize:thunder_rod_projectile] customize:is_offhand_set",
+                "event entity @e[type=customize:thunder_rod_projectile,c=1] customize:is_offhand_set",
                 "particle minecraft:sonic_explosion ~ ~1 ~"
               ]
             }
@@ -348,7 +348,7 @@
             "queue_command": {
               "command": [
                 "particle minecraft:critical_hit_emitter ~ ~2 ~",
-                "event entity @e[type=customize:thunder_rod_projectile] customize:is_response_set"
+                "event entity @e[type=customize:thunder_rod_projectile,c=1] customize:is_response_set"
               ]
             }
           },
@@ -358,7 +358,7 @@
             },
             "queue_command": {
               "command": [
-                "event entity @e[type=customize:thunder_rod_projectile] customize:despawn_self"
+                "event entity @e[type=customize:thunder_rod_projectile,c=1] customize:despawn_self"
               ]
             }
           }
@@ -372,7 +372,7 @@
             },
             "queue_command": {
               "command": [
-                "event entity @e[type=customize:explode_sword_projectile] customize:is_offhand_set",
+                "event entity @e[type=customize:explode_sword_projectile,c=1] customize:is_offhand_set",
                 "particle minecraft:critical_hit_emitter ~ ~2 ~"
               ]
             }
@@ -384,7 +384,7 @@
             "queue_command": {
               "command": [
                 "particle minecraft:sonic_explosion ~ ~1 ~",
-                "event entity @e[type=customize:explode_sword_projectile] customize:is_response_set"
+                "event entity @e[type=customize:explode_sword_projectile,c=1] customize:is_response_set"
               ]
             }
           },
@@ -394,7 +394,7 @@
             },
             "queue_command": {
               "command": [
-                "event entity @e[type=customize:explode_sword_projectile] customize:despawn_self"
+                "event entity @e[type=customize:explode_sword_projectile,c=1] customize:despawn_self"
               ]
             }
           }
@@ -418,7 +418,7 @@
             },
             "queue_command": {
               "command": [
-                "event entity @e[type=customize:wind_rod_projectile] customize:despawn_self"
+                "event entity @e[type=customize:wind_rod_projectile,c=1] customize:despawn_self"
               ]
             }
           }
