@@ -1,0 +1,102 @@
+{
+    "format_version": "1.17.10",
+    "minecraft:entity": {
+        "description": {
+            "identifier": "customize:funnel_projectile",
+            "is_spawnable": false,
+            "is_summonable": true
+        },
+        "component_groups": {
+			"customize:despawn_self": {
+                "minecraft:instant_despawn": {
+                }
+            }
+		},
+        "components": {
+            "minecraft:nameable": {
+                "always_show": true
+            },
+            "minecraft:health": {
+                "value": 1,
+                "max": 1
+            },
+            "minecraft:breathable": {
+                "breathes_solids": true,
+                "breathes_water": true
+            },
+            "minecraft:collision_box": {
+                "width": 0.0,
+                "height": 0.0
+            },
+            "minecraft:underwater_movement": {
+                "value": 0.12
+            },
+            "minecraft:behavior.random_swim": {
+                "priority": 7,
+                "interval": 0,
+                "xz_dist": 30,
+                "y_dist": 15
+            },
+            "minecraft:movement.hover": {
+            },
+            "minecraft:navigation.hover": {
+                "can_path_over_water": true,
+                "can_sink": false,
+                "can_pass_doors": false,
+                "can_path_from_air": true,
+                "avoid_water": true,
+                "avoid_damage_blocks": true,
+                "avoid_sun": false
+            },
+            "minecraft:behavior.random_hover": {
+                "priority": 4,
+                "xz_dist": 8,
+                "y_dist": 8,
+                "y_offset": -1,
+                "interval": 7,
+                "hover_height": [ 1, 4 ]
+            },
+            "minecraft:behavior.move_towards_target": {
+                "priority": 2,
+                "within_radius": 32
+            },
+            "minecraft:behavior.ranged_attack": {
+                "priority": 0,
+                "attack_interval_min": 1.0,
+                "attack_interval_max": 3.0,
+                "attack_radius": 8.0
+            },
+            "minecraft:shooter": {
+                "def": "customize:funnel_gun_projectile",
+                "sound": "bow"
+            },
+            "minecraft:behavior.nearest_attackable_target": {
+                "priority": 1,
+                "entity_types": [
+                    {
+                        "filters": {  
+                            "any_of": [
+                                { "test" :  "is_family", "subject" : "other", "value" :  "mob"}
+                            ] 
+                        },
+                        "max_dist": 16
+                    }
+                ],
+                "attack_interval_min": 1.0,
+                "must_see": true
+            },
+            "minecraft:flying_speed": {
+                "value": 0.25
+            }
+        },
+        "events": {
+            "customize:despawn_self": {
+                "add": {
+                    "component_groups": [
+                        "customize:despawn_self"
+                    ]
+                }
+            }
+        }
+    }
+}

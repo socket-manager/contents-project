@@ -1,0 +1,47 @@
+{
+    "format_version": "1.20.50",
+    "minecraft:item": {
+        "description": {
+            "identifier": "customize:funnel_unit",
+            "menu_category": {
+                "category": "equipment"
+            }
+        },
+        "components": {
+            "minecraft:icon": {
+                "texture": "funnel_unit"
+            },
+            "minecraft:display_name": {
+                "value": "item.customize:funnel_unit.name"
+            },
+            "minecraft:can_destroy_in_creative": false,
+            "minecraft:max_stack_size": 1,
+            "minecraft:hand_equipped": false,
+            "minecraft:damage": 8,
+            "minecraft:glint": true,
+            "minecraft:use_animation": "bow",
+            "minecraft:use_modifiers": {
+                "use_duration": 0.1,
+                "movement_modifier": 0.0
+            },
+            "minecraft:projectile": {
+                "projectile_entity": "customize:funnel_unit_projectile"
+            },
+            "minecraft:shooter":{
+                "ammunition" :[{
+                    "item" :"customize:funnel_unit",
+                    "use_offhand" :true,
+                    "search_inventory" :true,
+                    "use_in_creative" :true
+                }],
+                "max_draw_duration" :0.1,
+                "scale_power_by_draw_duration" :false,
+                "charge_on_draw" :false
+            },
+            "minecraft:enchantable": {
+                "slot": "bow",
+                "value": 0
+            }
+        }
+    }
+}

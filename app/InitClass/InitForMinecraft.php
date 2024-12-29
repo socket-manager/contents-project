@@ -140,6 +140,12 @@ class InitForMinecraft extends InitForWebsocket
                     {
                         return CommandQueueEnumForMinecraft::ITEM_USED->value;
                     }
+
+                    // 「ファンネルユニット」イベントの場合
+                    if($p_dat['data']['body']['item']['id'] === 'funnel_unit')
+                    {
+                        return CommandQueueEnumForMinecraft::ITEM_USED->value;
+                    }
                 }
 
                 // マインクラフトからのPlayerTravelledイベントの場合は受け入れる
@@ -158,7 +164,7 @@ class InitForMinecraft extends InitForWebsocket
                     }
 
                     // 繰風弾の判定
-                    if($p_dat['data']['body']['travelMethod'] === 7 || $p_dat['data']['body']['player']['variant'] === 6)
+                    if($p_dat['data']['body']['travelMethod'] === 7 || $p_dat['data']['body']['player']['variant'] & ParameterForMinecraft::MASK_VARIANT_WIND_CONTROL_ROD)
                     {
                         return CommandQueueEnumForMinecraft::WIND_CONTROL_UP->value;
                     }

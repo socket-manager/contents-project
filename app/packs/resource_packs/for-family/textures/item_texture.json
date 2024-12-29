@@ -46,6 +46,9 @@
         },
         "wind_control_rod": {
             "textures": "textures/items/wind_control_rod"
+        },
+        "funnel_unit": {
+            "textures": "textures/items/funnel_unit"
         }
     }
 }

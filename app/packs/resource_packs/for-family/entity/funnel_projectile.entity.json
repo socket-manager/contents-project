@@ -1,0 +1,20 @@
+{
+    "format_version": "1.8.0",
+    "minecraft:client_entity": {
+        "description": {
+            "identifier": "customize:funnel_projectile",
+            "materials": {
+                "default": "entity_alphatest"
+            },
+            "textures": {
+                "default": "textures/entity/funnel_projectile"
+            },
+            "geometry": {
+                "default": "geometry.funnel_projectile"
+            },
+            "render_controllers": [
+                "controller.render.funnel_projectile"
+            ]
+        }
+    }
+}

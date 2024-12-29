@@ -10,6 +10,14 @@ return [
      */
     'buy_list' =>
     [
+        'funnel_unit' =>
+        [
+            'id' => 'funnel_unit',
+            'type' => 'loot',
+            'icon' => './img/funnel_unit.png',
+            'name' => 'ファンネル',
+            'price' => 25000
+        ],
         'explode_sword' =>
         [
             'id' => 'explode_sword',
@@ -145,6 +153,14 @@ return [
      */
     'sell_list' =>
     [
+        'funnel_unit' =>
+        [
+            'id' => 'funnel_unit',
+            'type' => 'loot',
+            'icon' => './img/funnel_unit.png',
+            'name' => 'ファンネル',
+            'price' => 16500
+        ],
         'thunder_sword_revised' =>
         [
             'id' => 'thunder_sword_revised',

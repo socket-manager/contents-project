@@ -1,0 +1,22 @@
+{
+    "format_version": "1.10",
+    "render_controllers": {
+        "controller.render.funnel_unit": {
+            "arrays": {
+                "textures": {
+                    "array.funnel_unit_texture_frames": [
+                        "texture.default"
+                    ]
+                },
+                "geometries": {
+                    "array.funnel_unit_geo_frames": [
+                        "geometry.default"
+                    ]
+                }
+            },
+            "geometry": "array.funnel_unit_geo_frames[query.get_animation_frame]",
+            "materials": [ { "*": "variable.is_enchanted ? material.enchanted : material.default" } ],
+            "textures": [ "array.funnel_unit_texture_frames[query.get_animation_frame]", "texture.enchanted" ]
+        }
+    }
+}

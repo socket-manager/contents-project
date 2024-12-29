@@ -606,11 +606,22 @@ class CommandForMinecraft extends CommandForWebsocket
             $p_param->logWriter('debug', ['MINECRAFT RESPONSE:START' => 'START']);
 
             $rcv = $p_param->getRecvData();
-            $w_ret = $p_param->getAwaitResponse();
+            $responses = $p_param->getAwaitResponse();
+
+            $w_ret = null;
+            foreach($responses as $response)
+            {
+                if($response['requestId'] === $rcv['data']['header']['requestId'])
+                {
+                    $w_ret = $response;
+                }
+            }
+
             if($w_ret === null)
             {
                 return null;
             }
+
             if($w_ret['requestId'] === $rcv['data']['header']['requestId'])
             {
                 // ユーザー名重複時のレスポンス
@@ -1107,9 +1118,9 @@ class CommandForMinecraft extends CommandForWebsocket
                     }
                 }
                 else
-                if($w_ret['type'] === 'wind-control-rod-variant0')
+                if($w_ret['type'] === 'wind-control-rod-normal')
                 {
-                    $p_param->logWriter('debug', ['MINECRAFT WIND-CONTROL-ROD:QUERYTARGET' => 'VARIANT-0']);
+                    $p_param->logWriter('debug', ['MINECRAFT WIND-CONTROL-ROD:QUERYTARGET' => 'NORMAL']);
 
                     // ターゲット取得成功か
                     if($rcv['data']['body']['statusCode'] !== 0)
@@ -1144,9 +1155,9 @@ class CommandForMinecraft extends CommandForWebsocket
                     }
                 }
                 else
-                if($w_ret['type'] === 'wind-control-rod-variant1')
+                if($w_ret['type'] === 'wind-control-rod-squat')
                 {
-                    $p_param->logWriter('debug', ['MINECRAFT WIND-CONTROL-ROD:QUERYTARGET' => 'VARIANT-1']);
+                    $p_param->logWriter('debug', ['MINECRAFT WIND-CONTROL-ROD:QUERYTARGET' => 'SQUAT']);
 
                     // ターゲット取得成功か
                     if($rcv['data']['body']['statusCode'] !== 0)
@@ -1174,9 +1185,9 @@ class CommandForMinecraft extends CommandForWebsocket
                     }
                 }
                 else
-                if($w_ret['type'] === 'wind-control-rod-variant6')
+                if($w_ret['type'] === 'wind-control-rod-sneaking')
                 {
-                    $p_param->logWriter('debug', ['MINECRAFT WIND-CONTROL-ROD:QUERYTARGET' => 'VARIANT-6']);
+                    $p_param->logWriter('debug', ['MINECRAFT WIND-CONTROL-ROD:QUERYTARGET' => 'SNEAKING']);
 
                     // ターゲット取得成功か
                     if($rcv['data']['body']['statusCode'] !== 0)
@@ -1202,6 +1213,110 @@ class CommandForMinecraft extends CommandForWebsocket
                         ];
                         $p_param->setSendStack($data);
                     }
+                }
+                else
+                if($w_ret['type'] === 'funnel-shoot')
+                {
+                    $p_param->logWriter('debug', ['MINECRAFT FUNNEL-UNIT:ITEM-USED' => 'QUERYTARGET']);
+
+                    $funnel_setting = config('minecraft.funnel_setting');
+
+                    $cmd = "msg @s {$funnel_setting['messages']['shoot_limit']}";
+                    $cmd_data = $p_param->getCommandData($cmd, null);
+                    if($rcv['data']['body']['statusCode'] === 0)
+                    {
+                        $details = json_decode($rcv['data']['body']['details'], true);
+                        if(count($details) >= $funnel_setting['shoot_limit'])
+                        {
+                            $data =
+                            [
+                                'data' => $cmd_data
+                            ];
+                            $p_param->setSendStack($data);
+    
+                            return null;
+                        }
+                    }
+
+                    // マインクラフト名を取得
+                    $name = $p_param->getTempBuff(['minecraft-name']);
+                    // ファンネル名を取得
+                    $funnel_name = config('minecraft.funnel_setting.name_format');
+                    $funnel_name = str_replace(':name', $name['minecraft-name'], $funnel_name);
+                    // プレイヤーの座標情報を取得
+                    $coodinate = $p_param->getTempBuff(['funnel-unit']);
+
+                    // ファンネル召喚
+                    $cmd = "summon customize:funnel_projectile \"{$funnel_name}\" ~ ~3 ~";
+                    $cmd_data = $p_param->getCommandData($cmd, null);
+                    $data =
+                    [
+                        'data' => $cmd_data
+                    ];
+                    $p_param->setSendStack($data);
+
+                    // タグ名を付与
+                    $cmd = "tag @e[type=customize:funnel_projectile,name=\"{$funnel_name}\"] add funnel_{$name['minecraft-name']}";
+                    $cmd_data = $p_param->getCommandData($cmd, null);
+                    $data =
+                    [
+                        'data' => $cmd_data
+                    ];
+                    $p_param->setSendStack($data);
+                }
+                else
+                if($w_ret['type'] === 'funnel-unit-equiped')
+                {
+                    $p_param->logWriter('debug', ['MINECRAFT FUNNEL-UNIT:DASH-SNEAK' => 'QUERYTARGET']);
+
+                    // ターゲット取得成功か
+                    if($rcv['data']['body']['statusCode'] !== 0)
+                    {
+                        return null;
+                    }
+
+                    // マインクラフト名を取得
+                    $name = $p_param->getTempBuff(['minecraft-name']);
+                    // ファンネル名を取得
+                    $funnel_name = config('minecraft.funnel_setting.name_format', ['name' => $name['minecraft-name']]);
+                    $funnel_name = str_replace(':name', $name['minecraft-name'], $funnel_name);
+
+                    $response_type = "funnel-collect";
+
+                    $cmd = "event entity @e[tag=\"funnel_{$name['minecraft-name']}\"] customize:despawn_self";
+                    $cmd_data = $p_param->getCommandData($cmd, $response_type);
+                    $data =
+                    [
+                        'data' => $cmd_data
+                    ];
+                    $p_param->setSendStack($data);
+                }
+                else
+                if($w_ret['type'] === 'funnel-collect')
+                {
+                    $p_param->logWriter('debug', ['MINECRAFT FUNNEL-UNIT:DASH-SNEAK' => 'EVENT']);
+
+                    // メッセージを取得
+                    $messages = config('minecraft.funnel_setting.messages');
+
+                    $cmd = null;
+
+                    // ターゲット取得成功か
+                    if($rcv['data']['body']['statusCode'] !== 0)
+                    {
+                        $cmd = "msg @s {$messages['collect_fail']}";
+                    }
+                    else
+                    {
+                        $cmd = "msg @s {$messages['collect_success']}";
+                    }
+
+                    $cmd_data = $p_param->getCommandData($cmd, null);
+                    $data =
+                    [
+                        'data' => $cmd_data
+                    ];
+                    $p_param->setSendStack($data);
                 }
                 // 以降の分岐はリザーブ用
                 else
@@ -1246,6 +1361,8 @@ class CommandForMinecraft extends CommandForWebsocket
                 }
             }
 
+            $p_param->delAwaitResponse($w_ret['requestId']);
+
             return null;
         };
     }
@@ -1271,6 +1388,28 @@ class CommandForMinecraft extends CommandForWebsocket
 
             // 受信データの取得
             $rcv = $p_param->getRecvData();
+
+            // ファンネルユニット
+            if($rcv['data']['body']['item']['id'] === 'funnel_unit')
+            {
+                // コマンド送信
+                $cmd_datas = $p_param->getCommandDataForFunnelUnitItemUsed(
+                    $rcv['data']['body']['player']['position']['x'],
+                    $rcv['data']['body']['player']['position']['y'],
+                    $rcv['data']['body']['player']['position']['z'],
+                    $rcv['data']['body']['player']['yRot']
+                );
+                foreach($cmd_datas as $cmd_data)
+                {
+                    $data =
+                    [
+                        'data' => $cmd_data
+                    ];
+                    $p_param->setSendStack($data);
+                }
+
+                return null;
+            }
 
             // 繰風弾の杖
             if($rcv['data']['body']['item']['id'] === 'wind_control_rod')
@@ -1713,8 +1852,19 @@ class CommandForMinecraft extends CommandForWebsocket
             ];
             $p_param->setSendStack($data);
 
-            // 繰風弾発現用実行のコマンド送信
+            // 繰風弾発現用のコマンド送信
             $cmd_datas = $p_param->getCommandDataForWindControlRodDashAndSneak();
+            foreach($cmd_datas as $cmd_data)
+            {
+                $data =
+                [
+                    'data' => $cmd_data
+                ];
+                $p_param->setSendStack($data);
+            }
+
+            // ファンネル回収用のコマンド送信
+            $cmd_datas = $p_param->getCommandDataForFunnelUnitDashAndSneak();
             foreach($cmd_datas as $cmd_data)
             {
                 $data =
@@ -2305,9 +2455,17 @@ class CommandForMinecraft extends CommandForWebsocket
             ];
             $p_param->setSendStack($data, $shop_minecraft['shop']['cid']);
 
+            $cmd = null;
             if($cnf_sell['id'] === 'wind_control_rod')
             {
                 $cmd = 'clear @s[hasitem={item=customize:wind_control_rod,location=slot.weapon.mainhand}] customize:wind_control_rod 0 1';
+            }
+            if($cnf_sell['id'] === 'funnel_unit')
+            {
+                $cmd = 'clear @s[hasitem={item=customize:funnel_unit,location=slot.weapon.mainhand}] customize:funnel_unit 0 1';
+            }
+            if($cmd !== null)
+            {
                 $cmd_data = $p_param->getCommandData($cmd);
                 $data =
                 [
@@ -2452,7 +2610,7 @@ class CommandForMinecraft extends CommandForWebsocket
 
             // コマンド送信
             $cmd_datas = $p_param->getCommandDataForWindControlRodItemUsed(
-                $rcv['data']['body']['player']['variant'],
+                ParameterForMinecraft::MASK_VARIANT_SNEAKING,
                 null
             );
             foreach($cmd_datas as $cmd_data)

@@ -42,5 +42,30 @@ return [
         'cherry_stairs',    // サクラ
         'brick_stairs',     // レンガ
         'quartz_stairs'     // クォーツ
+    ],
+
+    /**
+     * @var array ファンネル設定
+     */
+    'funnel_setting' =>
+    [
+        // ファンネル名フォーマット（":name"にはマインクラフトユーザー名が設定される）
+        'name_format' => 'ファンネル（:name）',
+
+        // 発射の上限
+        'shoot_limit' => 5,
+
+        // メッセージ類
+        'messages' =>
+        [
+            // 発射の上限に達した時
+            'shoot_limit' => 'これ以上発射できません',
+
+            // ファンネルの回収に成功した時
+            'collect_success' => 'ファンネルを回収しました',
+
+            // 回収できるファンネルが存在しない時
+            'collect_fail' => '回収できるファンネルはありません'
+        ]
     ]
 ];

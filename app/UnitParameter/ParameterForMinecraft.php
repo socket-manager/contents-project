@@ -43,6 +43,34 @@ class ParameterForMinecraft extends ParameterForWebsocket
     //--------------------------------------------------------------------------
 
     /**
+     * バリアント（variant）マスク - ステータス
+     * 
+     * @var int しゃがむ
+     */
+    public const MASK_VARIANT_SQUAT = 0x01;
+
+    /**
+     * バリアント（variant）マスク - スニーク
+     * 
+     * @var int スニーク
+     */
+    public const MASK_VARIANT_SNEAKING = 0x02;
+
+    /**
+     * バリアント（variant）マスク - アイテム
+     * 
+     * @var int 繰風弾の杖
+     */
+    public const MASK_VARIANT_WIND_CONTROL_ROD = 0x04;
+
+    /**
+     * バリアント（variant）マスク - アイテム
+     * 
+     * @var int ファンネルユニット
+     */
+    public const MASK_VARIANT_FUNNEL_UNIT = 0x08;
+
+    /**
      * 運営サイドのユーザー名
      */
     public const CHAT_ADMIN_USER = '運営チーム';
@@ -1312,7 +1340,21 @@ class ParameterForMinecraft extends ParameterForWebsocket
             $this->setTempBuff(['yrot' => $yrot]);
         }
 
-        $response_type = "wind-control-rod-variant{$variant}";
+        $str_variant = null;
+        if($variant & ParameterForMinecraft::MASK_VARIANT_SQUAT)
+        {
+            $str_variant = 'squat';
+        }
+        else
+        if($variant & ParameterForMinecraft::MASK_VARIANT_SNEAKING)
+        {
+            $str_variant = 'sneaking';
+        }
+        else
+        {
+            $str_variant = 'normal';
+        }
+        $response_type = "wind-control-rod-{$str_variant}";
 
         $cmd = "querytarget @e[tag=wind_control_rod_{$name['minecraft-name']}]";
         $cmd_datas[] = $this->getCommandData($cmd, $response_type);
@@ -1322,6 +1364,58 @@ class ParameterForMinecraft extends ParameterForWebsocket
 
     //--------------------------------------------------------------------------
     // 繰風弾の杖用 <END>
+    //--------------------------------------------------------------------------
+
+    //--------------------------------------------------------------------------
+    // ファンネルユニット用 <START>
+    //--------------------------------------------------------------------------
+
+    /**
+     * ファンネル回収用コマンドデータを取得
+     * 
+     * @return array 送信データ
+     */
+    public function getCommandDataForFunnelUnitDashAndSneak(): array
+    {
+        $cmd_datas = [];
+
+        $cmd = "querytarget @s[hasitem={item=customize:funnel_unit,location=slot.weapon.mainhand}]";
+        $cmd_datas[] = $this->getCommandData($cmd, 'funnel-unit-equiped');
+
+        return $cmd_datas;
+    }
+
+    /**
+     * ファンネル発射用コマンドデータを取得
+     * 
+     * @return array 送信データ
+     */
+    public function getCommandDataForFunnelUnitItemUsed(float $p_x, float $p_y, float $p_z, float $p_yrot): array
+    {
+        $cmd_datas = [];
+
+        // マインクラフト名を取得
+        $name = $this->getTempBuff(['minecraft-name']);
+
+        $this->setTempBuff([
+            'funnel-unit' => [
+                'x' => $p_x,
+                'y' => $p_y,
+                'z' => $p_z,
+                'yrot' => $p_yrot
+            ]
+        ]);
+
+        $response_type = "funnel-shoot";
+
+        $cmd = "querytarget @e[tag=\"funnel_{$name['minecraft-name']}\"]";
+        $cmd_datas[] = $this->getCommandData($cmd, $response_type);
+
+        return $cmd_datas;
+    }
+
+    //--------------------------------------------------------------------------
+    // ファンネルユニット用 <END>
     //--------------------------------------------------------------------------
 
     /**
@@ -1360,10 +1454,60 @@ class ParameterForMinecraft extends ParameterForWebsocket
      */
     public function setAwaitResponse(?string $p_rid, ?string $p_typ, string $p_cid = null)
     {
+        $responses = null;
+        $w_ret = $this->getTempBuff(['responses']);
+        if($w_ret === null)
+        {
+            $responses = [];
+        }
+        else
+        {
+            $responses = $w_ret['responses'];
+        }
+
+        $responses[] =
+        [
+            'requestId' => $p_rid,
+            'type' => $p_typ
+        ];
         $this->setTempBuff(
             [
-                'requestId' => $p_rid,
-                'type' => $p_typ
+                'responses' => $responses
+            ],
+            $p_cid
+        );
+    }
+
+    /**
+     * 待ち受けるレスポンス情報の削除
+     * 
+     * @param ?string $p_rid リクエストID
+     * @param ?string $p_cid 接続ID
+     */
+    public function delAwaitResponse(?string $p_rid, string $p_cid = null)
+    {
+        $responses = null;
+        $w_ret = $this->getTempBuff(['responses']);
+        if($w_ret === null)
+        {
+            return;
+        }
+        $responses = $w_ret['responses'];
+        $count = count($responses);
+
+        for($i = 0; $i < $count; $i++)
+        {
+            if($responses[$i]['requestId'] === $p_rid)
+            {
+                unset($responses[$i]);
+            }
+        }
+
+        $responses = array_values($responses);
+
+        $this->setTempBuff(
+            [
+                'responses' => $responses
             ],
             $p_cid
         );
@@ -1372,12 +1516,21 @@ class ParameterForMinecraft extends ParameterForWebsocket
     /**
      * 待ち受けるレスポンス情報の取得
      * 
-     * @return array ['requestId' => <リクエストID>, 'type' => <実行するコマンド>]
+     * @return array [['requestId' => <リクエストID>, 'type' => <実行するコマンド>]...]
      */
     public function getAwaitResponse()
     {
-        $w_ret = $this->getTempBuff(['requestId', 'type']);
-        return $w_ret;
+        $ret = null;
+        $w_ret = $this->getTempBuff(['responses']);
+        if($w_ret === null)
+        {
+            $ret = [];
+        }
+        else
+        {
+            $ret = $w_ret['responses'];
+        }
+        return $ret;
     }
 
 
