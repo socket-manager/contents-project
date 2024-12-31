@@ -317,6 +317,7 @@ div.connection-box #connect_button:active
 .buy-item-icon
 {
     height: 24px;
+    width: 16px;
     margin: 0px;
     padding: 10px 5px 0px 5px;
 }

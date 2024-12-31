@@ -4,7 +4,7 @@
 		{
 			"description" : {
 				"identifier" : "geometry.funnel_unit",
-				"texture_width" : 32.0,
+				"texture_width" : 19.0,
 				"texture_height" : 32.0
 			},
 			"bones" : [
@@ -14,7 +14,7 @@
 						{
 							"local_pivot" : [ 6.0, 3.0, 4.0 ],
 							"position" : [ -1.0, 10.0, -2.0 ],
-							"rotation" : [ 0.0, 45.0, 270.0 ],
+							"rotation" : [ 0.0, 63.0, 270.0 ],
 							"texture" : "default"
 						}
 					]
