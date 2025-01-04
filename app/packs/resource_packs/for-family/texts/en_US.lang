@@ -28,3 +28,5 @@ item.customize:funnel_unit.name=ファンネルユニット
 entity.customize:funnel_projectile.name=funnel_projectile
 entity.customize:funnel_unit_projectile.name=funnel_unit_projectile
 entity.customize:funnel_gun_projectile.name=funnel_gun_projectile
+item.customize:wind_rod.name=風のつえ改
+entity.customize:wind_rod_revised_projectile.name=wind_rod_revised_projectile

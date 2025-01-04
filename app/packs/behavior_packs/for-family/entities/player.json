@@ -8,8 +8,12 @@
             "is_summonable": false,
             "properties": {
                 "customize:is_shop": {
-                "type": "bool",
-                "default": false
+                    "type": "bool",
+                    "default": false
+                },
+                "customize:is_wind_rod_revised_large": {
+                    "type": "bool",
+                    "default": false
                 }
             }
         },
@@ -60,6 +64,11 @@
             "customize:variant_sneak_for_funnel_unit": {
                 "minecraft:variant": {
                     "value": 9
+                }
+            },
+            "customize:variant_sneak_for_wind_rod_revised": {
+                "minecraft:variant": {
+                    "value": 17
                 }
             }
         },
@@ -197,15 +206,6 @@
                     {
                         "event_filters": {
                             "all_of": [
-                                { "test": "is_sneak_held", "subject": "self", "operator": "equals", "value": false }
-                            ]
-                        },
-                        "cooldown": 0.25,
-                        "event": "customize:is_sneak_none"
-                    },
-                    {
-                    "event_filters": {
-                            "all_of": [
                                 { "test": "is_sneak_held", "subject": "self", "operator": "equals", "value": true },
                                 { "test": "has_equipment", "subject": "self", "domain": "hand", "operator": "equals", "value": "customize:funnel_unit" }
                             ]
@@ -220,6 +220,24 @@
                             ]
                         },
                         "event": "customize:is_sneak_for_wind_control_rod"
+                    },
+                    {
+                        "event_filters": {
+                            "all_of": [
+                                { "test": "is_sneak_held", "subject": "self", "operator": "equals", "value": true },
+                                { "test": "has_equipment", "subject": "self", "domain": "hand", "operator": "equals", "value": "customize:wind_rod_revised" }
+                            ]
+                        },
+                        "event": "customize:is_sneak_for_wind_rod_revised"
+                    },
+                    {
+                        "event_filters": {
+                            "all_of": [
+                                { "test": "is_sneak_held", "subject": "self", "operator": "equals", "value": false }
+                            ]
+                        },
+                        "cooldown": 0.35,
+                        "event": "customize:is_sneak_none"
                     }
                 ]
             }
@@ -393,7 +411,8 @@
                         },
                         "queue_command": {
                             "command": [
-                                "particle minecraft:critical_hit_emitter ~ ~2 ~"
+                                "particle minecraft:critical_hit_emitter ~ ~2 ~",
+                                "event entity @e[type=customize:wind_rod_projectile] customize:explode"
                             ]
                         }
                     },
@@ -427,6 +446,15 @@
                     }
                 ]
             },
+            "customize:is_sneak_for_wind_rod_revised": {
+                "sequence": [
+                    {
+                        "add": {
+                            "component_groups": [ "customize:variant_sneak_for_wind_rod_revised" ]
+                        }
+                    }
+                ]
+            },
             "customize:is_sneak_none": {
                 "sequence": [
                     {
@@ -449,6 +477,69 @@
                         }
                     }
                 ]
+            },
+            "customize:is_shop_for_wind_rod_revised": {
+                "sequence": [
+                    {
+                        "filters": {
+                            "test": "bool_property", "domain": "customize:is_shop", "value": false
+                        },
+                        "queue_command": {
+                            "command": [
+                                "particle minecraft:critical_hit_emitter ~ ~2 ~",
+                                "effect @s resistance 3 4 true"
+                            ]
+                        }
+                    },
+                    {
+                        "filters": {
+                            "all_of": [
+                                { "test": "bool_property", "domain": "customize:is_shop", "value": true }
+                            ]
+                        },
+                        "queue_command": {
+                            "command": [
+                                "event entity @e[type=customize:wind_rod_revised_projectile] customize:despawn_self"
+                            ]
+                        }
+                    },
+                    {
+                        "filters": {
+                            "all_of": [
+                                { "test": "bool_property", "domain": "customize:is_shop", "value": false },
+                                { "test": "bool_property", "domain": "customize:is_wind_rod_revised_large", "value": true }
+                            ]
+                        },
+                        "queue_command": {
+                            "command": [
+                                "event entity @e[type=customize:wind_rod_revised_projectile] customize:size_large"
+                            ]
+                        }
+                    },
+                    {
+                        "filters": {
+                            "all_of": [
+                                { "test": "bool_property", "domain": "customize:is_shop", "value": false },
+                                { "test": "bool_property", "domain": "customize:is_wind_rod_revised_large", "value": false }
+                            ]
+                        },
+                        "queue_command": {
+                            "command": [
+                                "event entity @e[type=customize:wind_rod_revised_projectile] customize:size_normal"
+                            ]
+                        }
+                    }
+                ]
+            },
+            "customize:set_wind_rod_revised_normal_size": {
+                "set_property": {
+                    "customize:is_wind_rod_revised_large": false
+                }
+            },
+            "customize:set_wind_rod_revised_large_size": {
+                "set_property": {
+                    "customize:is_wind_rod_revised_large": true
+                }
             }
         }
     }

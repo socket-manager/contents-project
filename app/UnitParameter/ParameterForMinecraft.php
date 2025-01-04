@@ -71,6 +71,13 @@ class ParameterForMinecraft extends ParameterForWebsocket
     public const MASK_VARIANT_FUNNEL_UNIT = 0x08;
 
     /**
+     * バリアント（variant）マスク - アイテム
+     * 
+     * @var int 風のつえ改
+     */
+    public const MASK_VARIANT_WIND_ROD_REVISED = 0x10;
+
+    /**
      * 運営サイドのユーザー名
      */
     public const CHAT_ADMIN_USER = '運営チーム';
@@ -252,6 +259,7 @@ class ParameterForMinecraft extends ParameterForWebsocket
         $cmds = [];
         $cmds[] = "gamerule sendcommandfeedback false";
         $cmds[] = "event entity @s customize:is_shop_reset";
+        $cmds[] = "event entity @s customize:set_wind_rod_revised_normal_size";
 
         foreach($cmds as $cmd)
         {
@@ -1416,6 +1424,29 @@ class ParameterForMinecraft extends ParameterForWebsocket
 
     //--------------------------------------------------------------------------
     // ファンネルユニット用 <END>
+    //--------------------------------------------------------------------------
+
+    //--------------------------------------------------------------------------
+    // 風のつえ改用 <START>
+    //--------------------------------------------------------------------------
+
+    /**
+     * 風のつえ改用コマンドデータを取得
+     * 
+     * @return array 送信データ
+     */
+    public function getCommandDataForWindRodRevisedDashAndSneak(): array
+    {
+        $cmd_datas = [];
+
+        $cmd = "querytarget @s[hasitem={item=customize:wind_rod_revised,location=slot.weapon.mainhand}]";
+        $cmd_datas[] = $this->getCommandData($cmd, 'wind-rod-revised-equiped');
+
+        return $cmd_datas;
+    }
+
+    //--------------------------------------------------------------------------
+    // 風のつえ改用 <END>
     //--------------------------------------------------------------------------
 
     /**

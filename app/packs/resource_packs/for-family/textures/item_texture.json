@@ -49,6 +49,9 @@
         },
         "funnel_unit": {
             "textures": "textures/items/funnel_unit"
+        },
+        "wind_rod_revised": {
+            "textures": "textures/items/wind_rod_revised"
         }
     }
 }

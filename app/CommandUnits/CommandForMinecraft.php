@@ -440,6 +440,13 @@ class CommandForMinecraft extends CommandForWebsocket
             // 入室前のコマンド実行
             $p_param->execCommandBeforeEntrance();
 
+            // 「風のつえ改」の初期設定
+            $p_param->setTempBuff([
+                'wind_rod_revised' => [
+                    'is_large_size' => false
+                ]
+            ]);
+
             // ユーザー名取得
             $hdrs = $p_param->getHeaders();
             $usr_nam = str_replace('/', '', $hdrs['GET'][0]);
@@ -1318,6 +1325,43 @@ class CommandForMinecraft extends CommandForWebsocket
                     ];
                     $p_param->setSendStack($data);
                 }
+                else
+                if($w_ret['type'] === 'wind-rod-revised-equiped')
+                {
+                    $p_param->logWriter('debug', ['MINECRAFT WIND-ROD-REVISED:DASH-SNEAK' => 'QUERYTARGET']);
+
+                    // ターゲット取得成功か
+                    if($rcv['data']['body']['statusCode'] !== 0)
+                    {
+                        return null;
+                    }
+
+                    $setting = $p_param->getTempBuff(['wind_rod_revised']);
+                    $event = 'set_wind_rod_revised_normal_size';
+                    $message = "通常サイズに設定しました";
+                    if($setting['wind_rod_revised']['is_large_size'] === false)
+                    {
+                        $event = 'set_wind_rod_revised_large_size';
+                        $message = "特大サイズに設定しました";
+                    }
+                    $setting['wind_rod_revised']['is_large_size'] = $setting['wind_rod_revised']['is_large_size'] ? false: true;
+                    $p_param->setTempBuff($setting);
+
+                    $cmd_datas = [];
+                    $cmd = "event entity @s customize:{$event}";
+                    $cmd_datas[] = $p_param->getCommandData($cmd, null);
+                    $cmd = "msg @s {$message}";
+                    $cmd_datas[] = $p_param->getCommandData($cmd, null);
+
+                    foreach($cmd_datas as $cmd_data)
+                    {
+                        $data =
+                        [
+                            'data' => $cmd_data
+                        ];
+                        $p_param->setSendStack($data);
+                    }
+                }
                 // 以降の分岐はリザーブ用
                 else
                 if($w_ret['type'] === 'forced-close')
@@ -1865,6 +1909,17 @@ class CommandForMinecraft extends CommandForWebsocket
 
             // ファンネル回収用のコマンド送信
             $cmd_datas = $p_param->getCommandDataForFunnelUnitDashAndSneak();
+            foreach($cmd_datas as $cmd_data)
+            {
+                $data =
+                [
+                    'data' => $cmd_data
+                ];
+                $p_param->setSendStack($data);
+            }
+
+            // 風のつえ改用のコマンド送信
+            $cmd_datas = $p_param->getCommandDataForWindRodRevisedDashAndSneak();
             foreach($cmd_datas as $cmd_data)
             {
                 $data =
