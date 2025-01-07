@@ -1,0 +1,21 @@
+{
+    "format_version": "1.10.0",
+    "minecraft:client_entity": {
+        "description": {
+            "identifier": "customize:wind_rod_revised_dummy_projectile",
+            "materials": {
+                "default": "entity_alphatest"
+            },
+            "textures": {
+                "default": "textures/entity/wind_rod_revised_dummy_projectile"
+            },
+            "geometry": {
+                // "default": "geometry.item_sprite"
+                "default": "geometry.wind_rod_revised_dummy_projectile"
+            },
+            "render_controllers": [
+                "controller.render.item_sprite"
+            ]
+        }
+    }
+}

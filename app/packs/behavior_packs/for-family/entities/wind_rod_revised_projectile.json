@@ -20,12 +20,12 @@
                     "particle_effect": "wind_burst",
                     "sound_effect": "wind_charge.burst",
                     "knockback_scaling": 1.22,
-                    "negates_fall_damage": true,
+                    "negates_fall_damage": false,
                     "causes_fire": false,
                     "breaks_blocks": true,
                     "allow_underwater": true,
                     "toggles_blocks": true,
-                    "damage_scaling": 0,
+                    "damage_scaling": 1,
                     "max_resistance": 0
                 }
             },
@@ -38,7 +38,7 @@
                     "particle_effect": "wind_burst",
                     "sound_effect": "wind_charge.burst",
                     "knockback_scaling": 12.2,
-                    "negates_fall_damage": true,
+                    "negates_fall_damage": false,
                     "causes_fire": false,
                     "breaks_blocks": true,
                     "allow_underwater": true,
@@ -90,6 +90,16 @@
             },
             "minecraft:type_family": {
                 "family": [ "wind_charge", "wind_charge_projectile" ]
+            },
+            "minecraft:entity_sensor": {
+                "subsensors": [
+                    {
+                        "event_filters": {
+                            "test": "is_moving", "subject": "self", "operator": "equals", "value": true
+                        },
+                        "event": "customize:is_moving"
+                    }
+                ]
             }
         },
         "events": {
@@ -115,11 +125,24 @@
                 }
             },
 			"customize:size_large": {
+                "queue_command": {
+					"command": [
+                        "summon customize:wind_rod_revised_dummy_projectile ~ ~-4 ~"
+                    ]
+				},
                 "add": {
                     "component_groups": [
                         "customize:size_large"
                     ]
                 }
+            },
+            "customize:is_moving": {
+                "queue_command": {
+					"command": [
+                        "tp @e[type=customize:wind_rod_revised_dummy_projectile,c=1] ~ ~-4 ~"
+                    ],
+                    "target": "self"
+				}
             }
         }
     }

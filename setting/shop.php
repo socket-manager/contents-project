@@ -66,6 +66,14 @@ return [
             'name' => '不動の杖',
             'price' => 20000
         ],
+        'wind_rod_revised' =>
+        [
+            'id' => 'wind_rod_revised',
+            'type' => 'loot',
+            'icon' => './img/wind_rod_revised.png',
+            'name' => '暴風の杖',
+            'price' => 20000
+        ],
         'teleport_rod' =>
         [
             'id' => 'teleport_rod',
@@ -95,7 +103,7 @@ return [
             'id' => 'wind_rod',
             'type' => 'loot',
             'icon' => './img/wind_rod.png',
-            'name' => '風のつえ',
+            'name' => '風の杖',
             'price' => 10000
         ],
         'bow_thunder' =>

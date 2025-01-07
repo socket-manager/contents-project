@@ -20,7 +20,7 @@
                 "particle_effect": "wind_burst",
                 "sound_effect": "wind_charge.burst",
                 "knockback_scaling": 1.22,
-                "negates_fall_damage": true,
+                "negates_fall_damage": false,
                 "causes_fire": false,
                 "breaks_blocks": false,
                 "allow_underwater": true,

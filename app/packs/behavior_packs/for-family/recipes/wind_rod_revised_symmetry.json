@@ -1,0 +1,39 @@
+{
+    "format_version": "1.20.10",
+    "minecraft:recipe_shaped": {
+        "description": {
+            "identifier": "customize:wind_rod_revised_symmetry"
+        },
+
+        
+        "tags": [ "crafting_table" ],
+        "assume_symmetry": true,
+        "priority": 1,
+        "pattern": [
+            "Y",
+            " X",
+            "  #"
+        ],
+        "key": {
+            "#": {
+                "item": "customize:wind_rod"
+            },
+            "X": {
+                "item": "minecraft:tnt"
+            },
+            "Y": {
+                "item": "minecraft:wind_charge"
+            }
+        },
+        "unlock": [
+            {
+                "context": "AlwaysUnlocked"
+            }
+        ],
+        "result": {
+            "item": "customize:wind_rod_revised",
+            "data": 0,
+            "count": 1
+        }
+    }
+}
