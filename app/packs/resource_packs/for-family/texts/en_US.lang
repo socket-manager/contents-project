@@ -31,3 +31,5 @@ entity.customize:funnel_gun_projectile.name=funnel_gun_projectile
 item.customize:wind_rod_revised.name=暴風の杖
 entity.customize:wind_rod_revised_projectile.name=wind_rod_revised_projectile
 entity.customize:wind_rod_revised_dummy_projectile.name=wind_rod_revised_dummy_projectile
+item.customize:light_sword.name=光の剣
+entity.customize:light_sword_projectile.name=light_sword_projectile

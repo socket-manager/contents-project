@@ -1,0 +1,78 @@
+{
+    "format_version": "1.17.10",
+    "minecraft:entity": {
+        "description": {
+            "identifier": "customize:light_sword_projectile",
+            "is_spawnable": false,
+            "is_summonable": true,
+            "properties": {
+                "customize:is_hide": {
+                    "type": "bool",
+                    "default": true,
+                    "client_sync": true
+                }
+            }
+        },
+        "component_groups": {
+			"customize:despawn_self": {
+                "minecraft:instant_despawn": {
+                }
+            }
+		},
+        "components": {
+            "minecraft:despawn":{
+                "filters": {
+                    "test": "bool_property", "domain": "customize:is_shop", "value": true
+                }
+            },
+            "minecraft:breathable": {
+                "breathes_solids": false,
+                "breathes_water": true
+            },
+            "minecraft:collision_box": {
+                "width": 0.0,
+                "height": 0.0
+            },
+            "minecraft:projectile": {
+                "on_hit": {
+                    "impact_damage": {
+                        "damage": 1,
+                        "knockback": true,
+                        "semi_random_diff_damage": false,
+                        "destroy_on_hit": true
+                    }
+                },
+                "power": 1.6,
+                "gravity": 0.01
+            }
+        },
+        "events": {
+            "minecraft:entity_spawned": {
+                "queue_command": {
+					"command": [
+                        "event entity @p customize:is_shop_for_light_sword"
+                    ]
+				}
+            },
+            "customize:despawn_self": {
+                "add": {
+                    "component_groups": [
+                        "customize:despawn_self"
+                    ]
+                }
+            },
+            "customize:set_hide": {
+                "add": {
+                    "component_groups": [
+                        "customize:despawn_self"
+                    ]
+                }
+            },
+            "customize:reset_hide": {
+                "set_property": {
+                    "customize:is_hide": false
+                }
+            }
+        }
+    }
+}

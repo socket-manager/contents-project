@@ -1,0 +1,46 @@
+{
+    "format_version": "1.20.50",
+    "minecraft:item": {
+        "description": {
+            "identifier": "customize:light_sword",
+            "menu_category": {
+                "category": "none"
+            }
+        },
+        "components": {
+            "minecraft:icon": {
+                "texture": "light_sword"
+            },
+            "minecraft:display_name": {
+                "value": "item.customize:light_sword.name"
+            },
+            "minecraft:can_destroy_in_creative": false,
+            "minecraft:hand_equipped": false,
+            "minecraft:damage": 8,
+            "minecraft:glint": true,
+            "minecraft:use_animation": "bow",
+            "minecraft:use_modifiers": {
+                "use_duration": 0.11,
+                "movement_modifier": 0.0
+            },
+            "minecraft:projectile": {
+                "projectile_entity": "customize:light_sword_projectile"
+            },
+            "minecraft:shooter":{
+                "ammunition" :[{
+                    "item" :"customize:light_sword",
+                    "use_offhand" :true,
+                    "search_inventory" :true,
+                    "use_in_creative" :true
+                }],
+                "max_draw_duration" :0.0,
+                "scale_power_by_draw_duration" :false,
+                "charge_on_draw" :false
+            },
+            "minecraft:enchantable": {
+                "slot": "bow",
+                "value": 0
+            }
+        }
+    }
+}

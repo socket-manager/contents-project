@@ -52,6 +52,9 @@
         },
         "wind_rod_revised": {
             "textures": "textures/items/wind_rod_revised"
+        },
+        "light_sword": {
+            "textures": "textures/items/light_sword"
         }
     }
 }

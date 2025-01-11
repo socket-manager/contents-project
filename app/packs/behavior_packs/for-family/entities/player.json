@@ -14,6 +14,10 @@
                 "customize:is_wind_rod_revised_large": {
                     "type": "bool",
                     "default": false
+                },
+                "customize:is_shield_mode": {
+                    "type": "bool",
+                    "default": false
                 }
             }
         },
@@ -540,6 +544,51 @@
                 "set_property": {
                     "customize:is_wind_rod_revised_large": true
                 }
+            },
+            "customize:reset_shield_mode": {
+                "set_property": {
+                    "customize:is_shield_mode": false
+                }
+            },
+            "customize:set_shield_mode": {
+                "set_property": {
+                    "customize:is_shield_mode": true
+                }
+            }
+            ,
+            "customize:is_shop_for_light_sword": {
+                "sequence": [
+                    {
+                        "filters": {
+                            "test": "bool_property", "domain": "customize:is_shop", "value": true
+                        },
+                        "queue_command": {
+                            "command": [
+                                "event entity @e[type=customize:light_sword_projectile,c=1] customize:despawn_self"
+                            ]
+                        }
+                    },
+                    {
+                        "filters": {
+                            "test": "bool_property", "domain": "customize:is_shield_mode", "value": true
+                        },
+                        "queue_command": {
+                            "command": [
+                                "event entity @e[type=customize:light_sword_projectile,c=1] customize:set_hide"
+                            ]
+                        }
+                    },
+                    {
+                        "filters": {
+                            "test": "bool_property", "domain": "customize:is_shield_mode", "value": false
+                        },
+                        "queue_command": {
+                            "command": [
+                                "event entity @e[type=customize:light_sword_projectile,c=1] customize:reset_hide"
+                            ]
+                        }
+                    }
+                ]
             }
         }
     }
