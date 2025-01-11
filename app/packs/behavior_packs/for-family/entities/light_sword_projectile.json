@@ -20,11 +20,6 @@
             }
 		},
         "components": {
-            "minecraft:despawn":{
-                "filters": {
-                    "test": "bool_property", "domain": "customize:is_shop", "value": true
-                }
-            },
             "minecraft:breathable": {
                 "breathes_solids": false,
                 "breathes_water": true

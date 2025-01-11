@@ -580,7 +580,10 @@
                     },
                     {
                         "filters": {
-                            "test": "bool_property", "domain": "customize:is_shield_mode", "value": false
+                            "all_of": [
+                                { "test": "bool_property", "domain": "customize:is_shop", "value": false },
+                                { "test": "bool_property", "domain": "customize:is_shield_mode", "value": false }
+                            ]
                         },
                         "queue_command": {
                             "command": [
