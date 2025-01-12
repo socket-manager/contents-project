@@ -68,7 +68,7 @@
             },
             "minecraft:shooter": {
                 "def": "customize:funnel_gun_projectile",
-                "sound": "bow"
+                "sound": "wind_charge.burst"
             },
             "minecraft:behavior.nearest_attackable_target": {
                 "priority": 1,

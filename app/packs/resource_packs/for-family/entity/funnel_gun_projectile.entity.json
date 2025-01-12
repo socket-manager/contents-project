@@ -10,10 +10,23 @@
                 "default": "textures/entity/funnel_gun_projectile"
             },
             "geometry": {
-                "default": "geometry.item_sprite"
+                "default": "geometry.funnel_gun_projectile"
+            },
+            "animations": {
+                "face_player": "animation.actor.billboard"
+            },
+            "scripts": {
+                "scale": "0.3",
+                "pre_animation": [
+                    "variable.u = Math.mod(query.texture_frame_index, 4) * 16.0 / 64.0;",
+                    "variable.v = math.round(query.texture_frame_index / 4) * 16.0 / 64.0;"
+                ],
+                "animate": [
+                    "face_player"
+                ]
             },
             "render_controllers": [
-                "controller.render.item_sprite"
+                "controller.render.funnel_gun_projectile"
             ]
         }
     }
