@@ -209,6 +209,14 @@ return [
             'name' => '繰風弾の杖',
             'price' => 10000
         ],
+        'wind_rod' =>
+        [
+            'id' => 'wind_rod',
+            'type' => 'loot',
+            'icon' => './img/wind_rod.png',
+            'name' => '風の杖',
+            'price' => 6700
+        ],
         'immovable_stone' =>
         [
             'id' => 'immovable_stone',
