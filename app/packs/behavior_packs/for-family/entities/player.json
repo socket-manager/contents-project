@@ -74,6 +74,11 @@
                 "minecraft:variant": {
                     "value": 17
                 }
+            },
+            "customize:variant_sneak_for_light_sword": {
+                "minecraft:variant": {
+                    "value": 33
+                }
             }
         },
 
@@ -233,6 +238,15 @@
                             ]
                         },
                         "event": "customize:is_sneak_for_wind_rod_revised"
+                    },
+                    {
+                        "event_filters": {
+                            "all_of": [
+                                { "test": "is_sneak_held", "subject": "self", "operator": "equals", "value": true },
+                                { "test": "has_equipment", "subject": "self", "domain": "hand", "operator": "equals", "value": "customize:light_sword" }
+                            ]
+                        },
+                        "event": "customize:is_sneak_for_light_sword"
                     },
                     {
                         "event_filters": {
@@ -455,6 +469,15 @@
                     {
                         "add": {
                             "component_groups": [ "customize:variant_sneak_for_wind_rod_revised" ]
+                        }
+                    }
+                ]
+            },
+            "customize:is_sneak_for_light_sword": {
+                "sequence": [
+                    {
+                        "add": {
+                            "component_groups": [ "customize:variant_sneak_for_light_sword" ]
                         }
                     }
                 ]

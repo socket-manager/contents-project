@@ -440,10 +440,17 @@ class CommandForMinecraft extends CommandForWebsocket
             // 入室前のコマンド実行
             $p_param->execCommandBeforeEntrance();
 
-            // 「風のつえ改」の初期設定
+            // 「暴風の杖」の初期設定
             $p_param->setTempBuff([
                 'wind_rod_revised' => [
                     'is_large_size' => false
+                ]
+            ]);
+
+            // 「光の剣」の初期設定
+            $p_param->setTempBuff([
+                'light_sword' => [
+                    'is_shield_mode' => false
                 ]
             ]);
 
@@ -1362,6 +1369,43 @@ class CommandForMinecraft extends CommandForWebsocket
                         $p_param->setSendStack($data);
                     }
                 }
+                else
+                if($w_ret['type'] === 'light-sword-equiped')
+                {
+                    $p_param->logWriter('debug', ['MINECRAFT LIGHT-SWORD:DASH-SNEAK' => 'QUERYTARGET']);
+
+                    // ターゲット取得成功か
+                    if($rcv['data']['body']['statusCode'] !== 0)
+                    {
+                        return null;
+                    }
+
+                    $setting = $p_param->getTempBuff(['light_sword']);
+                    $event = 'reset_shield_mode';
+                    $message = "バレットモードに設定しました";
+                    if($setting['light_sword']['is_shield_mode'] === false)
+                    {
+                        $event = 'set_shield_mode';
+                        $message = "シールドモードに設定しました";
+                    }
+                    $setting['light_sword']['is_shield_mode'] = $setting['light_sword']['is_shield_mode'] ? false: true;
+                    $p_param->setTempBuff($setting);
+
+                    $cmd_datas = [];
+                    $cmd = "event entity @s customize:{$event}";
+                    $cmd_datas[] = $p_param->getCommandData($cmd, null);
+                    $cmd = "msg @s {$message}";
+                    $cmd_datas[] = $p_param->getCommandData($cmd, null);
+
+                    foreach($cmd_datas as $cmd_data)
+                    {
+                        $data =
+                        [
+                            'data' => $cmd_data
+                        ];
+                        $p_param->setSendStack($data);
+                    }
+                }
                 // 以降の分岐はリザーブ用
                 else
                 if($w_ret['type'] === 'forced-close')
@@ -1432,6 +1476,35 @@ class CommandForMinecraft extends CommandForWebsocket
 
             // 受信データの取得
             $rcv = $p_param->getRecvData();
+
+            // 光の剣
+            if($rcv['data']['body']['item']['id'] === 'light_sword')
+            {
+                $shield_mode = $p_param->getTempBuff(['light_sword']);
+                if($shield_mode['light_sword']['is_shield_mode'] === false)
+                {
+                    return null;
+                }
+
+                // コマンド送信
+                $cmd_datas = $p_param->getCommandDataForLightSwordItemUsed(
+                    $rcv['data']['body']['player']['position']['x'],
+                    $rcv['data']['body']['player']['position']['y'],
+                    $rcv['data']['body']['player']['position']['z'],
+                    $rcv['data']['body']['player']['yRot'],
+                    $rcv['data']['body']['player']['variant']
+                );
+                foreach($cmd_datas as $cmd_data)
+                {
+                    $data =
+                    [
+                        'data' => $cmd_data
+                    ];
+                    $p_param->setSendStack($data);
+                }
+
+                return null;
+            }
 
             // ファンネルユニット
             if($rcv['data']['body']['item']['id'] === 'funnel_unit')
@@ -1918,8 +1991,19 @@ class CommandForMinecraft extends CommandForWebsocket
                 $p_param->setSendStack($data);
             }
 
-            // 風のつえ改用のコマンド送信
+            // 暴風の杖用のコマンド送信
             $cmd_datas = $p_param->getCommandDataForWindRodRevisedDashAndSneak();
+            foreach($cmd_datas as $cmd_data)
+            {
+                $data =
+                [
+                    'data' => $cmd_data
+                ];
+                $p_param->setSendStack($data);
+            }
+
+            // 光の剣用のコマンド送信
+            $cmd_datas = $p_param->getCommandDataForLightSwordDashAndSneak();
             foreach($cmd_datas as $cmd_data)
             {
                 $data =

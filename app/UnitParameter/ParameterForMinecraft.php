@@ -260,6 +260,7 @@ class ParameterForMinecraft extends ParameterForWebsocket
         $cmds[] = "gamerule sendcommandfeedback false";
         $cmds[] = "event entity @s customize:is_shop_reset";
         $cmds[] = "event entity @s customize:set_wind_rod_revised_normal_size";
+        $cmds[] = "event entity @s customize:reset_shield_mode";
 
         foreach($cmds as $cmd)
         {
@@ -1427,11 +1428,11 @@ class ParameterForMinecraft extends ParameterForWebsocket
     //--------------------------------------------------------------------------
 
     //--------------------------------------------------------------------------
-    // 風のつえ改用 <START>
+    // 暴風の杖用 <START>
     //--------------------------------------------------------------------------
 
     /**
-     * 風のつえ改用コマンドデータを取得
+     * 暴風の杖用コマンドデータを取得
      * 
      * @return array 送信データ
      */
@@ -1446,7 +1447,77 @@ class ParameterForMinecraft extends ParameterForWebsocket
     }
 
     //--------------------------------------------------------------------------
-    // 風のつえ改用 <END>
+    // 暴風の杖用 <END>
+    //--------------------------------------------------------------------------
+
+    //--------------------------------------------------------------------------
+    // 光の剣用 <START>
+    //--------------------------------------------------------------------------
+
+    /**
+     * 光の剣用コマンドデータを取得（右クリック時）
+     * 
+     * @return array 送信データ
+     */
+    public function getCommandDataForLightSwordItemUsed(float $p_x, float $p_y, float $p_z, float $p_yrot, int $p_variant): array
+    {
+        $cmd_datas = [];
+
+        // 座標退避
+        $w_x = $p_x;
+        $w_y = $p_y - 1;
+        $w_z = $p_z;
+        $w_yrot = $p_yrot;
+
+        // シールドブロック座標の計算
+        $this->getRelativeCoordinates($w_x, $w_y, $w_z, $w_yrot, 1);
+
+        // 絶対座標へ補正
+        $w_x += $p_x;
+        $w_z += $p_z;
+        $w_y = floor($w_y);
+        $to_y = $w_y + 1;
+
+        // ブロックモード展開
+        if($p_variant & ParameterForMinecraft::MASK_VARIANT_SQUAT)
+        {
+            $cmd = "setblock {$w_x} {$w_y} {$w_z} customize:light_shield [\"customize:block_mode\":false]";
+            $cmd_datas[] = $this->getCommandData($cmd, null);
+        }
+        // シールドモード展開
+        else
+        {
+            $cmd = "fill {$w_x} {$w_y} {$w_z} {$w_x} {$to_y} {$w_z} customize:light_shield";
+            $cmd_datas[] = $this->getCommandData($cmd, null);
+
+            // シールドブロック射手召喚
+            $w_x = floor($w_x) + 0.5;
+            $w_z = floor($w_z) + 0.5;
+            $to_y += 1.5;
+            $cmd = "summon customize:light_shield_shooter {$w_x} {$to_y} {$w_z}";
+            $cmd_datas[] = $this->getCommandData($cmd, null);
+        }
+
+        return $cmd_datas;
+    }
+
+    /**
+     * 光の剣用コマンドデータを取得（ダッシュ＋スニーク時）
+     * 
+     * @return array 送信データ
+     */
+    public function getCommandDataForLightSwordDashAndSneak(): array
+    {
+        $cmd_datas = [];
+
+        $cmd = "querytarget @s[hasitem={item=customize:light_sword,location=slot.weapon.mainhand}]";
+        $cmd_datas[] = $this->getCommandData($cmd, 'light-sword-equiped');
+
+        return $cmd_datas;
+    }
+
+    //--------------------------------------------------------------------------
+    // 光の剣用 <END>
     //--------------------------------------------------------------------------
 
     /**

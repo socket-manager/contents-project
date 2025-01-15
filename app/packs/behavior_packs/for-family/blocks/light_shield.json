@@ -1,0 +1,37 @@
+{ 
+    "format_version": "1.20.80", 
+    "minecraft:block": { 
+        "description": { 
+            "identifier": "customize:light_shield",
+            "states": {
+                "customize:block_mode": [ true, false ]
+            }
+        },
+        "permutations": [
+            {
+                "condition": "query.block_state('customize:block_mode') == false",
+                "components": {
+                    "minecraft:destructible_by_mining": true,
+                    "minecraft:destructible_by_explosion": true,
+                    "minecraft:loot": "for-family/loot_tables/blocks/test.json"
+                }
+            },
+            {
+                "condition": "query.block_state('customize:block_mode') == true",
+                "components": {
+                    "minecraft:destructible_by_mining": false,
+                    "minecraft:destructible_by_explosion": false,
+                    "minecraft:loot": "for-family/loot_tables/blocks/test.json"
+                }
+            }
+        ],
+        "components": { 
+            "minecraft:material_instances":{
+                "*": {
+                    "render_method": "alpha_test_single_sided"
+                }
+            },
+            "minecraft:light_emission": 15
+        }
+    } 
+}

@@ -1,0 +1,112 @@
+{
+    "format_version": "1.17.10",
+    "minecraft:entity": {
+        "description": {
+            "identifier": "customize:light_shield_shooter",
+            "is_spawnable": false,
+            "is_summonable": true
+        },
+        "component_groups": {
+			"customize:despawn_self": {
+                "minecraft:instant_despawn": {
+                }
+            }
+		},
+        "components": {
+            "minecraft:health": {
+                "value": 1000,
+                "max": 1000
+            },
+            "minecraft:breathable": {
+                "breathes_solids": true,
+                "breathes_water": true
+            },
+            "minecraft:collision_box": {
+                "width": 0.0,
+                "height": 0.0
+            }
+            ,
+            "minecraft:underwater_movement": {
+                "value": 0.0
+            },
+            "minecraft:movement.hover": {
+            },
+            "minecraft:navigation.hover": {
+                "can_path_over_water": true,
+                "can_sink": false,
+                "can_pass_doors": false,
+                "can_path_from_air": true,
+                "avoid_water": true,
+                "avoid_damage_blocks": true,
+                "avoid_sun": false
+            },
+            "minecraft:behavior.ranged_attack": {
+                "priority": 0,
+                "attack_interval_min": 1.0,
+                "attack_interval_max": 3.0,
+                "attack_radius": 32.0
+            },
+            "minecraft:shooter": {
+                "def": "customize:light_shield_projectile",
+                "sound": "wind_charge.burst"
+            },
+            "minecraft:behavior.nearest_attackable_target": {
+                "priority": 1,
+                "entity_types": [
+                    {
+                        "filters": {  
+                            "any_of": [
+                                { "test" :  "is_family", "subject" : "other", "value" :  "mob"}
+                            ] 
+                        },
+                        "max_dist": 32
+                    }
+                ],
+                "attack_interval_min": 1.0,
+                "must_see": true
+            },
+            "minecraft:flying_speed": {
+                "value": 0.0
+            },
+            "minecraft:knockback_resistance": {
+                "value": 100,
+                "max": 100
+            },
+            "minecraft:timer": {
+                "looping": false,
+                "time": 30,
+                "time_down_event": {
+                    "event": "customize:despawn_timer"
+                }
+            }
+        },
+        "events": {
+            "minecraft:entity_spawned": {
+                "queue_command": {
+					"command": [
+                        "effect @s resistance 30 4 true"
+                    ]
+				}
+            },
+            "customize:despawn_self": {
+                "add": {
+                    "component_groups": [
+                        "customize:despawn_self"
+                    ]
+                }
+            },
+            "customize:despawn_timer": {
+                "queue_command": {
+                    "command": [
+                        "fill ~ ~-1 ~ ~ ~-2 ~ air replace"
+                    ]
+                },
+                "add": {
+                    "component_groups": [
+                        "customize:despawn_self"
+                    ]
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,21 @@
+{
+    "format_version": "1.10.0",
+    "minecraft:client_entity": {
+        "description": {
+            "identifier": "customize:light_shield_shooter",
+            "materials": {
+                "default": "entity_alphatest"
+            },
+            "textures": {
+                "default": "textures/entity/light_shield_shooter"
+            },
+            "geometry": {
+                "default": "geometry.light_shield_shooter",
+                "is_hide": "geometry.light_shield_shooter_hide"
+            },
+            "render_controllers": [
+                "controller.render.light_shield_shooter"
+            ]
+        }
+    }
+}

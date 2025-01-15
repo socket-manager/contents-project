@@ -33,3 +33,6 @@ entity.customize:wind_rod_revised_projectile.name=wind_rod_revised_projectile
 entity.customize:wind_rod_revised_dummy_projectile.name=wind_rod_revised_dummy_projectile
 item.customize:light_sword.name=光の剣
 entity.customize:light_sword_projectile.name=light_sword_projectile
+tile.customize:light_shield.name=ライトシールド
+entity.customize:light_shield_shooter.name=light_shield_shooter
+entity.customize:light_shield_projectile.name=light_shield_projectile
