@@ -2607,6 +2607,14 @@ class CommandForMinecraft extends CommandForWebsocket
             {
                 $cmd = 'clear @s[hasitem={item=customize:wind_rod,location=slot.weapon.mainhand}] customize:wind_rod 0 1';
             }
+            if($cnf_sell['id'] === 'teleport_rod')
+            {
+                $cmd = 'clear @s[hasitem={item=customize:teleport_rod,location=slot.weapon.mainhand}] customize:teleport_rod 0 1';
+            }
+            if($cnf_sell['id'] === 'thunder_rod')
+            {
+                $cmd = 'clear @s[hasitem={item=customize:thunder_rod,location=slot.weapon.mainhand}] customize:thunder_rod 0 1';
+            }
             if($cmd !== null)
             {
                 $cmd_data = $p_param->getCommandData($cmd);

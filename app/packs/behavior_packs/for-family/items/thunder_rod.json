@@ -4,7 +4,7 @@
         "description": {
             "identifier": "customize:thunder_rod",
             "menu_category": {
-                "category": "none"
+                "category": "equipment"
             }
         },
         "components": {
@@ -18,6 +18,7 @@
                 "value": "item.customize:thunder_rod.name"
             },
             "minecraft:can_destroy_in_creative": false,
+            "minecraft:max_stack_size": 1,
             "minecraft:hand_equipped": false,
             "minecraft:damage": 6,
             "minecraft:glint": true,
@@ -37,7 +38,7 @@
                     "use_in_creative" :true
                 }],
                 "max_draw_duration" :0.1,
-                "scale_power_by_draw_duration" :false,
+                "scale_power_by_draw_duration" :true,
                 "charge_on_draw" :false
             },
             "minecraft:cooldown": {
