@@ -115,7 +115,7 @@
                     },
                     {
                         "filters": {
-                            "test": "int_property", "domain": "customize:tick_count", "subject": "self", "operator": ">", "value": 10
+                            "test": "int_property", "domain": "customize:tick_count", "subject": "self", "operator": ">", "value": 20
                         },
                         "add": {
                             "component_groups": [
