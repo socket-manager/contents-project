@@ -2615,6 +2615,10 @@ class CommandForMinecraft extends CommandForWebsocket
             {
                 $cmd = 'clear @s[hasitem={item=customize:thunder_rod,location=slot.weapon.mainhand}] customize:thunder_rod 0 1';
             }
+            if($cnf_sell['id'] === 'explode_sword')
+            {
+                $cmd = 'clear @s[hasitem={item=customize:explode_sword,location=slot.weapon.mainhand}] customize:explode_sword 0 1';
+            }
             if($cmd !== null)
             {
                 $cmd_data = $p_param->getCommandData($cmd);

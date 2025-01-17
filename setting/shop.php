@@ -169,6 +169,14 @@ return [
             'name' => 'ファンネル',
             'price' => 16500
         ],
+        'explode_sword' =>
+        [
+            'id' => 'explode_sword',
+            'type' => 'loot',
+            'icon' => './img/explode_sword.png',
+            'name' => 'はかいのつるぎ',
+            'price' => 16500
+        ],
         'thunder_sword_revised' =>
         [
             'id' => 'thunder_sword_revised',

@@ -4,7 +4,8 @@
         "description": {
             "identifier": "customize:explode_sword",
             "menu_category": {
-                "category": "none"
+                "category": "equipment",
+                "group": "itemGroup.name.sword"
             }
         },
         "components": {
@@ -18,6 +19,7 @@
                 "value": "item.customize:explode_sword.name"
             },
             "minecraft:can_destroy_in_creative": false,
+            "minecraft:max_stack_size": 1,
             "minecraft:hand_equipped": false,
             "minecraft:damage": 15,
             "minecraft:glint": true,

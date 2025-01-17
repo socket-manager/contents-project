@@ -358,7 +358,8 @@
                         "queue_command": {
                             "command": [
                                 "event entity @e[type=customize:thunder_rod_projectile] customize:is_offhand_set",
-                                "particle minecraft:sonic_explosion ~ ~1 ~"
+                                "particle minecraft:sonic_explosion ~ ~1 ~",
+                                "effect @s resistance 2 4 true"
                             ]
                         }
                     },
@@ -405,7 +406,8 @@
                         "queue_command": {
                             "command": [
                                 "particle minecraft:sonic_explosion ~ ~1 ~",
-                                "event entity @e[type=customize:explode_sword_projectile] customize:is_response_set"
+                                "event entity @e[type=customize:explode_sword_projectile] customize:is_response_set",
+                                "effect @s resistance 2 4 true"
                             ]
                         }
                     },
