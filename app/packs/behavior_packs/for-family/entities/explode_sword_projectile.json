@@ -57,7 +57,19 @@
                 },
                 "hit_sound": "bow.hit",
                 "power": 1.6,
-                "gravity": 0.01
+                "gravity": 0.01,
+                "inertia": 1.0
+            },
+            "minecraft:knockback_resistance": {
+                "value": 100,
+                "max": 100
+            },
+            "minecraft:timer": {
+                "looping": false,
+                "time": 3,
+                "time_down_event": {
+                    "event": "customize:despawn_self"
+                }
             },
             "minecraft:entity_sensor": {
                 "subsensors": [
@@ -72,8 +84,7 @@
                     {
                         "event_filters": {
                             "all_of": [
-                                { "test": "bool_property", "domain": "customize:is_response", "subject": "self", "operator": "equals", "value": true },
-                                { "test": "is_moving", "subject": "self", "operator": "equals", "value": true }
+                                { "test": "bool_property", "domain": "customize:is_response", "subject": "self", "operator": "equals", "value": true }
                             ]
                         },
                         "event": "customize:is_moving"
