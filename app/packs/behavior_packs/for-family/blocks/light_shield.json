@@ -13,7 +13,8 @@
                 "components": {
                     "minecraft:destructible_by_mining": true,
                     "minecraft:destructible_by_explosion": true,
-                    "minecraft:loot": "for-family/loot_tables/blocks/test.json"
+                    "minecraft:loot": "for-family/loot_tables/blocks/test.json",
+                    "minecraft:collision_box": false
                 }
             },
             {
@@ -21,7 +22,8 @@
                 "components": {
                     "minecraft:destructible_by_mining": false,
                     "minecraft:destructible_by_explosion": false,
-                    "minecraft:loot": "for-family/loot_tables/blocks/test.json"
+                    "minecraft:loot": "for-family/loot_tables/blocks/test.json",
+                    "minecraft:collision_box": true
                 }
             }
         ],
