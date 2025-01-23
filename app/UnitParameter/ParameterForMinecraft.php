@@ -1487,7 +1487,7 @@ class ParameterForMinecraft extends ParameterForWebsocket
         // シールドモード展開
         else
         {
-            $cmd = "fill {$w_x} {$w_y} {$w_z} {$w_x} {$to_y} {$w_z} customize:light_shield";
+            $cmd = "fill {$w_x} {$w_y} {$w_z} {$w_x} {$to_y} {$w_z} customize:light_shield [\"customize:block_mode\":true]";
             $cmd_datas[] = $this->getCommandData($cmd, null);
 
             // シールドブロック射手召喚

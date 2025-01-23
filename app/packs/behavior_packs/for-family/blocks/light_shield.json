@@ -4,7 +4,7 @@
         "description": { 
             "identifier": "customize:light_shield",
             "states": {
-                "customize:block_mode": [ true, false ]
+                "customize:block_mode": [ false, true ]
             }
         },
         "permutations": [
