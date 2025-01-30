@@ -68,7 +68,9 @@
                 }
             },
             "minecraft:type_family": {
-                "family": [ "wind_charge", "wind_charge_projectile" ]
+                "family": [
+                    "mob"
+                ]
             }
         }
     }
