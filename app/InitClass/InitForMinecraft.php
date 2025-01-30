@@ -170,7 +170,7 @@ class InitForMinecraft extends InitForWebsocket
                     }
 
                     // 繰風弾の判定
-                    if($p_dat['data']['body']['travelMethod'] === 7 || $p_dat['data']['body']['player']['variant'] & ParameterForMinecraft::MASK_VARIANT_WIND_CONTROL_ROD)
+                    if($p_dat['data']['body']['travelMethod'] === 7 && ($p_dat['data']['body']['player']['variant'] & ParameterForMinecraft::MASK_VARIANT_WIND_CONTROL_ROD))
                     {
                         return CommandQueueEnumForMinecraft::WIND_CONTROL_UP->value;
                     }
