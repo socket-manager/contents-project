@@ -4,25 +4,34 @@
         "description": { 
             "identifier": "customize:light_shield",
             "states": {
-                "customize:block_mode": [ false, true ]
+                "customize:block_mode": [ 0, 1, 2 ]
             }
         },
         "permutations": [
             {
-                "condition": "query.block_state('customize:block_mode') == false",
+                "condition": "query.block_state('customize:block_mode') == 0",
                 "components": {
                     "minecraft:destructible_by_mining": true,
                     "minecraft:destructible_by_explosion": true,
-                    "minecraft:loot": "for-family/loot_tables/blocks/test.json",
+                    "minecraft:loot": "for-family/loot_tables/blocks/light_shield.json",
+                    "minecraft:collision_box": true
+                }
+            },
+            {
+                "condition": "query.block_state('customize:block_mode') == 1",
+                "components": {
+                    "minecraft:destructible_by_mining": true,
+                    "minecraft:destructible_by_explosion": true,
+                    "minecraft:loot": "for-family/loot_tables/blocks/light_shield.json",
                     "minecraft:collision_box": false
                 }
             },
             {
-                "condition": "query.block_state('customize:block_mode') == true",
+                "condition": "query.block_state('customize:block_mode') == 2",
                 "components": {
                     "minecraft:destructible_by_mining": false,
                     "minecraft:destructible_by_explosion": false,
-                    "minecraft:loot": "for-family/loot_tables/blocks/test.json",
+                    "minecraft:loot": "for-family/loot_tables/blocks/light_shield.json",
                     "minecraft:collision_box": true
                 }
             }
