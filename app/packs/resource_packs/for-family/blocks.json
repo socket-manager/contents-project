@@ -1,15 +1,7 @@
-{ 
-    "format_version": "1.19.30", 
-    "customize:light_shield": { 
-        "textures": { 
-            "up": "light_shield_up", 
-            "down": "light_shield_down", 
-            "north": "light_shield_north", 
-            "south": "light_shield_south", 
-            "east": "light_shield_east", 
-            "west": "light_shield_west" 
-        }, 
-        "carried_textures": "light_shield", 
-        "sound": "stone" 
+{
+    "format_version": "1.19.30",
+    "customize:light_shield": {
+        "carried_textures": "light_shield",
+        "sound": "glass"
     }
 }

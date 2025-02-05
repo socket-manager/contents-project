@@ -4,24 +4,6 @@
     "padding": 8, 
     "num_mip_levels": 4, 
     "texture_data": { 
-        "light_shield_up": { 
-            "textures": "textures/blocks/light_shield_up" 
-        }, 
-        "light_shield_east": { 
-            "textures": "textures/blocks/light_shield_east" 
-        }, 
-        "light_shield_north": { 
-            "textures": "textures/blocks/light_shield_north" 
-        }, 
-        "light_shield_south": { 
-            "textures": "textures/blocks/light_shield_south" 
-        }, 
-        "light_shield_west": { 
-            "textures": "textures/blocks/light_shield_west" 
-        }, 
-        "light_shield_down": { 
-            "textures": "textures/blocks/light_shield_down" 
-        }, 
         "light_shield": { 
             "textures": "textures/blocks/light_shield" 
         }
