@@ -1,0 +1,36 @@
+{
+    "format_version": "1.20.10",
+    "minecraft:recipe_shaped": {
+        "description": {
+            "identifier": "customize:wind_control_rod_symmetry"
+        },
+
+        
+        "tags": [ "crafting_table" ],
+        "assume_symmetry": true,
+        "priority": 1,
+        "pattern": [
+            "X",
+            " X",
+            "  #"
+        ],
+        "key": {
+            "#": {
+                "item": "customize:wind_rod"
+            },
+            "X": {
+                "item": "minecraft:ender_pearl"
+            }
+        },
+        "unlock": [
+            {
+                "context": "AlwaysUnlocked"
+            }
+        ],
+        "result": {
+            "item": "customize:wind_control_rod",
+            "data": 0,
+            "count": 1
+        }
+    }
+}

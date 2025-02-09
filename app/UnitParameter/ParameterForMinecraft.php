@@ -302,7 +302,7 @@ class ParameterForMinecraft extends ParameterForWebsocket
             [
                 "origin" =>
                 [
-                    "type" => "player" // 誰がコマンドを実行するかを指定（ただし、Player以外にどの値が利用可能かは要調査）
+                    "type" => "player"
                 ],
                 "version" => 1,
                 "commandLine" => $p_cmd, // マイクラで実行したいコマンドを指定
