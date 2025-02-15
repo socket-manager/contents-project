@@ -20,7 +20,11 @@ return [
      */
     'double_jump' =>
     [
-        
+        /**
+         * @var bool 無効化フラグ（true:無効 or false:有効）
+         */
+        'ignore'    => false,
+
         /**
          * @var float ジャンプのみなし移動量（ｍ）
          */

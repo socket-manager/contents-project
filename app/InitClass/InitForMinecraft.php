@@ -198,11 +198,15 @@ class InitForMinecraft extends InitForWebsocket
                     }
 
                     // 一定のジャンプ移動量を超えた場合
-                    $meter = config('minecraft.double_jump.meter');
-                    if($p_dat['data']['body']['travelMethod'] === 2 && $p_dat['data']['body']['metersTravelled'] > $meter)
+                    $ignore = config('minecraft.double_jump.ignore');
+                    if($ignore === false)
                     {
-                        $p_param->setTempBuff(['travel_method' => $p_dat['data']['body']['travelMethod']]);
-                        return CommandQueueEnumForMinecraft::PLAYER_TRAVELLED->value;
+                        $meter = config('minecraft.double_jump.meter');
+                        if($p_dat['data']['body']['travelMethod'] === 2 && $p_dat['data']['body']['metersTravelled'] > $meter)
+                        {
+                            $p_param->setTempBuff(['travel_method' => $p_dat['data']['body']['travelMethod']]);
+                            return CommandQueueEnumForMinecraft::PLAYER_TRAVELLED->value;
+                        }
                     }
 
                     $p_param->setTempBuff(['travel_method' => $p_dat['data']['body']['travelMethod']]);
