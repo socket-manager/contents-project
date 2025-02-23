@@ -1,0 +1,25 @@
+{
+	"format_version" : "1.16.0",
+	"minecraft:geometry" : [
+		{
+			"description" : {
+				"identifier" : "geometry.hover_unit",
+				"texture_width" : 40.0,
+				"texture_height" : 23.0
+			},
+			"bones" : [
+				{
+					"name" : "leftitem",
+					"texture_meshes" : [
+						{
+							"local_pivot" : [ 25.0, 25.0, 26.0 ],
+							"position" : [ -3.0, 24.0, -2.0 ],
+							"rotation" : [ -50.0, 0.0, 4.0 ],
+							"texture" : "default"
+						}
+					]
+				}
+			]
+		}
+	]
+}

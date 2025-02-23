@@ -36,3 +36,6 @@ entity.customize:light_sword_projectile.name=light_sword_projectile
 tile.customize:light_shield.name=ライトシールド
 entity.customize:light_shield_shooter.name=light_shield_shooter
 entity.customize:light_shield_projectile.name=light_shield_projectile
+entity.customize:hover_unit_cockpit.name=ホバーユニットコクピット
+action.hint.exit.customize:hover_unit_cockpit=:_input_key.jump: を押して降りる
+item.customize:hover_unit.name=ホバーユニット

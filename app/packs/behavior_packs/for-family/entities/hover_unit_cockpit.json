@@ -1,0 +1,99 @@
+{
+    "format_version": "1.21.0",
+    "minecraft:entity": {
+        "description": {
+            "identifier": "customize:hover_unit_cockpit",
+            "is_spawnable": false,
+            "is_summonable": true
+        },
+        "component_groups": {
+			"customize:despawn_self": {
+                "minecraft:instant_despawn": {
+                }
+            }
+		},
+        "components": {
+            "minecraft:rideable": {
+              "seat_count": 1,
+              "family_types": [
+                "player"
+              ],
+              "seats": {
+                "position": [ 0.0, 0.6, 0.0 ]
+              }
+            },
+            "minecraft:item_controllable": {
+              "control_items": "customize:funnel_unit"
+            },
+            "minecraft:behavior.controlled_by_player": {
+                "priority": 0
+            },
+            "minecraft:breathable": {
+                "breathes_solids": true,
+                "breathes_water": true
+            },
+            "minecraft:health": {
+                "value": 1000,
+                "max": 1000
+            },
+            "minecraft:underwater_movement": {
+                "value": 0.12
+            },
+            "minecraft:behavior.random_swim": {
+                "priority": 7,
+                "interval": 10,
+                "xz_dist": 30,
+                "y_dist": 15
+            },
+            "minecraft:movement.hover": {
+            },
+            "minecraft:navigation.hover": {
+                "can_path_over_water": true,
+                "can_sink": false,
+                "can_pass_doors": false,
+                "can_path_from_air": true,
+                "avoid_water": true,
+                "avoid_damage_blocks": true,
+                "avoid_sun": false
+            },
+            "minecraft:behavior.random_hover": {
+                "priority": 4,
+                "xz_dist": 1,
+                "y_dist": 3,
+                "y_offset": 0,
+                "interval": 10,
+                "hover_height": [ 3, 4 ]
+            },
+            "minecraft:flying_speed": {
+                "value": 0.20
+            },
+            "minecraft:ground_offset":{
+                "value": 0.9
+            },
+            "minecraft:knockback_resistance": {
+                "value": 100,
+                "max": 100
+            },
+            "minecraft:fire_immune":{},
+            "minecraft:collision_box": {
+                "width": 0.9,
+                "height": 0.9
+            },
+            "minecraft:physics": {
+            },
+            "minecraft:pushable": {
+                "is_pushable": false,
+                "is_pushable_by_piston": false
+            }
+        },
+        "events": {
+            "customize:despawn_self": {
+                "add": {
+                    "component_groups": [
+                        "customize:despawn_self"
+                    ]
+                }
+            }
+        }
+    }
+}

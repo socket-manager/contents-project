@@ -1,0 +1,32 @@
+{
+    "format_version": "1.20.50",
+    "minecraft:item": {
+        "description": {
+            "identifier": "customize:hover_unit",
+            "menu_category": {
+                "category": "equipment"
+            }
+        },
+        "components": {
+            "minecraft:allow_off_hand": {
+                "value": true
+            },
+            "minecraft:icon": {
+                "texture": "hover_unit_icon"
+            },
+            "minecraft:display_name": {
+                "value": "item.customize:hover_unit.name"
+            },
+            "minecraft:can_destroy_in_creative": false,
+            "minecraft:max_stack_size": 1,
+            "minecraft:hand_equipped": false,
+            "minecraft:damage": 6,
+            "minecraft:glint": true,
+            "minecraft:use_animation": "bow",
+            "minecraft:use_modifiers": {
+                "use_duration": 0.1,
+                "movement_modifier": 0.0
+            }
+        }
+    }
+}

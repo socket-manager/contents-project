@@ -73,9 +73,23 @@ class ParameterForMinecraft extends ParameterForWebsocket
     /**
      * バリアント（variant）マスク - アイテム
      * 
-     * @var int 風のつえ改
+     * @var int 暴風の杖
      */
     public const MASK_VARIANT_WIND_ROD_REVISED = 0x10;
+
+    /**
+     * バリアント（variant）マスク - アイテム
+     * 
+     * @var int 光の剣
+     */
+    public const MASK_VARIANT_LIGHT_SWORD = 0x20;
+
+    /**
+     * バリアント（variant）マスク - アイテム
+     * 
+     * @var int ホバーユニット
+     */
+    public const MASK_VARIANT_HOVER_UNIT = 0x40;
 
     /**
      * 運営サイドのユーザー名
@@ -1425,6 +1439,83 @@ class ParameterForMinecraft extends ParameterForWebsocket
 
     //--------------------------------------------------------------------------
     // ファンネルユニット用 <END>
+    //--------------------------------------------------------------------------
+
+    //--------------------------------------------------------------------------
+    // ホバーユニット用 <START>
+    //--------------------------------------------------------------------------
+
+    /**
+     * ホバーユニット離陸用コマンドデータを取得
+     * 
+     * @return array 送信データ
+     */
+    public function getCommandDataForHoverUnitItemUsed(): array
+    {
+        $cmd_datas = [];
+
+        $name = $this->getTempBuff(['minecraft-name']);
+
+        $this->setTempBuff([
+            'hover-unit' => [
+                'ride' => true
+            ]
+        ]);
+        
+
+        $cmd = "summon customize:hover_unit_cockpit ~ ~3 ~";
+        $cmd_datas[] = $this->getCommandData($cmd, 'hover-unit-summon');
+
+        $cmd = "tag @e[type=customize:hover_unit_cockpit,c=1] add \"hover_cockpit_{$name['minecraft-name']}\"";
+        $cmd_datas[] = $this->getCommandData($cmd, 'hover-unit-tag');
+
+        $cmd = "hud @s hide horse_health";
+        $cmd_datas[] = $this->getCommandData($cmd, 'hover-unit-gauge-hide');
+
+        $cmd = "ride @s start_riding @e[type=customize:hover_unit_cockpit,c=1]";
+        $cmd_datas[] = $this->getCommandData($cmd, 'hover-unit-ride');
+
+        $cmd = "function common_particle_critical";
+        $cmd_datas[] = $this->getCommandData($cmd, 'hover-unit-particle-critical');
+
+        $cmd = "gamerule falldamage false";
+        $cmd_datas[] = $this->getCommandData($cmd, 'hover-unit-falldamage-false');
+
+        return $cmd_datas;
+    }
+
+    /**
+     * ホバーユニット着陸用コマンドデータを取得
+     * 
+     * @return array 送信データ
+     */
+    public function getCommandDataForHoverFinishPlayerTravelled(): array
+    {
+        $cmd_datas = [];
+
+        $name = $this->getTempBuff(['minecraft-name']);
+
+        $this->setTempBuff([
+            'hover-unit' => [
+                'ride' => false
+            ]
+        ]);
+        
+
+        $cmd = "event entity @e[tag=\"hover_cockpit_{$name['minecraft-name']}\"] customize:despawn_self";
+        $cmd_datas[] = $this->getCommandData($cmd, 'hover-unit-despawn');
+
+        $cmd = "hud @s reset horse_health";
+        $cmd_datas[] = $this->getCommandData($cmd, 'hover-unit-gauge-reset');
+
+        $cmd = "gamerule falldamage true";
+        $cmd_datas[] = $this->getCommandData($cmd, 'hover-unit-falldamage-true');
+
+        return $cmd_datas;
+    }
+    
+    //--------------------------------------------------------------------------
+    // ホバーユニット用 <END>
     //--------------------------------------------------------------------------
 
     //--------------------------------------------------------------------------

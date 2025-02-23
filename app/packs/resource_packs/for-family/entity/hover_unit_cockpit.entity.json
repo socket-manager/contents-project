@@ -1,0 +1,21 @@
+{
+    "format_version": "1.10.0",
+    "minecraft:client_entity": {
+        "description": {
+            "identifier": "customize:hover_unit_cockpit",
+            "materials": {
+                "default": "entity_alphatest"
+            },
+            "textures": {
+                "default": "textures/entity/hover_unit_cockpit"
+            },
+            "geometry": {
+                // "default": "geometry.item_sprite"
+                "default": "geometry.hover_unit_cockpit"
+            },
+            "render_controllers": [
+                "controller.render.item_sprite"
+            ]
+        }
+    }
+}

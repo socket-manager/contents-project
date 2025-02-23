@@ -159,6 +159,19 @@ class InitForMinecraft extends InitForWebsocket
                 {
                     $method = $p_param->getTempBuff(['travel_method']);
 
+                    // ホバー後処理
+                    $riding_flg = $p_param->getTempBuff(['hover-unit']);
+                    if(isset($riding_flg['hover-unit']['ride']))
+                    {
+                        if($riding_flg['hover-unit']['ride'] === true)
+                        {
+                            if($p_dat['data']['body']['travelMethod'] === 0 || $p_dat['data']['body']['travelMethod'] === 1)
+                            {
+                                return CommandQueueEnumForMinecraft::HOVER_FINISH->value;
+                            }
+                        }
+                    }
+
                     // 特殊機能のアイテム
                     if(isset($method) && $method['travel_method'] === 8)
                     {

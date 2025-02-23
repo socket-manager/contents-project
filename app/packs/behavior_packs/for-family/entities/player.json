@@ -67,7 +67,7 @@
             },
             "customize:variant_sneak_for_funnel_unit": {
                 "minecraft:variant": {
-                    "value": 9
+                    "value": 65
                 }
             },
             "customize:variant_sneak_for_wind_rod_revised": {
@@ -215,8 +215,16 @@
                     {
                         "event_filters": {
                             "all_of": [
+                                { "test": "is_sneak_held", "subject": "self", "operator": "equals", "value": false }
+                            ]
+                        },
+                        "event": "customize:is_sneak_none"
+                    },
+                    {
+                        "event_filters": {
+                            "all_of": [
                                 { "test": "is_sneak_held", "subject": "self", "operator": "equals", "value": true },
-                                { "test": "has_equipment", "subject": "self", "domain": "hand", "operator": "equals", "value": "customize:funnel_unit" }
+                                { "test": "has_equipment", "subject": "self", "domain": "hand", "operator": "equals", "value": "customize:hover_unit" }
                             ]
                         },
                         "event": "customize:is_sneak_for_funnel_unit"
@@ -234,28 +242,10 @@
                         "event_filters": {
                             "all_of": [
                                 { "test": "is_sneak_held", "subject": "self", "operator": "equals", "value": true },
-                                { "test": "has_equipment", "subject": "self", "domain": "hand", "operator": "equals", "value": "customize:wind_rod_revised" }
-                            ]
-                        },
-                        "event": "customize:is_sneak_for_wind_rod_revised"
-                    },
-                    {
-                        "event_filters": {
-                            "all_of": [
-                                { "test": "is_sneak_held", "subject": "self", "operator": "equals", "value": true },
                                 { "test": "has_equipment", "subject": "self", "domain": "hand", "operator": "equals", "value": "customize:light_sword" }
                             ]
                         },
                         "event": "customize:is_sneak_for_light_sword"
-                    },
-                    {
-                        "event_filters": {
-                            "all_of": [
-                                { "test": "is_sneak_held", "subject": "self", "operator": "equals", "value": false }
-                            ]
-                        },
-                        "cooldown": 0.35,
-                        "event": "customize:is_sneak_none"
                     }
                 ]
             }

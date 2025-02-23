@@ -53,6 +53,12 @@
         "funnel_unit_icon": {
             "textures": "textures/items/funnel_unit_icon"
         },
+        "hover_unit": {
+            "textures": "textures/items/hover_unit"
+        },
+        "hover_unit_icon": {
+            "textures": "textures/items/hover_unit_icon"
+        },
         "wind_rod_revised": {
             "textures": "textures/items/wind_rod_revised"
         },

@@ -139,6 +139,11 @@ enum CommandQueueEnumForMinecraft: string
      */
     case WIND_CONTROL_UP = 'wind-control-up';
 
+    /**
+     * @var ホバー後処理のキュー名
+     */
+    case HOVER_FINISH = 'hover-finish';
+
 
     //--------------------------------------------------------------------------
     // メソッド

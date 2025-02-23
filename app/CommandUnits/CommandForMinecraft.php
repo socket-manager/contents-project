@@ -49,7 +49,8 @@ class CommandForMinecraft extends CommandForWebsocket
         CommandQueueEnumForMinecraft::SHOP_SELL_ENTRY->value,      // SHOPへ売却登録時のキュー
         CommandQueueEnumForMinecraft::SHOP_SELL_RELEASE->value,    // SHOPからの返却時のキュー
         CommandQueueEnumForMinecraft::SHOP_SELL->value,            // SHOPからの売却時のキュー
-        CommandQueueEnumForMinecraft::WIND_CONTROL_UP->value       // 繰風弾（上昇）処理のキュー
+        CommandQueueEnumForMinecraft::WIND_CONTROL_UP->value,      // 繰風弾（上昇）処理のキュー
+        CommandQueueEnumForMinecraft::HOVER_FINISH->value          // ホバー後処理のキュー
     ];
 
 
@@ -285,6 +286,14 @@ class CommandForMinecraft extends CommandForWebsocket
             $ret[] = [
                 'status' => CommandStatusEnumForMinecraft::START->value,
                 'unit' => $this->getWindControlUpStart()
+            ];
+        }
+        else
+        if($p_que === CommandQueueEnumForMinecraft::HOVER_FINISH->value)
+        {
+            $ret[] = [
+                'status' => CommandStatusEnumForMinecraft::START->value,
+                'unit' => $this->getHoverFinishStart()
             ];
         }
 
@@ -1509,20 +1518,42 @@ class CommandForMinecraft extends CommandForWebsocket
             // ファンネルユニット
             if($rcv['data']['body']['item']['id'] === 'funnel_unit')
             {
-                // コマンド送信
-                $cmd_datas = $p_param->getCommandDataForFunnelUnitItemUsed(
-                    $rcv['data']['body']['player']['position']['x'],
-                    $rcv['data']['body']['player']['position']['y'],
-                    $rcv['data']['body']['player']['position']['z'],
-                    $rcv['data']['body']['player']['yRot']
-                );
-                foreach($cmd_datas as $cmd_data)
+                if($rcv['data']['body']['player']['variant'] && ParameterForMinecraft::MASK_VARIANT_SQUAT)
                 {
-                    $data =
-                    [
-                        'data' => $cmd_data
-                    ];
-                    $p_param->setSendStack($data);
+                    // ホバーユニット
+                    if($rcv['data']['body']['player']['variant'] && ParameterForMinecraft::MASK_VARIANT_HOVER_UNIT)
+                    {
+                        // コマンド送信
+                        $cmd_datas = $p_param->getCommandDataForHoverUnitItemUsed();
+                        foreach($cmd_datas as $cmd_data)
+                        {
+                            $data =
+                            [
+                                'data' => $cmd_data
+                            ];
+                            $p_param->setSendStack($data);
+                        }
+
+                        return null;
+                    }
+                }
+                else
+                {
+                    // コマンド送信
+                    $cmd_datas = $p_param->getCommandDataForFunnelUnitItemUsed(
+                        $rcv['data']['body']['player']['position']['x'],
+                        $rcv['data']['body']['player']['position']['y'],
+                        $rcv['data']['body']['player']['position']['z'],
+                        $rcv['data']['body']['player']['yRot']
+                    );
+                    foreach($cmd_datas as $cmd_data)
+                    {
+                        $data =
+                        [
+                            'data' => $cmd_data
+                        ];
+                        $p_param->setSendStack($data);
+                    }
                 }
 
                 return null;
@@ -2768,6 +2799,39 @@ class CommandForMinecraft extends CommandForWebsocket
                 ParameterForMinecraft::MASK_VARIANT_SNEAKING,
                 null
             );
+            foreach($cmd_datas as $cmd_data)
+            {
+                $data =
+                [
+                    'data' => $cmd_data
+                ];
+                $p_param->setSendStack($data);
+            }
+
+            return null;
+        };
+    }
+
+    //--------------------------------------------------------------------------
+    // 以降はステータスUNITの定義（"HOVER_FINISH"キュー）
+    //--------------------------------------------------------------------------
+
+    /**
+     * ステータス名： START
+     * 
+     * 処理名：ホバー後処理の処理開始
+     * 
+     * @param ParameterForMinecraft $p_param UNITパラメータ
+     * @return ?string 遷移先のステータス名
+     */
+    protected function getHoverFinishStart()
+    {
+        return function(ParameterForMinecraft $p_param): ?string
+        {
+            $p_param->logWriter('debug', ['MINECRAFT HOVER_FINISH:START' => 'START']);
+
+            // コマンド送信
+            $cmd_datas = $p_param->getCommandDataForHoverFinishPlayerTravelled();
             foreach($cmd_datas as $cmd_data)
             {
                 $data =
