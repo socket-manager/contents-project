@@ -166,7 +166,7 @@ return [
             'id' => 'funnel_unit',
             'type' => 'loot',
             'icon' => './img/funnel_unit.png',
-            'name' => 'ファンネル',
+            'name' => 'ファンネルユニット',
             'price' => 16500
         ],
         'explode_sword' =>

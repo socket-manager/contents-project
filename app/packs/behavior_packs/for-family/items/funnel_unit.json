@@ -21,8 +21,8 @@
             "minecraft:glint": true,
             "minecraft:use_animation": "bow",
             "minecraft:use_modifiers": {
-                "use_duration": 0.1,
-                "movement_modifier": 0.0
+                "use_duration": 0.5,
+                "movement_modifier": 0.1
             },
             "minecraft:projectile": {
                 "projectile_entity": "customize:funnel_unit_projectile"
@@ -34,9 +34,13 @@
                     "search_inventory" :true,
                     "use_in_creative" :true
                 }],
-                "max_draw_duration" :0.1,
+                "max_draw_duration" :0.0,
                 "scale_power_by_draw_duration" :false,
                 "charge_on_draw" :false
+            },
+            "minecraft:cooldown": {
+                "category": "funnel_unit",
+                "duration": 1.0
             },
             "minecraft:enchantable": {
                 "slot": "bow",
