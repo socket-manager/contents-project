@@ -9,12 +9,12 @@
 			},
 			"bones" : [
 				{
-					"name" : "leftitem",
+					"name" : "backpack",
 					"texture_meshes" : [
 						{
-							"local_pivot" : [ 25.0, 25.0, 26.0 ],
-							"position" : [ -3.0, 24.0, -2.0 ],
-							"rotation" : [ -50.0, 0.0, 4.0 ],
+							"local_pivot" : [ 0.0, 5.0, 7.0 ],
+							"position" : [ -20.2, -18.0, 0.0 ],
+							"rotation" : [ -70.0, 0.0, 0.0 ],
 							"texture" : "default"
 						}
 					]

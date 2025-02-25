@@ -38,7 +38,10 @@
                     }
                 },
                 "power": 1.0,
-                "gravity": 0.05
+                "gravity": 0.05,
+                "ignored_entities": [
+                    "player"
+                ]
             },
             "minecraft:physics": {
                 "has_collision": true,
