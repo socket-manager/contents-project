@@ -1,0 +1,34 @@
+{
+    "format_version": "1.10.0",
+    "minecraft:client_entity": {
+        "description": {
+            "identifier": "customize:cannon_ball",
+            "materials": {
+                "default": "entity_alphatest"
+            },
+            "textures": {
+                "default": "textures/entity/cannon_ball"
+            },
+            "geometry": {
+                "default": "geometry.cannon_ball",
+                "is_hide": "geometry.cannon_ball_hide"
+            },
+            "animations": {
+                "face_player": "animation.actor.billboard"
+            },
+            "scripts": {
+                "scale": "query.property('customize:is_njammer') ? 1.0 : 0.3",
+                "pre_animation": [
+                    "variable.u = Math.mod(query.texture_frame_index, 4) * 16.0 / 64.0;",
+                    "variable.v = math.round(query.texture_frame_index / 4) * 16.0 / 64.0;"
+                ],
+                "animate": [
+                    "face_player"
+                ]
+            },
+            "render_controllers": [
+                "controller.render.cannon_ball"
+            ]
+        }
+    }
+}

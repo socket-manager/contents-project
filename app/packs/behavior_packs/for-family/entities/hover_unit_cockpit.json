@@ -23,7 +23,10 @@
               }
             },
             "minecraft:item_controllable": {
-              "control_items": "customize:funnel_unit"
+                "control_items": [
+                    "customize:funnel_unit",
+                    "customize:rifle_cannon"
+                ]
             },
             "minecraft:behavior.controlled_by_player": {
                 "priority": 0

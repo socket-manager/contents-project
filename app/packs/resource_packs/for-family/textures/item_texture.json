@@ -53,6 +53,9 @@
         "funnel_unit_icon": {
             "textures": "textures/items/funnel_unit_icon"
         },
+        "rifle_cannon": {
+            "textures": "textures/items/rifle_cannon"
+        },
         "hover_unit": {
             "textures": "textures/items/hover_unit"
         },

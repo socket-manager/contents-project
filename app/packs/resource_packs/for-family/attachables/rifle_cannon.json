@@ -1,0 +1,35 @@
+{
+    "format_version": "1.10.0",
+    "minecraft:attachable": {
+        "description": {
+            "identifier": "customize:rifle_cannon",
+            "materials": {
+                "default": "entity_alphatest",
+                "enchanted": "entity_alphatest_glint"
+            },
+            "textures": {
+                "default": "textures/items/rifle_cannon",
+                "enchanted": "textures/misc/enchanted_item_glint"
+            },
+            "geometry": {
+                "default": "geometry.rifle_cannon"
+            },
+            "animations": {
+                "wield": "animation.rifle_cannon.wield",
+                "wield_first_person_pull": "animation.rifle_cannon.wield_first_person_pull"
+            },
+            "scripts": {
+                "pre_animation": [
+                    "variable.charge_amount = math.clamp((query.main_hand_item_max_duration - (query.main_hand_item_use_duration - query.frame_alpha + 1.0)) / 10.0, 0.0, 1.0f);"
+                ],
+                "animate": [
+                    "wield",
+                    {
+                        "wield_first_person_pull": "query.main_hand_item_use_duration > 0.0f && c.is_first_person"
+                    }
+                ]
+            },
+            "render_controllers": [ "controller.render.rifle_cannon" ]
+        }
+    }
+}

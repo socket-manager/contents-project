@@ -1,0 +1,25 @@
+{
+	"format_version" : "1.16.0",
+	"minecraft:geometry" : [
+		{
+			"description" : {
+				"identifier" : "geometry.rifle_cannon",
+				"texture_width" : 16.0,
+				"texture_height" : 16.0
+			},
+			"bones" : [
+				{
+					"name" : "rightarm",
+					"texture_meshes" : [
+						{
+							"local_pivot" : [ 0.0, -10.0, 5.0 ],
+							"position" : [ -10.0, 15.0, 0.0 ],
+							"rotation" : [ 0.0, 50.0, -90.0 ],
+							"texture" : "default"
+						}
+					]
+				}
+			]
+		}
+	]
+}

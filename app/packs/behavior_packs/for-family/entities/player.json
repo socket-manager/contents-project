@@ -65,7 +65,7 @@
                     "value": 5
                 }
             },
-            "customize:variant_sneak_for_funnel_unit": {
+            "customize:variant_sneak_for_hover_unit": {
                 "minecraft:variant": {
                     "value": 65
                 }
@@ -227,7 +227,7 @@
                                 { "test": "has_equipment", "subject": "self", "domain": "hand", "operator": "equals", "value": "customize:hover_unit" }
                             ]
                         },
-                        "event": "customize:is_sneak_for_funnel_unit"
+                        "event": "customize:is_sneak_for_hover_unit"
                     },
                     {
                         "event_filters": {
@@ -438,11 +438,11 @@
                     }
                 ]
             },
-            "customize:is_sneak_for_funnel_unit": {
+            "customize:is_sneak_for_hover_unit": {
                 "sequence": [
                     {
                         "add": {
-                            "component_groups": [ "customize:variant_sneak_for_funnel_unit" ]
+                            "component_groups": [ "customize:variant_sneak_for_hover_unit" ]
                         }
                     }
                 ]
@@ -569,8 +569,7 @@
                 "set_property": {
                     "customize:is_shield_mode": true
                 }
-            }
-            ,
+            },
             "customize:is_shop_for_light_sword": {
                 "sequence": [
                     {
@@ -603,6 +602,48 @@
                         "queue_command": {
                             "command": [
                                 "event entity @e[type=customize:light_sword_projectile,c=1] customize:reset_hide"
+                            ]
+                        }
+                    }
+                ]
+            }
+            ,
+            "customize:is_shop_for_cannon_ball": {
+                "sequence": [
+                    {
+                        "filters": {
+                            "test": "bool_property", "domain": "customize:is_shop", "value": true
+                        },
+                        "queue_command": {
+                            "command": [
+                                "event entity @e[type=customize:cannon_ball,c=1] customize:despawn_self"
+                            ]
+                        }
+                    },
+                    {
+                        "filters": {
+                            "all_of": [
+                                { "test": "bool_property", "domain": "customize:is_shop", "value": false },
+                                { "test": "is_sneak_held", "subject": "self", "operator": "equals", "value": false },
+                                { "test": "has_equipment", "subject": "self", "domain": "hand", "operator": "equals", "value": "customize:hover_unit" }
+                            ]
+                        },
+                        "queue_command": {
+                            "command": [
+                                "event entity @e[type=customize:cannon_ball,c=1] customize:reset_hide_within_njammer"
+                            ]
+                        }
+                    },
+                    {
+                        "filters": {
+                            "all_of": [
+                                { "test": "bool_property", "domain": "customize:is_shop", "value": false },
+                                { "test": "has_equipment", "subject": "self", "domain": "hand", "operator": "not", "value": "customize:hover_unit" }
+                            ]
+                        },
+                        "queue_command": {
+                            "command": [
+                                "event entity @e[type=customize:cannon_ball,c=1] customize:reset_hide_without_njammer"
                             ]
                         }
                     }

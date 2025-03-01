@@ -1515,6 +1515,30 @@ class CommandForMinecraft extends CommandForWebsocket
                 return null;
             }
 
+            // ライフルキャノン
+            if($rcv['data']['body']['item']['id'] === 'rifle_cannon')
+            {
+                if($rcv['data']['body']['player']['variant'] && ParameterForMinecraft::MASK_VARIANT_SQUAT)
+                {
+                    // ホバーユニット
+                    if($rcv['data']['body']['player']['variant'] && ParameterForMinecraft::MASK_VARIANT_HOVER_UNIT)
+                    {
+                        // コマンド送信
+                        $cmd_datas = $p_param->getCommandDataForHoverUnitItemUsed();
+                        foreach($cmd_datas as $cmd_data)
+                        {
+                            $data =
+                            [
+                                'data' => $cmd_data
+                            ];
+                            $p_param->setSendStack($data);
+                        }
+                    }
+                }
+
+                return null;
+            }
+
             // ファンネルユニット
             if($rcv['data']['body']['item']['id'] === 'funnel_unit')
             {
