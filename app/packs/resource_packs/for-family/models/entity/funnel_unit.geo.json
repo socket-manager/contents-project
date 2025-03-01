@@ -4,17 +4,17 @@
 		{
 			"description" : {
 				"identifier" : "geometry.funnel_unit",
-				"texture_width" : 15.0,
-				"texture_height" : 26.0
+				"texture_width" : 40.0,
+				"texture_height" : 23.0
 			},
 			"bones" : [
 				{
-					"name" : "rightitem",
+					"name" : "binder",
 					"texture_meshes" : [
 						{
-							"local_pivot" : [ 6.0, 3.0, 4.0 ],
-							"position" : [ -1.0, 10.0, -5.0 ],
-							"rotation" : [ 0.0, 63.0, 270.0 ],
+							"local_pivot" : [ 0.0, 0.0, 35.0 ],
+							"position" : [ 19.5, 0.0, 0.0 ],
+							"rotation" : [ 90.0, 0.0, 180.0 ],
 							"texture" : "default"
 						}
 					]

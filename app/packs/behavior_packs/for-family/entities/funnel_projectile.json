@@ -86,7 +86,7 @@
                 "must_see": true
             },
             "minecraft:flying_speed": {
-                "value": 0.25
+                "value": 0.30
             }
         },
         "events": {
