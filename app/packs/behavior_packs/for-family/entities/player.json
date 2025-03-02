@@ -65,6 +65,11 @@
                     "value": 5
                 }
             },
+            "customize:variant_normal_for_hover_unit": {
+                "minecraft:variant": {
+                    "value": 64
+                }
+            },
             "customize:variant_sneak_for_hover_unit": {
                 "minecraft:variant": {
                     "value": 65
@@ -219,6 +224,15 @@
                             ]
                         },
                         "event": "customize:is_sneak_none"
+                    },
+                    {
+                        "event_filters": {
+                            "all_of": [
+                                { "test": "is_sneak_held", "subject": "self", "operator": "equals", "value": false },
+                                { "test": "has_equipment", "subject": "self", "domain": "hand", "operator": "equals", "value": "customize:hover_unit" }
+                            ]
+                        },
+                        "event": "customize:is_normal_for_hover_unit"
                     },
                     {
                         "event_filters": {
@@ -447,6 +461,15 @@
                     }
                 ]
             },
+            "customize:is_normal_for_hover_unit": {
+                "sequence": [
+                    {
+                        "add": {
+                            "component_groups": [ "customize:variant_normal_for_hover_unit" ]
+                        }
+                    }
+                ]
+            },
             "customize:is_sneak_for_wind_control_rod": {
                 "sequence": [
                     {
@@ -606,8 +629,7 @@
                         }
                     }
                 ]
-            }
-            ,
+            },
             "customize:is_shop_for_cannon_ball": {
                 "sequence": [
                     {

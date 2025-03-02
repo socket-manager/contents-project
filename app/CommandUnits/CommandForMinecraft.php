@@ -1248,8 +1248,16 @@ class CommandForMinecraft extends CommandForWebsocket
                     $cmd_data = $p_param->getCommandData($cmd, null);
                     if($rcv['data']['body']['statusCode'] === 0)
                     {
+                        $limit = $funnel_setting['shoot_limit'];
+
+                        $used_param = $p_param->getTempBuff(['funnel-unit']);
+                        if($used_param['funnel-unit']['hover_flg'] === true)
+                        {
+                            $limit = $funnel_setting['njammer_limit'];
+                        }
+
                         $details = json_decode($rcv['data']['body']['details'], true);
-                        if(count($details) >= $funnel_setting['shoot_limit'])
+                        if(count($details) >= $limit)
                         {
                             $data =
                             [
@@ -1518,10 +1526,10 @@ class CommandForMinecraft extends CommandForWebsocket
             // ライフルキャノン
             if($rcv['data']['body']['item']['id'] === 'rifle_cannon')
             {
-                if($rcv['data']['body']['player']['variant'] && ParameterForMinecraft::MASK_VARIANT_SQUAT)
+                if($rcv['data']['body']['player']['variant'] & ParameterForMinecraft::MASK_VARIANT_SQUAT)
                 {
                     // ホバーユニット
-                    if($rcv['data']['body']['player']['variant'] && ParameterForMinecraft::MASK_VARIANT_HOVER_UNIT)
+                    if($rcv['data']['body']['player']['variant'] & ParameterForMinecraft::MASK_VARIANT_HOVER_UNIT)
                     {
                         // コマンド送信
                         $cmd_datas = $p_param->getCommandDataForHoverUnitItemUsed();
@@ -1542,10 +1550,10 @@ class CommandForMinecraft extends CommandForWebsocket
             // ファンネルユニット
             if($rcv['data']['body']['item']['id'] === 'funnel_unit')
             {
-                if($rcv['data']['body']['player']['variant'] && ParameterForMinecraft::MASK_VARIANT_SQUAT)
+                if($rcv['data']['body']['player']['variant'] & ParameterForMinecraft::MASK_VARIANT_SQUAT)
                 {
                     // ホバーユニット
-                    if($rcv['data']['body']['player']['variant'] && ParameterForMinecraft::MASK_VARIANT_HOVER_UNIT)
+                    if($rcv['data']['body']['player']['variant'] & ParameterForMinecraft::MASK_VARIANT_HOVER_UNIT)
                     {
                         // コマンド送信
                         $cmd_datas = $p_param->getCommandDataForHoverUnitItemUsed();
@@ -1563,12 +1571,19 @@ class CommandForMinecraft extends CommandForWebsocket
                 }
                 else
                 {
+                    $hover_flg = false;
+                    if($rcv['data']['body']['player']['variant'] & ParameterForMinecraft::MASK_VARIANT_HOVER_UNIT)
+                    {
+                        $hover_flg = true;
+                    }
+                    
                     // コマンド送信
                     $cmd_datas = $p_param->getCommandDataForFunnelUnitItemUsed(
                         $rcv['data']['body']['player']['position']['x'],
                         $rcv['data']['body']['player']['position']['y'],
                         $rcv['data']['body']['player']['position']['z'],
-                        $rcv['data']['body']['player']['yRot']
+                        $rcv['data']['body']['player']['yRot'],
+                        $hover_flg
                     );
                     foreach($cmd_datas as $cmd_data)
                     {

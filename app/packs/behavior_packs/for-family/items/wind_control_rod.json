@@ -34,7 +34,7 @@
                     "search_inventory" :true,
                     "use_in_creative" :true
                 }],
-                "max_draw_duration" :0.1,
+                "max_draw_duration" :0.0,
                 "scale_power_by_draw_duration" :false,
                 "charge_on_draw" :false
             },

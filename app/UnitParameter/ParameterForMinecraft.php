@@ -1411,9 +1411,14 @@ class ParameterForMinecraft extends ParameterForWebsocket
     /**
      * ファンネル発射用コマンドデータを取得
      * 
+     * @param float $p_x            プレイヤーのX座標
+     * @param float $p_y            プレイヤーのY座標
+     * @param float $p_z            プレイヤーのZ座標
+     * @param float $p_yrot         プレイヤーのヨー角
+     * @param bool  $p_hover_flg    ホバーユニット有りフラグ
      * @return array 送信データ
      */
-    public function getCommandDataForFunnelUnitItemUsed(float $p_x, float $p_y, float $p_z, float $p_yrot): array
+    public function getCommandDataForFunnelUnitItemUsed(float $p_x, float $p_y, float $p_z, float $p_yrot, bool $p_hover_flg): array
     {
         $cmd_datas = [];
 
@@ -1425,7 +1430,8 @@ class ParameterForMinecraft extends ParameterForWebsocket
                 'x' => $p_x,
                 'y' => $p_y,
                 'z' => $p_z,
-                'yrot' => $p_yrot
+                'yrot' => $p_yrot,
+                'hover_flg' => $p_hover_flg
             ]
         ]);
 
