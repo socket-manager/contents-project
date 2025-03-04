@@ -57,7 +57,10 @@ return [
         'name_format' => 'ファンネル（:name）',
 
         // 発射の上限
-        'shoot_limit' => 5,
+        'shoot_limit' => 6,
+
+        // 発射の上限（Ｎジャマー搭載時）
+        'njammer_limit' => 12,
 
         // メッセージ類
         'messages' =>

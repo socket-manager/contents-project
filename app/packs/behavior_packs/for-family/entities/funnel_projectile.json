@@ -10,6 +10,41 @@
 			"customize:despawn_self": {
                 "minecraft:instant_despawn": {
                 }
+            },
+			"customize:target_mob": {
+                "minecraft:behavior.nearest_attackable_target": {
+                    "priority": 1,
+                    "entity_types": [
+                        {
+                            "filters": {  
+                                "all_of": [
+                                    { "test" : "is_family", "subject" : "other", "value" : "mob"}
+                                ] 
+                            },
+                            "max_dist": 16
+                        }
+                    ],
+                    "attack_interval_min": 1.0,
+                    "must_see": true
+                }
+            },
+			"customize:target_mob_and_not_funnel": {
+                "minecraft:behavior.nearest_attackable_target": {
+                    "priority": 1,
+                    "entity_types": [
+                        {
+                            "filters": {  
+                                "all_of": [
+                                    { "test" : "is_family", "subject" : "other", "value" : "mob"},
+                                    { "test" : "is_family", "subject" : "other", "value" : "funnel", "operator": "not"}
+                                ] 
+                            },
+                            "max_dist": 16
+                        }
+                    ],
+                    "attack_interval_min": 1.0,
+                    "must_see": true
+                }
             }
 		},
         "components": {
@@ -70,23 +105,14 @@
                 "def": "customize:funnel_gun_projectile",
                 "sound": "wind_charge.burst"
             },
-            "minecraft:behavior.nearest_attackable_target": {
-                "priority": 1,
-                "entity_types": [
-                    {
-                        "filters": {  
-                            "any_of": [
-                                { "test" :  "is_family", "subject" : "other", "value" :  "mob"}
-                            ] 
-                        },
-                        "max_dist": 16
-                    }
-                ],
-                "attack_interval_min": 1.0,
-                "must_see": true
-            },
             "minecraft:flying_speed": {
                 "value": 0.30
+            },
+            "minecraft:type_family": {
+                "family": [
+                    "funnel",
+                    "mob"
+                ]
             }
         },
         "events": {
@@ -94,6 +120,20 @@
                 "add": {
                     "component_groups": [
                         "customize:despawn_self"
+                    ]
+                }
+            },
+            "customize:target_mob": {
+                "add": {
+                    "component_groups": [
+                        "customize:target_mob"
+                    ]
+                }
+            },
+            "customize:target_mob_and_not_funnel": {
+                "add": {
+                    "component_groups": [
+                        "customize:target_mob_and_not_funnel"
                     ]
                 }
             }
