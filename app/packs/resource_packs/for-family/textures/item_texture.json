@@ -67,6 +67,21 @@
         },
         "light_sword": {
             "textures": "textures/items/light_sword"
+        },
+        "epack": {
+            "textures": "textures/items/epack"
+        },
+        "epack_icon": {
+            "textures": "textures/items/epack_icon"
+        },
+        "njammer": {
+            "textures": "textures/items/njammer"
+        },
+        "njammer_icon": {
+            "textures": "textures/items/njammer_icon"
+        },
+        "psycho_frame": {
+            "textures": "textures/items/psycho_frame"
         }
     }
 }

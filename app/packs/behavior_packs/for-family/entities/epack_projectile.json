@@ -1,0 +1,73 @@
+{
+    "format_version": "1.17.10",
+    "minecraft:entity": {
+        "description": {
+            "identifier": "customize:epack_projectile",
+            "is_spawnable": false,
+            "is_summonable": true
+        },
+        "component_groups": {
+			"customize:despawn_self": {
+                "minecraft:instant_despawn": {
+                }
+            }
+		},
+        "components": {
+            "minecraft:health": {
+                "value": 20,
+                "max": 20
+            },
+            "minecraft:breathable": {
+                "breathes_solids": true,
+                "breathes_water": true
+            },
+            "minecraft:collision_box": {
+                "width": 0.0,
+                "height": 0.0
+            },
+            "minecraft:projectile": {
+                "on_hit": {
+                    "impact_damage": {
+                        "damage": 0,
+                        "knockback": false,
+                        "semi_random_diff_damage": false,
+                        "destroy_on_hit": false
+                    },
+                    "stick_in_ground": {
+                        "shake_time" : 0.35
+                    }
+                },
+                "power": 1.0,
+                "gravity": 0.05
+            },
+            "minecraft:physics": {
+                "has_collision": true,
+                "has_gravity": true,
+                "push_towards_closest_space": false
+            },
+            "minecraft:area_attack": {
+                "damage_range": 5.00,
+                "damage_per_tick": 1,
+                "damage_cooldown": 1.0,
+                "cause": "entity_attack"
+            },
+            "minecraft:entity_sensor": {
+                "subsensors": [
+                    {
+                        "event": "customize:lightning"
+                    }
+                ]
+            }
+        },
+        "events": {
+            "customize:lightning": {
+                "queue_command": {
+                    "command": [
+                        "event entity @e[type=minecraft:pig,r=5] become_zombie",
+                        "event entity @e[type=minecraft:creeper,r=5] minecraft:become_charged"
+                    ]
+                }
+            }
+        }
+    }
+}
