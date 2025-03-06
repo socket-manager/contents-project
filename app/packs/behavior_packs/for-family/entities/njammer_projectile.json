@@ -65,7 +65,8 @@
                     "command": [
                         "event entity @e[type=minecraft:pig,r=5] become_zombie",
                         "event entity @e[type=minecraft:creeper,r=5] minecraft:become_charged",
-                        "event entity @e[type=minecraft:villager,r=5] become_zombie"
+                        "event entity @e[type=minecraft:villager,r=5] become_zombie",
+                        "event entity @e[type=minecraft:skeleton,r=5] become_stray_event"
                     ]
                 }
             }

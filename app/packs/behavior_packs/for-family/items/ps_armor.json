@@ -1,0 +1,30 @@
+{
+    "format_version": "1.20.50",
+    "minecraft:item": {
+        "description": {
+            "identifier": "customize:ps_armor",
+            "menu_category": {
+                "category": "items"
+            }
+        },
+        "components": {
+            "minecraft:icon": {
+                "texture": "ps_armor"
+            },
+            "minecraft:display_name": {
+                "value": "item.customize:ps_armor.name"
+            },
+            "minecraft:can_destroy_in_creative": false,
+            "minecraft:hand_equipped": false,
+            "minecraft:glint": true,
+            "minecraft:use_animation": "bow",
+            "minecraft:use_modifiers": {
+                "use_duration": 1.6,
+                "movement_modifier": 0.35
+            },
+            "minecraft:food": {
+                "nutrition": 0
+            }
+        }
+    }
+}

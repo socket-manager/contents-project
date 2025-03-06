@@ -1,0 +1,30 @@
+{
+    "format_version": "1.20.50",
+    "minecraft:item": {
+        "description": {
+            "identifier": "customize:gundarium_alloy",
+            "menu_category": {
+                "category": "items"
+            }
+        },
+        "components": {
+            "minecraft:icon": {
+                "texture": "gundarium_alloy"
+            },
+            "minecraft:display_name": {
+                "value": "item.customize:gundarium_alloy.name"
+            },
+            "minecraft:can_destroy_in_creative": false,
+            "minecraft:hand_equipped": false,
+            "minecraft:glint": true,
+            "minecraft:use_animation": "bow",
+            "minecraft:use_modifiers": {
+                "use_duration": 1.6,
+                "movement_modifier": 0.35
+            },
+            "minecraft:food": {
+                "nutrition": 0
+            }
+        }
+    }
+}

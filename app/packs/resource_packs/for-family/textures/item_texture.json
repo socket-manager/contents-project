@@ -82,6 +82,12 @@
         },
         "psycho_frame": {
             "textures": "textures/items/psycho_frame"
+        },
+        "gundarium_alloy": {
+            "textures": "textures/items/gundarium_alloy"
+        },
+        "ps_armor": {
+            "textures": "textures/items/ps_armor"
         }
     }
 }
