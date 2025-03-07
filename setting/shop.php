@@ -26,6 +26,14 @@ return [
             'name' => 'はかいのつるぎ',
             'price' => 25000
         ],
+        'light_sword' =>
+        [
+            'id' => 'light_sword',
+            'type' => 'loot',
+            'icon' => './img/light_sword.png',
+            'name' => '光の剣',
+            'price' => 25000
+        ],
         'thunder_sword_revised' =>
         [
             'id' => 'thunder_sword_revised',
@@ -175,6 +183,14 @@ return [
             'type' => 'loot',
             'icon' => './img/explode_sword.png',
             'name' => 'はかいのつるぎ',
+            'price' => 16500
+        ],
+        'light_sword' =>
+        [
+            'id' => 'light_sword',
+            'type' => 'loot',
+            'icon' => './img/light_sword.png',
+            'name' => '光の剣',
             'price' => 16500
         ],
         'thunder_sword_revised' =>

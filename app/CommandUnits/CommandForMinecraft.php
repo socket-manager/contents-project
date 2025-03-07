@@ -2674,6 +2674,10 @@ class CommandForMinecraft extends CommandForWebsocket
             $p_param->setSendStack($data, $shop_minecraft['shop']['cid']);
 
             $cmd = null;
+            if($cnf_sell['id'] === 'light_sword')
+            {
+                $cmd = 'clear @s[hasitem={item=customize:light_sword,location=slot.weapon.mainhand}] customize:light_sword 0 1';
+            }
             if($cnf_sell['id'] === 'wind_control_rod')
             {
                 $cmd = 'clear @s[hasitem={item=customize:wind_control_rod,location=slot.weapon.mainhand}] customize:wind_control_rod 0 1';
