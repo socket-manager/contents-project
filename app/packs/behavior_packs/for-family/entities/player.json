@@ -670,6 +670,30 @@
                         }
                     }
                 ]
+            },
+            "customize:is_shop_for_epack": {
+                "sequence": [
+                    {
+                        "filters": {
+                            "test": "bool_property", "domain": "customize:is_shop", "value": false
+                        },
+                        "queue_command": {
+                            "command": [
+                                "event entity @e[type=customize:epack_projectile] customize:is_response_set"
+                            ]
+                        }
+                    },
+                    {
+                        "filters": {
+                            "test": "bool_property", "domain": "customize:is_shop", "value": true
+                        },
+                        "queue_command": {
+                            "command": [
+                                "event entity @e[type=customize:epack_projectile] customize:despawn_self"
+                            ]
+                        }
+                    }
+                ]
             }
         }
     }

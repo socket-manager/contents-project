@@ -2059,17 +2059,6 @@ class CommandForMinecraft extends CommandForWebsocket
                 $p_param->setSendStack($data);
             }
 
-            // ファンネル回収用のコマンド送信
-            $cmd_datas = $p_param->getCommandDataForFunnelUnitDashAndSneak();
-            foreach($cmd_datas as $cmd_data)
-            {
-                $data =
-                [
-                    'data' => $cmd_data
-                ];
-                $p_param->setSendStack($data);
-            }
-
             // 暴風の杖用のコマンド送信
             $cmd_datas = $p_param->getCommandDataForWindRodRevisedDashAndSneak();
             foreach($cmd_datas as $cmd_data)
@@ -2083,6 +2072,17 @@ class CommandForMinecraft extends CommandForWebsocket
 
             // 光の剣用のコマンド送信
             $cmd_datas = $p_param->getCommandDataForLightSwordDashAndSneak();
+            foreach($cmd_datas as $cmd_data)
+            {
+                $data =
+                [
+                    'data' => $cmd_data
+                ];
+                $p_param->setSendStack($data);
+            }
+
+            // ファンネル回収用のコマンド送信
+            $cmd_datas = $p_param->getCommandDataForFunnelUnitDashAndSneak();
             foreach($cmd_datas as $cmd_data)
             {
                 $data =
