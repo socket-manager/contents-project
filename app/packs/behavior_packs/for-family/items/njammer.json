@@ -34,7 +34,7 @@
                 "min_draw_duration": 0.5
             },
             "minecraft:cooldown": {
-                "category": "epack",
+                "category": "njammer",
                 "duration": 0.5
             }
         }

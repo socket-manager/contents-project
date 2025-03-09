@@ -694,6 +694,30 @@
                         }
                     }
                 ]
+            },
+            "customize:is_shop_for_njammer": {
+                "sequence": [
+                    {
+                        "filters": {
+                            "test": "bool_property", "domain": "customize:is_shop", "value": false
+                        },
+                        "queue_command": {
+                            "command": [
+                                "event entity @e[type=customize:njammer_projectile] customize:is_response_set"
+                            ]
+                        }
+                    },
+                    {
+                        "filters": {
+                            "test": "bool_property", "domain": "customize:is_shop", "value": true
+                        },
+                        "queue_command": {
+                            "command": [
+                                "event entity @e[type=customize:njammer_projectile] customize:despawn_self"
+                            ]
+                        }
+                    }
+                ]
             }
         }
     }

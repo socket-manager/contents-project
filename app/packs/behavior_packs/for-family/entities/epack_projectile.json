@@ -7,8 +7,8 @@
             "is_summonable": true,
             "properties": {
                 "customize:is_response": {
-                  "type": "bool",
-                  "default": false
+                    "type": "bool",
+                    "default": false
                 }
             }
         },
