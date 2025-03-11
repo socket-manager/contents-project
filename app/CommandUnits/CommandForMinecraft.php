@@ -1296,7 +1296,7 @@ class CommandForMinecraft extends CommandForWebsocket
                     $p_param->setSendStack($data);
 
                     // イベント送信
-                    $cmd = "event entity @e[tag=\"funnel_{$name['minecraft-name']}\"] customize:target_mob_and_not_funnel";
+                    $cmd = "event entity @e[tag=\"funnel_{$name['minecraft-name']}\"] customize:target_monster";
                     $cmd_data = $p_param->getCommandData($cmd, null);
                     $data =
                     [
