@@ -1432,6 +1432,39 @@ class CommandForMinecraft extends CommandForWebsocket
                         $p_param->setSendStack($data);
                     }
                 }
+                else
+                if($w_ret['type'] === 'hover-unit-adjust-altitude')
+                {
+                    $p_param->logWriter('debug', ['MINECRAFT HOVER-UNIT:ADJUST-ALTITUDE' => 'QUERYTARGET']);
+
+                    $name = $p_param->getTempBuff(['minecraft-name']);
+
+                    $pos = null;
+                    $cmd_datas = [];
+
+                    // ターゲット取得失敗
+                    if($rcv['data']['body']['statusCode'] !== 0)
+                    {
+                        $pos = -1.0;
+                    }
+                    // ターゲット取得成功
+                    else
+                    {
+                        $pos = 1.0;
+                    }
+
+                    $cmd = "tp @e[tag=\"hover_cockpit_{$name['minecraft-name']}\"] ~ ~{$pos} ~";
+                    $cmd_datas[] = $p_param->getCommandData($cmd, null);
+
+                    foreach($cmd_datas as $cmd_data)
+                    {
+                        $data =
+                        [
+                            'data' => $cmd_data
+                        ];
+                        $p_param->setSendStack($data);
+                    }
+                }
                 // 以降の分岐はリザーブ用
                 else
                 if($w_ret['type'] === 'forced-close')
@@ -1580,6 +1613,22 @@ class CommandForMinecraft extends CommandForWebsocket
                 }
                 else
                 {
+                    $flg = $p_param->getTempBuff(['hover-unit']);
+                    if(isset($flg['hover-unit']['ride']) && $flg['hover-unit']['ride'] === true)
+                    {
+                        // コマンド送信（高度調整用）
+                        $cmd_datas = $p_param->getCommandDataAdjustAltitudeByFunnelUnit();
+                        foreach($cmd_datas as $cmd_data)
+                        {
+                            $data =
+                            [
+                                'data' => $cmd_data
+                            ];
+                            $p_param->setSendStack($data);
+                        }
+                        return null;
+                    }
+
                     $hover_flg = false;
                     if($rcv['data']['body']['player']['variant'] & ParameterForMinecraft::MASK_VARIANT_HOVER_UNIT)
                     {

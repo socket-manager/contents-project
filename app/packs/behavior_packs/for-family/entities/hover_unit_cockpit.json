@@ -10,6 +10,12 @@
 			"customize:despawn_self": {
                 "minecraft:instant_despawn": {
                 }
+            },
+			"customize:collision": {
+                "minecraft:collision_box": {
+                    "width": 0.9,
+                    "height": 0.9
+                }
             }
 		},
         "components": {
@@ -79,8 +85,8 @@
             },
             "minecraft:fire_immune":{},
             "minecraft:collision_box": {
-                "width": 0.9,
-                "height": 0.9
+                "width": 0.0,
+                "height": 0.0
             },
             "minecraft:physics": {
             },
@@ -94,6 +100,13 @@
                 "add": {
                     "component_groups": [
                         "customize:despawn_self"
+                    ]
+                }
+            },
+            "customize:collision": {
+                "add": {
+                    "component_groups": [
+                        "customize:collision"
                     ]
                 }
             }

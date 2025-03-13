@@ -1452,6 +1452,21 @@ class ParameterForMinecraft extends ParameterForWebsocket
     //--------------------------------------------------------------------------
 
     /**
+     * ホバーユニット高度調整用コマンドデータを取得
+     * 
+     * @return array 送信データ
+     */
+    public function getCommandDataAdjustAltitudeByFunnelUnit(): array
+    {
+        $cmd_datas = [];
+
+        $cmd = "querytarget @s[rx=0]";
+        $cmd_datas[] = $this->getCommandData($cmd, 'hover-unit-adjust-altitude');
+
+        return $cmd_datas;
+    }
+
+    /**
      * ホバーユニット離陸用コマンドデータを取得
      * 
      * @return array 送信データ
@@ -1475,11 +1490,17 @@ class ParameterForMinecraft extends ParameterForWebsocket
         $cmd = "tag @e[type=customize:hover_unit_cockpit,c=1] add \"hover_cockpit_{$name['minecraft-name']}\"";
         $cmd_datas[] = $this->getCommandData($cmd, 'hover-unit-tag');
 
+        $cmd = "effect @e[tag=\"hover_cockpit_{$name['minecraft-name']}\"] invisibility 1000000 0 true";
+        $cmd_datas[] = $this->getCommandData($cmd, 'hover-unit-invisibility');
+
         $cmd = "hud @s hide horse_health";
         $cmd_datas[] = $this->getCommandData($cmd, 'hover-unit-gauge-hide');
 
         $cmd = "ride @s start_riding @e[type=customize:hover_unit_cockpit,c=1]";
         $cmd_datas[] = $this->getCommandData($cmd, 'hover-unit-ride');
+
+        $cmd = "event entity @e[tag=\"hover_cockpit_{$name['minecraft-name']}\"] customize:collision";
+        $cmd_datas[] = $this->getCommandData($cmd, 'hover-unit-collision');
 
         $cmd = "function common_particle_critical";
         $cmd_datas[] = $this->getCommandData($cmd, 'hover-unit-particle-critical');

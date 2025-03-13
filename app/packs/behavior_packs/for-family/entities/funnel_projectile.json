@@ -130,6 +130,11 @@
                     "funnel",
                     "mob"
                 ]
+            },
+            "minecraft:physics": {
+                "has_collision": true,
+                "has_gravity": false,
+                "push_towards_closest_space": true
             }
         },
         "events": {
