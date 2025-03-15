@@ -1453,7 +1453,7 @@ class CommandForMinecraft extends CommandForWebsocket
                         $pos = 1.0;
                     }
 
-                    $cmd = "tp @e[tag=\"hover_cockpit_{$name['minecraft-name']}\"] ~ ~{$pos} ~";
+                    $cmd = "tp @e[tag=\"hover_cockpit_{$name['minecraft-name']}\"] ^ ^{$pos} ^2";
                     $cmd_datas[] = $p_param->getCommandData($cmd, null);
 
                     foreach($cmd_datas as $cmd_data)
@@ -1535,6 +1535,23 @@ class CommandForMinecraft extends CommandForWebsocket
 
             // 受信データの取得
             $rcv = $p_param->getRecvData();
+
+            // アイアンファング
+            if($rcv['data']['body']['item']['id'] === 'iron_fang')
+            {
+                // コマンド送信
+                $cmd_datas = $p_param->getCommandDataForIronFangItemUsed();
+                foreach($cmd_datas as $cmd_data)
+                {
+                    $data =
+                    [
+                        'data' => $cmd_data
+                    ];
+                    $p_param->setSendStack($data);
+                }
+
+                return null;
+            }
 
             // 光の剣
             if($rcv['data']['body']['item']['id'] === 'light_sword')

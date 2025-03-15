@@ -718,6 +718,51 @@
                         }
                     }
                 ]
+            },
+            "customize:iron_fang": {
+                "sequence": [
+                    {
+                        "filters": {
+                            "all_of": [
+                                {"test": "is_sneak_held", "subject": "self", "operator": "equals", "value": true},
+                                {"test": "bool_property", "domain": "customize:is_shop", "value": false}
+                            ]
+                        },
+                        "queue_command": {
+                            "command": [
+                                "summon evocation_fang ~-1.5 ~ ~-1.5",
+                                "summon evocation_fang ~-1.5 ~ ~1.5",
+                                "summon evocation_fang ~1.5 ~ ~1.5",
+                                "summon evocation_fang ~1.5 ~ ~-1.5",
+                                "summon evocation_fang ~-2 ~ ~",
+                                "summon evocation_fang ~2 ~ ~",
+                                "summon evocation_fang ~ ~ ~-2",
+                                "summon evocation_fang ~ ~ ~2",
+                                "damage @e[r=3,rm=1] 0 entity_attack entity @s"
+                            ]
+                        }
+                    },
+                    {
+                        "filters": {
+                            "all_of": [
+                                {"test": "is_sneak_held", "subject": "self", "operator": "equals", "value": false},
+                                {"test": "bool_property", "domain": "customize:is_shop", "value": false}
+                            ]
+                        },
+                        "queue_command": {
+                            "command": [
+                                "summon evocation_fang ^ ^ ^2",
+                                "summon evocation_fang ^ ^ ^3",
+                                "summon evocation_fang ^ ^ ^4",
+                                "summon evocation_fang ^ ^ ^5",
+                                "summon evocation_fang ^ ^ ^6",
+                                "summon evocation_fang ^ ^ ^7",
+                                "summon evocation_fang ^ ^ ^8",
+                                "summon evocation_fang ^ ^ ^9"
+                            ]
+                        }
+                    }
+                ]
             }
         }
     }

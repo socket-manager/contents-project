@@ -1,0 +1,22 @@
+{
+    "format_version": "1.10",
+    "render_controllers": {
+        "controller.render.iron_fang": {
+            "arrays": {
+                "textures": {
+                    "array.iron_fang_texture_frames": [
+                        "texture.default"
+                    ]
+                },
+                "geometries": {
+                    "array.iron_fang_geo_frames": [
+                        "geometry.default"
+                    ]
+                }
+            },
+            "geometry": "array.iron_fang_geo_frames[query.get_animation_frame]",
+            "materials": [ { "*": "variable.is_enchanted ? material.enchanted : material.default" } ],
+            "textures": [ "array.iron_fang_texture_frames[query.get_animation_frame]", "texture.enchanted" ]
+        }
+    }
+}

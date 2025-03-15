@@ -1,0 +1,47 @@
+{
+    "format_version": "1.20.50",
+    "minecraft:item": {
+        "description": {
+            "identifier": "customize:iron_fang",
+            "menu_category": {
+                "category": "equipment"
+            }
+        },
+        "components": {
+            "minecraft:icon": {
+                "texture": "iron_fang"
+            },
+            "minecraft:display_name": {
+                "value": "item.customize:iron_fang.name"
+            },
+            "minecraft:can_destroy_in_creative": false,
+            "minecraft:max_stack_size": 1,
+            "minecraft:hand_equipped": false,
+            "minecraft:damage": 6,
+            "minecraft:glint": true,
+            "minecraft:use_animation": "bow",
+            "minecraft:use_modifiers": {
+                "use_duration": 0.1,
+                "movement_modifier": 0.0
+            },
+            "minecraft:projectile": {
+                "projectile_entity": "customize:iron_fang_projectile"
+            },
+            "minecraft:shooter":{
+                "ammunition" :[{
+                    "item" :"customize:iron_fang",
+                    "use_offhand" :true,
+                    "search_inventory" :true,
+                    "use_in_creative" :true
+                }],
+                "max_draw_duration" :0.0,
+                "scale_power_by_draw_duration" :false,
+                "charge_on_draw" :false
+            },
+            "minecraft:enchantable": {
+                "slot": "bow",
+                "value": 0
+            }
+        }
+    }
+}

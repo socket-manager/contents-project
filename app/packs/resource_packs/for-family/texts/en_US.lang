@@ -48,3 +48,5 @@ entity.customize:njammer_projectile.name=njammer_projectile
 item.customize:psycho_frame.name=サイコフレーム
 item.customize:gundarium_alloy.name=ガンダリウム合金
 item.customize:ps_armor.name=ＰＳ装甲
+item.customize:iron_fang.name=アイアンファング
+entity.customize:iron_fang_projectile.name=iron_fang_projectile

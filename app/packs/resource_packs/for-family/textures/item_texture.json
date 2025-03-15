@@ -88,6 +88,9 @@
         },
         "ps_armor": {
             "textures": "textures/items/ps_armor"
+        },
+        "iron_fang": {
+            "textures": "textures/items/iron_fang"
         }
     }
 }
