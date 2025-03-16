@@ -3,7 +3,7 @@
 	"minecraft:geometry" : [
 		{
 			"description" : {
-				"identifier" : "geometry.gundarium_alloy",
+				"identifier" : "geometry.g_alloy",
 				"texture_width" : 8.0,
 				"texture_height" : 8.0
 			},

@@ -1,7 +1,7 @@
 {
     "format_version": "1.10.0",
     "animations": {
-        "animation.gundarium_alloy.wield": {
+        "animation.g_alloy.wield": {
         "loop": true,
         "bones": {
             "rightitem": {
@@ -10,7 +10,7 @@
             }
         }
         },
-        "animation.gundarium_alloy.wield_first_person_pull": {
+        "animation.g_alloy.wield_first_person_pull": {
             "loop": true,
             "bones": {
                 "rightitem": {

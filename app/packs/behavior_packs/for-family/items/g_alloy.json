@@ -2,17 +2,17 @@
     "format_version": "1.20.50",
     "minecraft:item": {
         "description": {
-            "identifier": "customize:gundarium_alloy",
+            "identifier": "customize:g_alloy",
             "menu_category": {
                 "category": "items"
             }
         },
         "components": {
             "minecraft:icon": {
-                "texture": "gundarium_alloy"
+                "texture": "g_alloy"
             },
             "minecraft:display_name": {
-                "value": "item.customize:gundarium_alloy.name"
+                "value": "item.customize:g_alloy.name"
             },
             "minecraft:can_destroy_in_creative": false,
             "minecraft:hand_equipped": false,

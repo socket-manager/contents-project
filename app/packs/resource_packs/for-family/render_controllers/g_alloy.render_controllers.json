@@ -1,22 +1,22 @@
 {
   "format_version": "1.10",
   "render_controllers": {
-    "controller.render.gundarium_alloy": {
+    "controller.render.g_alloy": {
       "arrays": {
         "textures": {
-          "array.gundarium_alloy_texture_frames": [
+          "array.g_alloy_texture_frames": [
             "texture.default"
           ]
         },
         "geometries": {
-          "array.gundarium_alloy_geo_frames": [
+          "array.g_alloy_geo_frames": [
             "geometry.default"
           ]
         }
       },
-      "geometry": "array.gundarium_alloy_geo_frames[query.get_animation_frame]",
+      "geometry": "array.g_alloy_geo_frames[query.get_animation_frame]",
       "materials": [ { "*": "variable.is_enchanted ? material.enchanted : material.default" } ],
-      "textures": [ "array.gundarium_alloy_texture_frames[query.get_animation_frame]", "texture.enchanted" ]
+      "textures": [ "array.g_alloy_texture_frames[query.get_animation_frame]", "texture.enchanted" ]
     }
   }
 }
