@@ -1,0 +1,36 @@
+{
+    "format_version": "1.20.10",
+    "minecraft:recipe_shaped": {
+        "description": {
+            "identifier": "customize:funnel_unit_symmetry"
+        },
+
+        
+        "tags": [ "crafting_table" ],
+        "assume_symmetry": true,
+        "priority": 1,
+        "pattern": [
+            "#XX",
+            "#XX",
+            "#XX"
+        ],
+        "key": {
+            "#": {
+                "item": "customize:g_alloy"
+            },
+            "X": {
+                "item": "customize:psycho_frame"
+            }
+        },
+        "unlock": [
+            {
+                "context": "AlwaysUnlocked"
+            }
+        ],
+        "result": {
+            "item": "customize:funnel_unit",
+            "data": 0,
+            "count": 1
+        }
+    }
+}
