@@ -236,6 +236,29 @@
                             ],
                             "gives": [
                                 {
+                                    "item": "customize:iron_fang",
+                                    "quantity": 1
+                                }
+                            ],
+                            "trader_exp": 30,
+                            "max_uses": 3,
+                            "reward_exp": true
+                        }
+                    ]
+                },
+                {
+                    "num_to_select": 1,
+                    "trades": [
+                        {
+                            "wants": [
+                                {
+                                    "item": "minecraft:emerald",
+                                    "quantity": 8,
+                                    "price_multiplier": 0.2
+                                }
+                            ],
+                            "gives": [
+                                {
                                     "item": "customize:epack",
                                     "quantity": 1
                                 }

@@ -2,27 +2,24 @@
     "format_version": "1.20.10",
     "minecraft:recipe_shaped": {
         "description": {
-            "identifier": "customize:immovable_rod"
+            "identifier": "customize:rifle_cannon_symmetry"
         },
 
         
         "tags": [ "crafting_table" ],
-        "assume_symmetry": false,
+        "assume_symmetry": true,
         "priority": 1,
         "pattern": [
-            "YXY",
+            "#",
             " #",
-            " #"
+            " X#"
         ],
         "key": {
             "#": {
-                "item": "minecraft:stick"
+                "item": "customize:ps_armor"
             },
             "X": {
-                "item": "customize:immovable_stone"
-            },
-            "Y": {
-                "item": "customize:floating_feather"
+                "item": "customize:epack"
             }
         },
         "unlock": [
@@ -31,9 +28,7 @@
             }
         ],
         "result": {
-            "item": "customize:immovable_rod",
-            "data": 0,
-            "count": 1
-    }
+            "item": "customize:rifle_cannon"
+        }
     }
 }

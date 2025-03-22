@@ -2,7 +2,7 @@
     "format_version": "1.20.10",
     "minecraft:recipe_shaped": {
         "description": {
-            "identifier": "customize:immovable_rod"
+            "identifier": "customize:hover_unit"
         },
 
         
@@ -10,19 +10,19 @@
         "assume_symmetry": false,
         "priority": 1,
         "pattern": [
-            "YXY",
-            " #",
-            " #"
+            "#Y#",
+            "#X#",
+            "#Y#"
         ],
         "key": {
             "#": {
-                "item": "minecraft:stick"
+                "item": "customize:ps_armor"
             },
             "X": {
-                "item": "customize:immovable_stone"
+                "item": "customize:njammer"
             },
             "Y": {
-                "item": "customize:floating_feather"
+                "item": "customize:epack"
             }
         },
         "unlock": [
@@ -31,7 +31,7 @@
             }
         ],
         "result": {
-            "item": "customize:immovable_rod",
+            "item": "customize:hover_unit",
             "data": 0,
             "count": 1
     }
