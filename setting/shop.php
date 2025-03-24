@@ -265,6 +265,14 @@ return [
             'name' => '不動の魔石',
             'price' => 6000
         ],
+        'psycho_frame' =>
+        [
+            'id' => 'psycho_frame',
+            'type' => 'customize',
+            'icon' => './img/psycho_frame.png',
+            'name' => 'サイコフレーム',
+            'price' => 5000
+        ],
         'thunder_stone' =>
         [
             'id' => 'thunder_stone',
@@ -280,6 +288,14 @@ return [
             'icon' => './img/floating_feather.png',
             'name' => '浮遊の羽',
             'price' => 3000
+        ],
+        'g_alloy' =>
+        [
+            'id' => 'g_alloy',
+            'type' => 'customize',
+            'icon' => './img/g_alloy.png',
+            'name' => 'Ｇ合金',
+            'price' => 1000
         ],
         'sanma' =>
         [
