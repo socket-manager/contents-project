@@ -249,6 +249,14 @@ return [
             'name' => '繰風弾の杖',
             'price' => 10000
         ],
+        'njammer' =>
+        [
+            'id' => 'njammer',
+            'type' => 'customize',
+            'icon' => './img/njammer_icon.png',
+            'name' => 'Ｎジャマー',
+            'price' => 10000
+        ],
         'wind_rod' =>
         [
             'id' => 'wind_rod',
@@ -288,6 +296,22 @@ return [
             'icon' => './img/floating_feather.png',
             'name' => '浮遊の羽',
             'price' => 3000
+        ],
+        'epack' =>
+        [
+            'id' => 'epack',
+            'type' => 'customize',
+            'icon' => './img/epack_icon.png',
+            'name' => 'Ｅパック',
+            'price' => 3000
+        ],
+        'ps_armor' =>
+        [
+            'id' => 'ps_armor',
+            'type' => 'customize',
+            'icon' => './img/ps_armor.png',
+            'name' => 'ＰＳ装甲',
+            'price' => 1500
         ],
         'g_alloy' =>
         [
