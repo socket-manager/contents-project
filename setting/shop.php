@@ -10,6 +10,14 @@ return [
      */
     'buy_list' =>
     [
+        'hover_unit' =>
+        [
+            'id' => 'hover_unit',
+            'type' => 'loot',
+            'icon' => './img/hover_unit_icon.png',
+            'name' => 'ホバーユニット',
+            'price' => 30000
+        ],
         'funnel_unit' =>
         [
             'id' => 'funnel_unit',
@@ -33,6 +41,14 @@ return [
             'icon' => './img/light_sword.png',
             'name' => '光の剣',
             'price' => 25000
+        ],
+        'rifle_cannon' =>
+        [
+            'id' => 'rifle_cannon',
+            'type' => 'loot',
+            'icon' => './img/rifle_cannon.png',
+            'name' => 'ライフルキャノン',
+            'price' => 20000
         ],
         'thunder_sword_revised' =>
         [
@@ -169,6 +185,14 @@ return [
      */
     'sell_list' =>
     [
+        'hover_unit' =>
+        [
+            'id' => 'hover_unit',
+            'type' => 'loot',
+            'icon' => './img/hover_unit_icon.png',
+            'name' => 'ホバーユニット',
+            'price' => 20000
+        ],
         'funnel_unit' =>
         [
             'id' => 'funnel_unit',
@@ -192,6 +216,14 @@ return [
             'icon' => './img/light_sword.png',
             'name' => '光の剣',
             'price' => 16500
+        ],
+        'rifle_cannon' =>
+        [
+            'id' => 'rifle_cannon',
+            'type' => 'loot',
+            'icon' => './img/rifle_cannon.png',
+            'name' => 'ライフルキャノン',
+            'price' => 13500
         ],
         'thunder_sword_revised' =>
         [
