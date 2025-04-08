@@ -730,6 +730,7 @@
                         },
                         "queue_command": {
                             "command": [
+                                "execute positioned as @s run particle minecraft:critical_hit_emitter ~ ~2 ~",
                                 "damage @e[r=3,rm=1] 6 entity_attack entity @s",
                                 "summon evocation_fang ~-1.5 ~ ~-1.5",
                                 "summon evocation_fang ~-1.5 ~ ~1.5",
@@ -751,6 +752,7 @@
                         },
                         "queue_command": {
                             "command": [
+                                "execute positioned as @s run particle minecraft:critical_hit_emitter ~ ~2 ~",
                                 "summon evocation_fang ^ ^ ^2",
                                 "summon evocation_fang ^ ^ ^3",
                                 "summon evocation_fang ^ ^ ^4",
