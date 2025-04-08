@@ -362,7 +362,7 @@
                         "queue_command": {
                             "command": [
                                 "event entity @e[type=customize:thunder_rod_projectile] customize:is_offhand_set",
-                                "particle minecraft:sonic_explosion ~ ~1 ~",
+                                "execute positioned as @s run particle minecraft:sonic_explosion ~ ~1 ~",
                                 "effect @s resistance 2 4 true"
                             ]
                         }
@@ -373,7 +373,7 @@
                         },
                         "queue_command": {
                             "command": [
-                                "particle minecraft:critical_hit_emitter ~ ~2 ~",
+                                "execute positioned as @s run particle minecraft:critical_hit_emitter ~ ~2 ~",
                                 "event entity @e[type=customize:thunder_rod_projectile] customize:is_response_set"
                             ]
                         }
@@ -399,7 +399,7 @@
                         "queue_command": {
                             "command": [
                                 "event entity @e[type=customize:explode_sword_projectile] customize:is_offhand_set",
-                                "particle minecraft:critical_hit_emitter ~ ~2 ~"
+                                "execute positioned as @s run particle minecraft:critical_hit_emitter ~ ~2 ~"
                             ]
                         }
                     },
@@ -409,7 +409,7 @@
                         },
                         "queue_command": {
                             "command": [
-                                "particle minecraft:sonic_explosion ~ ~1 ~",
+                                "execute positioned as @s run particle minecraft:sonic_explosion ~ ~1 ~",
                                 "event entity @e[type=customize:explode_sword_projectile] customize:is_response_set",
                                 "effect @s resistance 2 4 true"
                             ]
