@@ -91,6 +91,9 @@
         },
         "iron_fang": {
             "textures": "textures/items/iron_fang"
+        },
+        "hook_shot": {
+            "textures": "textures/items/hook_shot"
         }
     }
 }

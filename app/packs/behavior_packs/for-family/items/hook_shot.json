@@ -1,0 +1,50 @@
+{
+    "format_version": "1.20.50",
+    "minecraft:item": {
+        "description": {
+            "identifier": "customize:hook_shot",
+            "menu_category": {
+                "category": "equipment"
+            }
+        },
+        "components": {
+            "minecraft:icon": {
+                "texture": "hook_shot"
+            },
+            "minecraft:display_name": {
+                "value": "item.customize:hook_shot.name"
+            },
+            "minecraft:can_destroy_in_creative": false,
+            "minecraft:hand_equipped": false,
+            "minecraft:damage": 5,
+            "minecraft:glint": true,
+            "minecraft:use_animation": "bow",
+            "minecraft:use_modifiers": {
+                "use_duration": 0.1,
+                "movement_modifier": 0.0
+            },
+            "minecraft:projectile": {
+                "projectile_entity": "customize:hook_shot_projectile"
+            },
+            "minecraft:shooter":{
+                "ammunition" :[{
+                    "item" :"customize:hook_shot",
+                    "use_offhand" :true,
+                    "search_inventory" :true,
+                    "use_in_creative" :true
+                }],
+                "max_draw_duration" :0.0,
+                "scale_power_by_draw_duration" :false,
+                "charge_on_draw" :false
+            },
+            "minecraft:cooldown": {
+                "category": "hook_shot",
+                "duration": 0.3
+            },
+            "minecraft:enchantable": {
+                "slot": "bow",
+                "value": 0
+            }
+        }
+    }
+}

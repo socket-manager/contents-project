@@ -1,0 +1,12 @@
+{
+	"format_version" : "1.16.0",
+	"minecraft:geometry" : [
+		{
+			"description" : {
+				"identifier" : "geometry.hook_ride",
+				"texture_width" : 0.0,
+				"texture_height" : 0.0
+			}
+		}
+	]
+}

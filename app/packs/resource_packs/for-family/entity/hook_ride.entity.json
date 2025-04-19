@@ -1,0 +1,21 @@
+{
+    "format_version": "1.10.0",
+    "minecraft:client_entity": {
+        "description": {
+            "identifier": "customize:hook_ride",
+            "materials": {
+                "default": "entity_alphatest"
+            },
+            "textures": {
+                "default": "textures/entity/hook_ride"
+            },
+            "geometry": {
+                // "default": "geometry.item_sprite"
+                "default": "geometry.hook_ride"
+            },
+            "render_controllers": [
+                "controller.render.item_sprite"
+            ]
+        }
+    }
+}

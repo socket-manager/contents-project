@@ -1,0 +1,160 @@
+{
+    "format_version": "1.17.10",
+    "minecraft:entity": {
+        "description": {
+            "identifier": "customize:hook_tying",
+            "is_spawnable": false,
+            "is_summonable": true
+        },
+        "component_groups": {
+			"customize:despawn_self": {
+                "minecraft:instant_despawn": {
+                }
+            },
+            "customize:send_event_pull": {
+                "minecraft:behavior.send_event": {
+                    "priority": 3,
+                    "event_choices": [
+                        {
+                            "min_activation_range": 0.0,
+                            "max_activation_range": 256.0,
+                            "cooldown_time": 10.0,
+                            "weight": 3,
+                            "filters": {
+                                "all_of": [
+                                    { "test": "is_family", "subject": "other", "value": "player" },
+                                    { "test": "is_leashed_to", "subject": "other", "operator": "equals", "value": true }
+                                ]
+                            },
+                            "sequence": [
+                                {
+                                    "event": "customize:hook_ride"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            },
+            "customize:timer": {
+                "minecraft:timer": {
+                    "looping": false,
+                    "time": 1,
+                    "time_down_event": {
+                        "event": "customize:remove_event"
+                    }
+                }
+            },
+            "customize:despawn_timer": {
+                "minecraft:timer": {
+                    "looping": false,
+                    "time": 5,
+                    "time_down_event": {
+                        "event": "customize:despawn_timer"
+                    }
+                }
+            },
+            "customize:send_event_despawn": {
+                "minecraft:behavior.send_event": {
+                    "priority": 3,
+                    "event_choices": [
+                        {
+                            "min_activation_range": 0.0,
+                            "max_activation_range": 256.0,
+                            "cooldown_time": 10.0,
+                            "weight": 3,
+                            "filters": {
+                                "all_of": [
+                                    { "test": "is_family", "subject": "other", "value": "player" },
+                                    { "test": "is_leashed_to", "subject": "other", "operator": "equals", "value": true }
+                                ]
+                            },
+                            "sequence": [
+                                {
+                                    "event": "customize:is_hook_shot_reset"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                "minecraft:timer": {
+                    "looping": false,
+                    "time": 2,
+                    "time_down_event": {
+                        "event": "customize:despawn_self"
+                    }
+                }
+            }
+		},
+        "components": {
+            "minecraft:breathable": {
+                "breathes_solids": true,
+                "breathes_water": true
+            },
+            "minecraft:collision_box": {
+                "height": 0.0,
+                "width": 0.0
+            },
+            "minecraft:pushable": {
+                "is_pushable": false,
+                "is_pushable_by_piston": false
+            },
+            "minecraft:physics": {
+                "has_collision": false,
+                "has_gravity": false,
+                "push_towards_closest_space": true
+            },
+            "minecraft:loot": {
+                "table": "loot_tables/entities/hook_tying.json"
+            },
+            "minecraft:leashable": {
+                "soft_distance": 256,
+                "hard_distance": 256,
+                "max_distance": 256
+            },
+            "minecraft:type_family": {
+                "family": [
+                    "hook_tying"
+                ]
+            },
+            "minecraft:tick_world": {}
+        },
+        "events": {
+            "minecraft:entity_born": {
+                "add": {
+                    "component_groups": [ "customize:despawn_timer" ]
+                }
+            },
+            "customize:despawn_self": {
+                "add": {
+                    "component_groups": [ "customize:despawn_self" ]
+                }
+            },
+            "customize:despawn_timer": {
+                "add": {
+                    "component_groups": [ "customize:send_event_despawn" ]
+                }
+            },
+            "customize:pull": {
+                "sequence": [
+                    {
+                        "add": {
+                            "component_groups": [
+                                "customize:send_event_pull",
+                                "customize:timer"
+                            ]
+                        }
+                    }
+                ]
+            },
+            "customize:remove_event": {
+                "sequence": [
+                    {
+                        "remove": {
+                            "component_groups": [ "customize:send_event_pull" ]
+                        }
+                    }
+                ]
+            }
+        }
+    }
+}

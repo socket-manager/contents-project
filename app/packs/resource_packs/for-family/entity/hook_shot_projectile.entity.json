@@ -1,0 +1,21 @@
+{
+    "format_version": "1.10.0",
+    "minecraft:client_entity": {
+        "description": {
+            "identifier": "customize:hook_shot_projectile",
+            "materials": {
+                "default": "entity_alphatest"
+            },
+            "textures": {
+                "default": "textures/entity/hook_shot_projectile"
+            },
+            "geometry": {
+                // "default": "geometry.item_sprite"
+                "default": "geometry.hook_shot_projectile"
+            },
+            "render_controllers": [
+                "controller.render.item_sprite"
+            ]
+        }
+    }
+}

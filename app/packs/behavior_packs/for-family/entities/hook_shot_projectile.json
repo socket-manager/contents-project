@@ -1,0 +1,314 @@
+{
+    "format_version": "1.17.10",
+    "minecraft:entity": {
+        "description": {
+            "identifier": "customize:hook_shot_projectile",
+            "is_spawnable": false,
+            "is_summonable": true,
+            "properties": {
+                "customize:on_ground": {
+                    "type": "bool",
+                    "default": false
+                }
+            }
+        },
+        "component_groups": {
+			"customize:despawn_self": {
+                "minecraft:instant_despawn": {
+                }
+            },
+            "customize:search_target": {
+                "minecraft:behavior.nearest_attackable_target": {
+                    "priority": 1,
+                    "entity_types": [
+                        {
+                            "filters": {  
+                                "all_of": [
+                                    {"test" : "is_family", "subject" : "other", "value" : "hook_shot_projectile"}
+                                ] 
+                            },
+                            "max_dist": 64
+                        }
+                    ],
+                    "attack_interval_min": 1.0,
+                    "must_see": false
+                },
+                "minecraft:movement.hover": {
+                },
+                "minecraft:navigation.hover": {
+                    "can_path_over_water": true,
+                    "can_sink": false,
+                    "can_pass_doors": false,
+                    "can_path_from_air": true,
+                    "avoid_water": true,
+                    "avoid_damage_blocks": true,
+                    "avoid_sun": false
+                },
+                "minecraft:behavior.move_towards_target": {
+                    "priority": 2,
+                    "within_radius": 64
+                },
+                "minecraft:flying_speed": {
+                    "value": 0.30
+                }
+            },
+            "customize:hook_tying": {
+                "minecraft:spawn_entity": {
+                    "entities": [
+                        {
+                            "min_wait_time": 0,
+                            "max_wait_time": 0,
+                            "spawn_entity": "customize:hook_tying",
+                            "spawn_event": "minecraft:entity_born",
+                            "single_use": true,
+                            "num_to_spawn": 1,
+                            "should_leash": true
+                        }
+                    ]
+                }
+            },
+            "customize:hook_follow": {
+                "minecraft:spawn_entity": {
+                    "entities": [
+                        {
+                            "min_wait_time": 0,
+                            "max_wait_time": 0,
+                            "spawn_entity": "customize:hook_follow",
+                            "spawn_event": "minecraft:entity_born",
+                            "single_use": true,
+                            "num_to_spawn": 1,
+                            "should_leash": false
+                        }
+                    ]
+                }
+            },
+            "customize:finishing": {
+                "minecraft:behavior.send_event": {
+                    "priority": 3,
+                    "event_choices": [
+                        {
+                            "min_activation_range": 0.0,
+                            "max_activation_range": 5.0,
+                            "cooldown_time": 0.0,
+                            "weight": 3,
+                            "filters": {
+                                "all_of": [
+                                    { "test": "is_family", "subject": "other", "value": "hook_ride" }
+                                ]
+                            },
+                            "sequence": [
+                                {
+                                    "event": "customize:finishing"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            },
+            "customize:is_moving": {
+                "minecraft:entity_sensor": {
+                    "subsensors": [
+                        {
+                            "event_filters": {
+                                "all_of": [
+                                    { "test": "is_moving", "subject": "self", "operator": "equals", "value": true }
+                                ]
+                            },
+                            "event": "customize:is_moving"
+                        },
+                        {
+                            "event_filters": {
+                                "all_of": [
+                                    { "test": "on_ground", "subject": "self", "operator": "equals", "value": true }
+                                ]
+                            },
+                            "event": "customize:pull"
+                        }
+                    ]
+                }
+            },
+            "customize:moving_timer": {
+                "minecraft:timer": {
+                    "looping": false,
+                    "time": 5,
+                    "time_down_event": {
+                        "event": "customize:pull"
+                    }
+                }
+            },
+            "customize:finishing_timer": {
+                "minecraft:timer": {
+                    "looping": false,
+                    "time": 5,
+                    "time_down_event": {
+                        "event": "customize:finishing_timer"
+                    }
+                }
+            }
+		},
+        "components": {
+            "minecraft:health": {
+                "value": 1000,
+                "max": 1000
+            },
+            "minecraft:breathable": {
+                "breathes_solids": true,
+                "breathes_water": true
+            },
+            "minecraft:collision_box": {
+                "width": 0.0,
+                "height": 0.0
+            },
+            "minecraft:projectile": {
+                "on_hit": {
+                    "impact_damage": {
+                        "damage": 0,
+                        "knockback": false,
+                        "semi_random_diff_damage": false,
+                        "destroy_on_hit": false
+                    },
+                    "stick_in_ground": {
+                        "shake_time" : 0.35
+                    }
+                },
+                "power": 3.0,
+                "gravity": 0.1,
+                "multiple_targets": false,
+                "should_bounce": false
+            },
+            "minecraft:type_family": {
+                "family": [
+                    "hook_shot_projectile"
+                ]
+            },
+            "minecraft:knockback_resistance": {
+                "value": 100,
+                "max": 100
+            },
+            "minecraft:tick_world": {},
+            "minecraft:physics": {
+                "has_collision": false,
+                "has_gravity": false,
+                "push_towards_closest_space": true
+            },
+            "minecraft:pushable": {
+                "is_pushable": false,
+                "is_pushable_by_piston": false
+            }
+        },
+        "events": {
+            "minecraft:entity_spawned": {
+                "queue_command": {
+                    "command": [
+                        "event entity @p customize:hook_tying"
+                    ]
+                }
+            },
+            "customize:tying_response": {
+                "add": {
+                    "component_groups": [ "customize:hook_follow", "customize:is_moving", "customize:moving_timer" ]
+                }
+            },
+            "customize:despawn_self": {
+                "add": {
+                    "component_groups": [ "customize:despawn_self" ]
+                }
+            },
+            "customize:is_moving": {
+                "sequence": [
+                    {
+                        "filters": {
+                            "all_of": [
+                                {"test": "bool_property", "domain": "customize:on_ground", "subject": "self", "operator": "equals", "value": false}
+                            ]
+                        },
+                        "trigger": "customize:moving_continue"
+                    },
+                    {
+                        "filters": {
+                            "all_of": [
+                                {"test": "bool_property", "domain": "customize:on_ground", "subject": "self", "operator": "equals", "value": true}
+                            ]
+                        },
+                        "remove": {
+                            "component_groups": [ "customize:is_moving" ]
+                        }
+                    }                    
+                ]
+            },
+            "customize:moving_continue": {
+                "queue_command": {
+                    "command": [
+                        "tp @e[type=customize:hook_tying,c=1] @s"
+                    ]
+                },
+                "remove": {
+                    "component_groups": [ "customize:hook_follow" ]
+                },
+                "add": {
+                    "component_groups": [ "customize:hook_follow" ]
+                }
+            },
+            "customize:pull": {
+                "sequence": [
+                    {
+                        "filters": {
+                            "all_of": [
+                                {"test": "bool_property", "domain": "customize:on_ground", "subject": "self", "operator": "equals", "value": false}
+                            ]
+                        },
+                        "set_property": {
+                            "customize:on_ground": true
+                        }
+                    },
+                    {
+                        "filters": {
+                            "all_of": [
+                                {"test": "bool_property", "domain": "customize:on_ground", "subject": "self", "operator": "equals", "value": false}
+                            ]
+                        },
+                        "add": {
+                            "component_groups": [ "customize:finishing" ]
+                        }
+                    },
+                    {
+                        "filters": {
+                            "all_of": [
+                                {"test": "bool_property", "domain": "customize:on_ground", "subject": "self", "operator": "equals", "value": false}
+                            ]
+                        },
+                        "queue_command": {
+                            "command": [
+                                "event entity @e[type=customize:hook_tying,c=1] customize:pull"
+                            ]
+                        }
+                    },
+                    {
+                        "remove": {
+                            "component_groups": [ "customize:moving_timer" ]
+                        },
+                        "add": {
+                            "component_groups": [ "customize:finishing_timer" ]
+                        }
+                    }
+                ]
+            },
+            "customize:finishing": {
+                "queue_command": {
+                    "command": [
+                        "event entity @e[type=customize:hook_tying,c=1,r=5] customize:despawn_self",
+                        "event entity @e[type=customize:hook_follow,r=5] customize:despawn_self",
+                        "event entity @s customize:despawn_self"
+                    ]
+                }
+            },
+            "customize:finishing_timer": {
+                "queue_command": {
+                    "command": [
+                        "event entity @e[type=customize:hook_ride,c=1] customize:finishing"
+                    ]
+                }
+            }
+        }
+    }
+}

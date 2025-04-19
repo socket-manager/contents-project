@@ -18,11 +18,45 @@
                 "customize:is_shield_mode": {
                     "type": "bool",
                     "default": false
+                },
+                "customize:is_hook_shot": {
+                    "type": "bool",
+                    "default": false
                 }
             }
         },
 
         "component_groups": {
+            "customize:hook_tying": {
+                "minecraft:spawn_entity": {
+                    "entities": [
+                        {
+                            "min_wait_time": 0,
+                            "max_wait_time": 0,
+                            "spawn_entity": "customize:hook_tying",
+                            "spawn_event": "minecraft:entity_born",
+                            "single_use": true,
+                            "num_to_spawn": 1,
+                            "should_leash": true
+                        }
+                    ]
+                }
+            },
+            "customize:hook_ride": {
+                "minecraft:spawn_entity": {
+                    "entities": [
+                        {
+                            "min_wait_time": 0,
+                            "max_wait_time": 0,
+                            "spawn_entity": "customize:hook_ride",
+                            "spawn_event": "minecraft:entity_born",
+                            "single_use": true,
+                            "num_to_spawn": 1,
+                            "should_leash": false
+                        }
+                    ]
+                }
+            },
             "minecraft:add_raid_omen": {
                 "minecraft:spell_effects": {
                     "add_effects": [
@@ -765,6 +799,66 @@
                         }
                     }
                 ]
+            },
+            "customize:hook_tying": {
+                "sequence": [
+                    {
+                        "filters": {
+                            "any_of": [
+                                {"test": "is_sitting", "subject": "self", "operator": "equals", "value": true},
+                                {"test": "bool_property", "domain": "customize:is_hook_shot", "value": true},
+                                {"test": "bool_property", "domain": "customize:is_shop", "value": true}
+                            ]
+                        },
+                        "queue_command": {
+                            "command": [
+                                "event entity @e[type=customize:hook_shot_projectile,c=1] customize:despawn_self"
+                            ]
+                        }
+                    },
+                    {
+                        "filters": {
+                            "all_of": [
+                                {"test": "is_sitting", "subject": "self", "operator": "equals", "value": false},
+                                {"test": "bool_property", "domain": "customize:is_hook_shot", "value": false},
+                                {"test": "bool_property", "domain": "customize:is_shop", "value": false}
+                            ]
+                        },
+                        "set_property": {
+                            "customize:is_hook_shot": true
+                        },
+                        "remove": {
+                            "component_groups": [ "customize:hook_tying" ]
+                        },
+                        "add": {
+                            "component_groups": [ "customize:hook_tying" ]
+                        },
+                        "queue_command": {
+                            "command": [
+                                "event entity @e[type=customize:hook_shot_projectile,c=1] customize:tying_response"
+                            ]
+                        }
+                    }
+                ]
+            },
+            "customize:hook_ride": {
+                "sequence": [
+                    {
+                        "remove": {
+                            "component_groups": [ "customize:hook_ride" ]
+                        }
+                    },
+                    {
+                        "add": {
+                            "component_groups": [ "customize:hook_ride" ]
+                        }
+                    }
+                ]
+            },
+            "customize:is_hook_shot_reset": {
+                "set_property": {
+                    "customize:is_hook_shot": false
+                }
             }
         }
     }

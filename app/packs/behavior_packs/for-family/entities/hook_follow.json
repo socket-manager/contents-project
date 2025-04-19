@@ -1,0 +1,89 @@
+{
+    "format_version": "1.17.10",
+    "minecraft:entity": {
+        "description": {
+            "identifier": "customize:hook_follow",
+            "is_spawnable": false,
+            "is_summonable": true
+        },
+        "component_groups": {
+			"customize:despawn_self": {
+                "minecraft:instant_despawn": {
+                }
+            },
+            "customize:despawn_timer": {
+                "minecraft:timer": {
+                    "looping": false,
+                    "time": 5,
+                    "time_down_event": {
+                        "event": "customize:despawn_self"
+                    }
+                }
+            }
+		},
+        "components": {
+            "minecraft:health": {
+                "value": 1000,
+                "max": 1000
+            },
+            "minecraft:breathable": {
+                "breathes_solids": true,
+                "breathes_water": true
+            },
+            "minecraft:collision_box": {
+                "height": 0.0,
+                "width": 0.0
+            },
+            "minecraft:pushable": {
+                "is_pushable": false,
+                "is_pushable_by_piston": false
+            },
+            "minecraft:physics": {
+                "has_collision": true,
+                "has_gravity": false,
+                "push_towards_closest_space": true
+            },
+            "minecraft:knockback_resistance": {
+                "value": 100,
+                "max": 100
+            }
+        },
+        "events": {
+            "minecraft:entity_born": {
+                "add": {
+                    "component_groups": [ "customize:despawn_timer" ]
+                }
+            },
+            "customize:despawn_self": {
+                "add": {
+                    "component_groups": [ "customize:despawn_self" ]
+                }
+            },
+            "customize:follow": {
+                "sequence": [
+                    {
+                        "queue_command": {
+                            "command": [
+                                "tp @e[type=customize:hook_ride,c=1] @s"
+                            ]
+                        }
+                    },
+                    {
+                        "queue_command": {
+                            "command": [
+                                "event entity @e[type=customize:hook_follow,c=1,rm=1] customize:follow"
+                            ]
+                        }
+                    },
+                    {
+                        "queue_command": {
+                            "command": [
+                                "event entity @s customize:despawn_self"
+                            ]
+                        }
+                    }
+                ]
+            }
+        }
+    }
+}

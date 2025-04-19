@@ -272,9 +272,7 @@ class ParameterForMinecraft extends ParameterForWebsocket
     {
         $cmds = [];
         $cmds[] = "gamerule sendcommandfeedback false";
-        $cmds[] = "event entity @s customize:is_shop_reset";
-        $cmds[] = "event entity @s customize:set_wind_rod_revised_normal_size";
-        $cmds[] = "event entity @s customize:reset_shield_mode";
+        $cmds[] = "function wsserver_init";
 
         foreach($cmds as $cmd)
         {

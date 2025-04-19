@@ -1,0 +1,87 @@
+{
+    "format_version": "1.17.10",
+    "minecraft:entity": {
+        "description": {
+            "identifier": "customize:hook_ride",
+            "is_spawnable": false,
+            "is_summonable": true
+        },
+        "component_groups": {
+			"customize:despawn_self": {
+                "minecraft:instant_despawn": {
+                }
+            }
+		},
+        "components": {
+            "minecraft:breathable": {
+                "breathes_solids": true,
+                "breathes_water": true
+            },
+            "minecraft:collision_box": {
+                "height": 0.0,
+                "width": 0.0
+            },
+            "minecraft:pushable": {
+                "is_pushable": false,
+                "is_pushable_by_piston": false
+            },
+            "minecraft:physics": {
+                "has_collision": false,
+                "has_gravity": false,
+                "push_towards_closest_space": true
+            },
+            "minecraft:rideable": {
+                "seat_count": 1,
+                "family_types": ["player"],
+                "seats": [
+                    {
+                        "position": [ 0.0, 0.0, 0.0 ]
+                    }
+                ]
+            },
+            "minecraft:type_family": {
+                "family": [
+                    "hook_ride"
+                ]
+            }
+        },
+        "events": {
+            "minecraft:entity_born": {
+                "sequence": [
+                    {
+                        "queue_command": {
+                            "command": [
+                                "hud @p hide horse_health",
+                                "ride @p start_riding @s",
+                                "event entity @e[type=customize:hook_follow,c=1] customize:follow"
+                            ]
+                        }
+                    }
+                ]
+            },
+            "customize:despawn_self": {
+                "add": {
+                    "component_groups": [ "customize:despawn_self" ]
+                }
+            },
+            "customize:finishing": {
+                "queue_command": {
+                    "command": [
+                        "event entity @e[type=customize:hook_shot_projectile,c=1] customize:finishing",
+                        "event entity @p customize:is_hook_shot_reset",
+                        "tp @p ~ ~2 ~"
+                    ]
+                },
+                "trigger": "customize:finishing_despawn"
+            },
+            "customize:finishing_despawn": {
+                "queue_command": {
+                    "command": [
+                        "event entity @s customize:despawn_self",
+                        "hud @p reset horse_health"
+                    ]
+                }
+            }
+        }
+    }
+}
