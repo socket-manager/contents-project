@@ -154,6 +154,14 @@ return [
             'name' => 'スタンドの弓',
             'price' => 8000
         ],
+        'iron_fang' =>
+        [
+            'id' => 'iron_fang',
+            'type' => 'loot',
+            'icon' => './img/iron_fang.png',
+            'name' => 'ｴｳﾞｫｰｶｰﾌｧﾝｸﾞの杖',
+            'price' => 5000
+        ],
         'arrow_thunder' =>
         [
             'id' => 'arrow_thunder',
@@ -327,6 +335,14 @@ return [
             'type' => 'loot',
             'icon' => './img/floating_feather.png',
             'name' => '浮遊の羽',
+            'price' => 3000
+        ],
+        'iron_fang' =>
+        [
+            'id' => 'iron_fang',
+            'type' => 'loot',
+            'icon' => './img/iron_fang.png',
+            'name' => 'ｴｳﾞｫｰｶｰﾌｧﾝｸﾞの杖',
             'price' => 3000
         ],
         'epack' =>
