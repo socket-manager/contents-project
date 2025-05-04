@@ -10,6 +10,14 @@ return [
      */
     'buy_list' =>
     [
+        'hook_shot' =>
+        [
+            'id' => 'hook_shot',
+            'type' => 'loot',
+            'icon' => './img/hook_shot.png',
+            'name' => 'フックショット',
+            'price' => 30000
+        ],
         'hover_unit' =>
         [
             'id' => 'hover_unit',
@@ -193,6 +201,14 @@ return [
      */
     'sell_list' =>
     [
+        'hook_shot' =>
+        [
+            'id' => 'hook_shot',
+            'type' => 'loot',
+            'icon' => './img/hook_shot.png',
+            'name' => 'フックショット',
+            'price' => 20000
+        ],
         'hover_unit' =>
         [
             'id' => 'hover_unit',
