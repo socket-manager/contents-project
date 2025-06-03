@@ -122,9 +122,9 @@ class ParameterForMinecraft extends ParameterForWebsocket
     /**
      * コンストラクタ
      * 
-     * @param bool $p_tls TLSフラグ
+     * @param ?bool $p_tls TLSフラグ
      */
-    public function __construct(bool $p_tls = null)
+    public function __construct(?bool $p_tls = null)
     {
         parent::__construct($p_tls);
     }
@@ -137,10 +137,10 @@ class ParameterForMinecraft extends ParameterForWebsocket
     /**
      * 自身の接続がマインクラフト接続かどうかを検査
      * 
-     * @param string $p_cid 接続ID
+     * @param ?string $p_cid 接続ID
      * @return bool true（マインクラフト接続） or false（マインクラフト接続以外）
      */
-    public function isMinecraft(string $p_cid = null)
+    public function isMinecraft(?string $p_cid = null)
     {
         $cid = null;
         if($p_cid !== null)
@@ -160,10 +160,10 @@ class ParameterForMinecraft extends ParameterForWebsocket
     /**
      * 自身の接続がブラウザからのショップ接続かどうかを検査
      * 
-     * @param string $p_cid 接続ID
+     * @param ?string $p_cid 接続ID
      * @return bool true（ショップ接続） or false（ショップ接続以外）
      */
-    public function isShop(string $p_cid = null)
+    public function isShop(?string $p_cid = null)
     {
         $cid = null;
         if($p_cid !== null)
@@ -290,12 +290,12 @@ class ParameterForMinecraft extends ParameterForWebsocket
      * マインクラフトへ送信するコマンドデータを取得
      * 
      * @param string $p_cmd コマンド文字列
-     * @param string $p_typ 処理タイプ文字列（'response'コマンドで利用）
+     * @param ?string $p_typ 処理タイプ文字列（'response'コマンドで利用）
      * @param ?string $p_cid 接続ID
      * @param bool $p_no_set レスポンス情報不要フラグ
      * @return array 送信データ
      */
-    public function getCommandData(string $p_cmd, string $p_typ = null, string $p_cid = null, bool $p_no_set = false): array
+    public function getCommandData(string $p_cmd, ?string $p_typ = null, ?string $p_cid = null, bool $p_no_set = false): array
     {
         // UUIDの取得
         $uuidv4 = $this->getUuidv4();
@@ -1200,7 +1200,7 @@ class ParameterForMinecraft extends ParameterForWebsocket
      * @param ?string $p_cid 接続ID
      * @return array コマンドデータのリスト
      */
-    public function getCommandDataForGetWallet(string $p_cid = null)
+    public function getCommandDataForGetWallet(?string $p_cid = null)
     {
         $cmd_datas = [];
 
@@ -1347,9 +1347,11 @@ class ParameterForMinecraft extends ParameterForWebsocket
     /**
      * 「繰風弾の杖」セレクト用コマンドデータを取得
      * 
+     * @param int $variant バリアント値
+     * @param ?float $yrot ヨー角
      * @return array 送信データ
      */
-    public function getCommandDataForWindControlRodItemUsed(int $variant, float $yrot = null): array
+    public function getCommandDataForWindControlRodItemUsed(int $variant, ?float $yrot = null): array
     {
         $cmd_datas = [];
 
@@ -1693,7 +1695,7 @@ class ParameterForMinecraft extends ParameterForWebsocket
      * @param ?string $p_typ 処理タイプ文字列
      * @param ?string $p_cid 接続ID
      */
-    public function setAwaitResponse(?string $p_rid, ?string $p_typ, string $p_cid = null)
+    public function setAwaitResponse(?string $p_rid, ?string $p_typ, ?string $p_cid = null)
     {
         $responses = null;
         $w_ret = $this->getTempBuff(['responses']);
@@ -1725,7 +1727,7 @@ class ParameterForMinecraft extends ParameterForWebsocket
      * @param ?string $p_rid リクエストID
      * @param ?string $p_cid 接続ID
      */
-    public function delAwaitResponse(?string $p_rid, string $p_cid = null)
+    public function delAwaitResponse(?string $p_rid, ?string $p_cid = null)
     {
         $responses = null;
         $w_ret = $this->getTempBuff(['responses']);

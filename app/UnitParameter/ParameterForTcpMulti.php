@@ -120,9 +120,10 @@ class ParameterForTcpMulti extends SocketManagerParameter implements IChatParame
      * @param string $p_suser 送信元ユーザー名
      * @param string $p_duser 送信先ユーザー名
      * @param string $p_comment 送信するプライベートコメント
+     * @param ?string $p_rno リクエストNo
      * @param bool $p_server サーバーリクエスト時のリクエストNo
      */
-    public function requestPrivateComment(string $p_cid, string $p_suser, string $p_duser, string $p_comment, string $p_rno = null)
+    public function requestPrivateComment(string $p_cid, string $p_suser, string $p_duser, string $p_comment, ?string $p_rno = null)
     {
         // サーバーリクエストフラグの設定
         $server = false;
@@ -259,9 +260,10 @@ class ParameterForTcpMulti extends SocketManagerParameter implements IChatParame
      * 
      * @param string $p_cid 依頼元の接続ID
      * @param string $p_suser ユーザー名
+     * @param ?string $p_rno リクエストNo
      * @param bool $p_server サーバーリクエスト時のリクエストNo
      */
-    public function requestUserSearch(string $p_cid, string $p_user, string $p_rno = null)
+    public function requestUserSearch(string $p_cid, string $p_user, ?string $p_rno = null)
     {
         // サーバーリクエストフラグの設定
         $server = false;
