@@ -1,8 +1,19 @@
 {
     "name": "socket-manager/contents-project",
-    "description": "Contents Project",
+    "description": "CONTENTS-PROJECT: マインクラフト専用環境プロジェクト",
     "type": "project",
     "license": "MIT",
+    "keywords": [
+        "php",
+        "websocket",
+        "socket-server",
+        "tcp-socket",
+        "udp-socket",
+        "minecraft-bedrock",
+        "minecraft-bedrock-addon",
+        "project-repository",
+        "socket-manager"
+    ],
     "autoload": {
         "psr-4": {
             "App\\": "app/"
@@ -16,7 +27,7 @@
     ],
     "minimum-stability": "stable",
     "require": {
-        "socket-manager/library": "~1.16.0"
+        "socket-manager/library": "~1.19.0"
     },
     "repositories": {
         "socket-manager/library": {
