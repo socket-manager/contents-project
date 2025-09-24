@@ -41,7 +41,7 @@ class ChatServerForMinecraft extends Console
     /**
      * @var string コマンド説明
      */
-    protected string $description = 'マインクラフト版チャットサーバー';
+    protected string $description = 'マインクラフトコンテンツサーバー';
 
     /**
      * @var string $host ホスト名（リッスン用）

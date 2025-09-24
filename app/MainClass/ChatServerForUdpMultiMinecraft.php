@@ -45,7 +45,7 @@ class ChatServerForUdpMultiMinecraft extends Console
     /**
      * @var string コマンド説明
      */
-    protected string $description = 'UDPマルチマインクラフト版チャットサーバー';
+    protected string $description = 'UDPマルチマインクラフトコンテンツサーバー';
 
     /**
      * @var string $host ホスト名（リッスン用）

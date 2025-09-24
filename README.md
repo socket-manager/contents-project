@@ -1,62 +1,79 @@
-# CONTENTS-PROJECT on SOCKET-MANAGER Framework
-マインクラフト専用のコンテンツに特化したプロジェクト環境です。
+# CONTENTS-PROJECT：マインクラフト専用環境プロジェクト
+マインクラフト向けのコンテンツ開発と運用を支援するプロジェクト環境です。WebSocket ベースの通信でサーバー側ロジックを活用し、スコアボードや複雑なコマンド運用に頼らずにコンテンツを実装できます。
 
-<img src="https://socket-manager.github.io/document/minecraft-contents/img/bow-mine/thunder_cannon.gif" />
+<!-- 重要なキーワードを冒頭に含めることで README の検索性を向上します -->
+- 対象: Minecraft（UWP 含む）
+- 技術: WebSocket, PHP, Laravel（連携可能）
+- 用途: チャットサーバー、ゲームコンテンツ、イベント運用
 
-<img src="https://socket-manager.github.io/document/minecraft-contents/img/bow-mine/explode_gatling_min.gif" />
+<img alt="「機雷の弓」を使って「いなずまの矢」の効果を同時発動" src="https://socket-manager.github.io/document/minecraft-contents/img/bow-mine/thunder_cannon.gif" />
+<img alt="「機雷の弓」を使って「はかいの矢」の効果を同時発動" src="https://socket-manager.github.io/document/minecraft-contents/img/bow-mine/explode_gatling_min.gif" />
 
-## 運用ポリシー
-この環境はWebsocketサーバーを使った運用を前提としています。<br />
-スコアボードやコマンドを駆使して四苦八苦しながらイベントを判定したりするのを避け、サーバープログラミングを使って極力運用の負担を減らそうというのが狙いです。<br />
-基本的にはファミリー向けに楽しく遊べるものを目指しているので、グローバルコンテンツや商用利用は今のところ考えていません。
+## 【 概要 】
+CONTENTS-PROJECT は、Minecraft 向けのコンテンツを容易に作成・運用できる環境を提供します。サーバー側でイベント判定やゲームロジックを処理することで、運用の負担を軽減し、安定したマルチプレイヤー体験を実現します。
 
-※この環境はデモ環境（"demo-project"）をベースに構築していますので、サーバーやクライアントの起動方法はデモ環境と全く同じです。また、チャット機能もそのまま引き継いでいます。
+## 【 特徴 】
+- WebSocket によるリアルタイム通信
+- サーバー側でのイベント管理により、クライアント側の複雑なコマンド処理を不要に
+- jQuery / React のクライアントサンプルを同梱
+- Laravel と連携可能（既存の Laravel プロジェクトへ組み込み可）
+- デモ環境での簡単な起動手順を提供
 
-## サーバーの起動
-マインクラフトを含めたチャットサーバーの場合は、プロジェクトルートディレクトリで以下のコマンドを実行すれば起動できます。
+## 【 運用ポリシー 】
+この環境は WebSocket サーバーを利用した運用を前提としています。スコアボードや複雑なコマンド判定に頼らず、サーバーサイドのプログラムでイベントや状態管理を行うことで、運用負荷の低減を目指します。基本的にファミリー向けで楽しく遊べるコンテンツを想定しており、現時点ではグローバル公開や商用利用を主目的としていません。
 
-<pre>
-> php worker app:minecraft-chat-server [<ポート番号>]
-</pre>
+## 【 デモとベースプロジェクトについて 】
+このプロジェクトはデモ環境（"demo-project"）をベースに構築しています。サーバーやクライアントの起動手順はデモ環境と同一です。詳細な実装やサンプルはドキュメントを参照してください。
 
-## クライアントの起動
-### ブラウザの場合
-以下のディレクトリにjQuery/React版のHTMLファイルが入っていますのでお好きな方をブラウザにドラッグ＆ドロップしてください（Webサーバーを起動する必要はありません）。
+## 【 サーバーの起動 】
+プロジェクトルートで以下（コンテンツサーバーの例）を実行してください。
 
-/app/client/jquery/chat.html（jQuery版）<br />
-/app/client/react/chat.html（React版）
+```bash
+php worker app:minecraft-chat-server [<ポート番号>]
+```
 
-### マインクラフトの場合
-マインクラフトのチャット画面で以下のコマンドを実行すれば接続できます。
+デフォルトポートや追加オプションはドキュメントを参照してください。
 
-<pre>
-> /wsserver localhost:10000/<ユーザー名>
-</pre>
+## 【 クライアントの起動 】
 
-サーバーへ接続後は普通にチャットできます。<br />
-以下のフォーマットで入力すれば特定のユーザーへプライベートコメントが送信できます。
+### ブラウザ
+jQuery / React のサンプル HTML を用意しています。任意のブラウザでファイルを開くか、静的ファイルサーバーに配置してアクセスしてください。
 
-<pre>
-> <メッセージ>#<宛先ユーザー名>
-</pre>
+- /app/client/jquery/chat.html（jQuery 版チャット画面）
+- /app/client/jquery/shop.html（jQuery 版アイテムショップ画面）
+- /app/client/react/chat.html（React 版チャット画面）
 
-※マインクラフトはUWPアプリのため以下のコマンドを実行してループバックアドレスへのアクセスを許可しておく必要があります。
+### Minecraft（UWP）の接続方法
+Minecraft 内のチャット画面から以下のコマンドを実行して接続できます。
 
-<pre>
-> CheckNetIsolation.exe LoopbackExempt -a -n="Microsoft.MinecraftUWP_8wekyb3d8bbwe"
-</pre>
+```text
+/wsserver localhost:10000/<ユーザー名>
+```
 
-## 補足
-詳しい実装内容やコンテンツの詳細は<a href="https://socket-manager.github.io/document/minecraft-contents/">こちら</a>をご覧ください。
+接続後は通常のチャット操作が可能です。特定ユーザーへのプライベートメッセージは以下のフォーマットで送信できます。
 
-このプロジェクトにはデモ環境と同じ６種類のサーバーをご用意しています。<br />
-詳しい使い方は<a href="https://socket-manager.github.io/document/extra-demo.html">こちら</a>をご覧ください。
+```text
+<メッセージ>#<宛先ユーザー名>
+```
 
-このプロジェクトはLaravelと連携できます。<br />
-詳しい連携方法は<a href="https://socket-manager.github.io/document/laravel.html">こちら</a>をご覧ください。
+注意: Minecraft（UWP）はループバック制限があるため、Windows 上で接続する場合は以下のコマンドでループバックアクセスを許可してください。
 
-## Contact Us
+```powershell
+CheckNetIsolation.exe LoopbackExempt -a -n="Microsoft.MinecraftUWP_8wekyb3d8bbwe"
+```
+
+## 【 補足 / ドキュメント 】
+詳細な実装やコンテンツの一覧はドキュメントを参照してください  
+https://socket-manager.github.io/document/minecraft-contents/
+
+デモ環境の詳細な使い方  
+https://socket-manager.github.io/document/extra-demo.html
+
+Laravel 連携方法  
+https://socket-manager.github.io/document/laravel.html
+
+## 【 Contact Us 】
 バグ報告やご要望などは<a href="mailto:lib.tech.engineer@gmail.com">`こちら`</a>から受け付けております。
 
-## License
+## 【 License 】
 MIT, see <a href="https://github.com/socket-manager/contents-project/blob/main/LICENSE">LICENSE file</a>.
