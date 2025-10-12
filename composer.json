@@ -2,6 +2,9 @@
     "name": "socket-manager/contents-project",
     "description": "CONTENTS-PROJECT: マインクラフト専用環境プロジェクト",
     "type": "project",
+    "support": {
+        "docs": "https://socket-manager.github.io/document/minecraft-contents/"
+    },
     "license": "MIT",
     "keywords": [
         "php",
